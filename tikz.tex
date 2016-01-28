@@ -1,0 +1,160 @@
+\newcommand{\B}{1.36207}
+
+\tikzset{tight/.style={inner sep=1pt}}
+\tikzset{bracket/.style={inner sep=10pt,decorate,decoration={brace,amplitude=5pt}}}
+\tikzset{filled/.style={fill=black!30!white}}
+\tikzset{filled2/.style={fill=black!15!white}}
+
+\newcommand\hatshape[3][]{
+    \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
+    \pgfmathsetmacro{\s}{sqrt((#3)/pi)}
+
+    \coordinate (top) at (0,{(\r/(sqrt(2)-1)});
+    \coordinate (right) at ({(\r/(sqrt(2)-1)},0);
+    \coordinate (left) at ({(-\r/(sqrt(2)-1)},0);
+
+    \coordinate (leftcenter) at ($({-(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+    \coordinate (leftbottom) at ($(leftcenter)+(-90:\s)$);
+    \coordinate (lefttop) at ($(leftcenter)+(-225:\s)$);
+
+    \coordinate (rightcenter) at ($({(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+    \coordinate (rightbottom) at ($(rightcenter)+(-90:\s)$);
+    \coordinate (righttop) at ($(rightcenter)+(45:\s)$);
+
+    \coordinate (midcenter) at (0,\r);
+
+    \draw[#1] (rightbottom) arc (-90:45:\s) -- (top) -- (lefttop) arc (-225:-90:\s) -- cycle;
+}
+
+\newcommand\hatsinsquare[1]{
+    \draw (0,0) rectangle (\B,\B);
+
+    \pgfmathparse{\B-(sqrt((1-(#1))/pi)/(sqrt(2)-1))/sqrt(2)}
+    \begin{scope}[shift={(\pgfmathresult,\pgfmathresult)}]
+        \begin{scope}[rotate=-45]
+            \pgfmathsetmacro{\hata}{1-(#1)}
+            \pgfmathsetmacro{\hatb}{1-2*(#1)}
+            \hatshape[filled]{\hata}{\hatb}
+            \node at (midcenter) {\hata};
+        \end{scope}
+    \end{scope}
+
+    \def\comparg{#1}
+    \if\comparg0\else
+        \pgfmathparse{(sqrt((#1)/pi)/(sqrt(2)-1))/sqrt(2)}
+        \begin{scope}[shift={(\pgfmathresult,\pgfmathresult)}]
+            \begin{scope}[rotate=-225]
+                \hatshape[filled2]{#1}{0}
+                \node at (midcenter) {#1};
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
+\newcommand\hatsinhat[2]{
+    \hatshape{1}{#2}
+
+    \pgfmathparse{(sqrt((1-(#1))/pi)/(sqrt(2)-1))/sqrt(2)}
+    \begin{scope}[shift={(0,\pgfmathresult)}]
+        \pgfmathparse{\B-(sqrt((1-(#1))/pi)/(sqrt(2)-1))/sqrt(2)}
+        \begin{scope}[shift={(\pgfmathresult,0)}]
+            \begin{scope}[rotate=135]
+                \pgfmathsetmacro{\hata}{1-(#1)}
+                \pgfmathsetmacro{\hatb}{max((1-2*(#1)),#2)}
+                \hatshape[filled]{\hata}{\hatb}
+                \node at (midcenter) {\hata};
+            \end{scope}
+        \end{scope}
+    \end{scope}
+
+    \def\comparg{#1}
+    \if\comparg0\else
+        \pgfmathparse{(sqrt((#1)/pi)/(sqrt(2)-1))/sqrt(2)}
+        \begin{scope}[shift={(0,\pgfmathresult)}]
+            \pgfmathparse{(sqrt((#1)/pi)/(sqrt(2)-1))/sqrt(2)-\B}
+            \begin{scope}[shift={(\pgfmathresult,0)}]
+                \begin{scope}[rotate=-135]
+                    \hatshape[filled2]{#1}{#2}
+                    \node at (midcenter) {#1};
+                \end{scope}
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
+\newcommand\squareworstcase{
+    \draw (0,0) rectangle (\B,\B);
+    \newcommand\circrad{0.398942}
+    \draw[filled] (\circrad,\circrad) circle (\circrad) node {$\frac 1 2$};
+    \draw[filled] (\B-\circrad,\B-\circrad) circle (\circrad) node {$\frac 1 2$};
+}
+
+\newcommand\squareworstcaseconstruction{
+    \draw (0,0) rectangle (\B,\B);
+    \newcommand\circrad{0.398942}
+    \coordinate (c1) at (\circrad,\circrad);
+    \coordinate (c2) at (\B-\circrad,\B-\circrad);
+    \coordinate (c) at (\B/2,\B/2);
+    \draw[dashed] (c1) circle (\circrad);
+    \draw[dashed] (c2) circle (\circrad);
+    \draw[tight] (c1) edge[above] node {$r$} +(180:\circrad) -- node[above left] {$r$} ++(45:\circrad) -- node[above left] {$r$} ++(45:\circrad) -- node[above] {$r$} ++(0:\circrad);
+    \draw (c1) -- node[below] {$\frac{r}{\s}$} (c1 -| c) -- (c) -- (c2 |- c) -- (c2);
+}
+
+\newcommand\bigquestion{
+    \draw (0,0) rectangle (\B,\B);
+    \node at ({\B/2},{\B/2}) {$\approx 1.855$};
+    \draw[->,thick] (-1,{\B/2}) -- node[above] {?} +(0.5,0);
+    \draw[filled] (-3,{\B/2+0.3}) circle(0.3257); % 1/3
+    \draw[filled] (-2.3,{\B/2+0.3}) circle(0.3257); % 1/3
+    \draw[filled] (-1.7,{\B/2+0.3}) circle(0.2303); % 1/6
+    \draw[filled] (-3,{\B/2-0.3}) circle(0.1629); % 1/12
+    \draw[filled] (-2.6,{\B/2-0.3}) circle(0.1152); % 1/24
+    \draw[filled] (-2.2,{\B/2-0.3}) circle(0.1152); % 1/24
+    \draw[bracket] (-1.4697,0) -- node[below] {$1$} (-3.3257,0);
+}
+
+\newcommand\hatsimple{
+    \hatshape{1}{0.3}
+
+    \draw[dashed] (rightcenter) circle(\s) node {$b$};
+    \draw[dashed] (leftcenter) circle(\s) node {$b$};
+    \draw[dashed] (midcenter) circle(\r) node {$a$};
+}
+
+\newcommand\hatconstruction{
+    \hatshape[draw=none]{1}{0.3}
+
+    \draw[dashed] (rightcenter) circle(\s);
+    \draw[dashed] (leftcenter) circle(\s);
+    \draw[dashed] (midcenter) circle(\r);
+    \draw[dashed] (right) -- (top) -- (left) -- cycle;
+
+    \draw[tight] (rightcenter) -- node[below left] {$s$} ++(-45:\s) -- node[below right] {$s$} ++(45:\s) coordinate (rightright) {} -- node[right] {$s$} ++(-90:\s) -- node[above] {$s$} (right);
+    \draw[thick,orange] (rightright) -- node[sloped,above] {$s\sqrt{2}$} (right);
+
+    \draw[tight] (leftcenter) -- node[above] {$s$} ++(180:\s) -- node[left] {$s$} ++(-90:\s) coordinate (leftleft) {} -- node[below left] {$s$} ++(135:\s) -- node[below right] {$s$} (left);
+    \draw[thick,orange] (leftleft) -- node[below] {$s\sqrt{2}$} (left);
+
+    \draw[thick,left,blue] (0,0) -- node {$r$} (midcenter) -- node {$r\sqrt{2}$} (top);
+    \draw (midcenter) -- node[below right] {$r$} +(45:\r) -- node[above right] {$r$} (top);
+    \draw[thick,red] (left) -- node[sloped,above] {$(r+r\sqrt{2})\sqrt{2}$} (top);
+
+    \coordinate (leftofleft) at ($(left)+(180:5pt)$);
+    \coordinate (belowleft) at ($(left)-(90:5pt)$);
+    \coordinate (farbelowleft) at ($(left)-(90:10pt)$);
+    \coordinate (abovetop) at ($(top)+(45:5pt)$);
+    \coordinate (farabovetop) at ($(top)+(45:10pt)$);
+    \coordinate (faraboveright) at ($(right)+(45:10pt)$);
+    \coordinate (aboverightright) at ($(rightright)+(45:5pt)$);
+    \coordinate (leftend) at ($(leftleft)-(90:5pt)$);
+    \coordinate (rightend) at ($(rightright)-(90:5pt)$);
+    \coordinate (totheright) at ($(rightcenter)+(0:\s)$);
+    \coordinate (rightend) at ($(totheright)-(90:5pt)$);
+
+    \draw[bracket] (leftofleft) -- node[left] {$h(a)$} (leftofleft |- top);
+    \draw[bracket] (rightend |- belowleft) -- node[below] {$w(a,b)$} (leftend |- belowleft);
+    \draw[bracket] (rightend |- farbelowleft) -- node[below] {$w'(a,b)$} (left |- farbelowleft);
+    \draw[bracket] (abovetop) -- node[above,sloped] {$d(a,b)$} (aboverightright);
+    \draw[bracket] (farabovetop) -- node[above,sloped] {$d'(a)$} (faraboveright);
+}

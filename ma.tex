@@ -1,0 +1,440 @@
+%\documentclass[paper=a4,abstract=on,cleardoublepage=empty,numbers=noenddot,toc=bib,12pt,appendixprefix=true]{scrreprt}
+\documentclass[%
+    a4paper,              % DIN A4
+    style=print,          % enables twoside, print colors, and BCOR=15mm
+    bibliography=totoc,   % bibliography gets unnumbered entry
+    nexus,                % corporate design font
+    lnum,                 % use "Versalziffern" instead of "Mediaevalziffern"
+    extramargin,          % override corporate design margin to give more space for one-column text
+]{tubsbook}
+
+\input{header.tex}
+
+\usepackage[english]{babel} % hyphenation
+
+\hypersetup{
+    colorlinks, linkcolor={medium-blue},
+    citecolor={medium-blue}, urlcolor={medium-blue}
+}
+
+%\titlehead{
+%    \begin{center}
+%        \includegraphics[width=0.5\textwidth]{square_example.png}
+%    \end{center}
+%}
+
+\subject{Master's Thesis}
+\title{Algorithms\\for Circle Packing}
+\author{\sffamily\LARGE Sebastian Morr}
+\date{\large June 2, 2016}
+\publishers{\textbf{Institute of Operating Systems and Computer Networks\\Prof.\,Dr.\,Sándor Fekete}\\
+\vspace*{2em}
+Supervisor:\\
+Super\,Visor,\,M.\,Sc.}
+
+\begin{document}
+\frontmatter % roman page numbering
+
+\maketitle
+\cleardoublepage
+
+% statement of originality
+\thispagestyle{plain} % no header
+\vspace*{7cm}
+\centerline{\bfseries Statement of Originality}
+\vspace*{1em}
+\noindent
+This thesis has been performed independently with the support of my supervisor/s.
+To the best of the author's knowledge, this thesis contains no material previously
+published or written by another person except where due reference is made in the text.
+
+\par
+  \bigskip\noindent Braunschweig, \today \par
+  \vspace*{10mm}
+  \hfill\hrulefill
+\cleardoublepage
+
+% abstract
+\thispagestyle{plain} % no header
+\centerline{\bfseries Abstract}
+\vspace*{1em}
+\noindent
+Very abstract indeed.
+\cleardoublepage
+
+% include Aufgabenstellung pdf
+%\includepdf[pages=-]{aufgabenstellung/Aufgabenstellung}
+%\cleardoublepage
+
+\section*{Acknowledgments}
+
+I would like to thank the following people for their support in the creation of this thesis:
+
+\section*{Colophon}
+
+This document was created using \LaTeXe\ by Leslie Lamport and contributors, and \KOMAScript\ by Frank Neukam, Markus Kohm, and Axel Kielhorn. The figures were created using PGFPlots by Christian Feuersänger and Ti\textit{k}Z by Till Tantau, the key combinations were produced with \emph{menukeys} by Tobias Weh. The text is set in the Latin Modern font family by Bogusław Jackowski, Janusz M. Nowacki and Marcin Woliński, the monospaced font is \texttt{Bera Mono}, based on Bitstream Vera.
+
+\cleardoublepage
+\setcounter{tocdepth}{2}
+
+\tableofcontents
+\cleardoublepage
+
+%\listoffigures
+%\cleardoublepage
+%
+%\listoftables
+%\cleardoublepage
+
+\mainmatter % arabic numbering
+
+\begin{figure}[htb]
+    \centering
+
+    \begin{tikzpicture}[scale=2.5]
+        \squareworstcase
+    \end{tikzpicture}
+
+    \caption{Worst-case instance for packing density?}
+    \label{fig:worst-case}
+\end{figure}
+
+\chapter{Introduction}
+
+Consider the circle packing shown in \Cref{fig:worst-case}. For these two circles, the surrounding square is the smallest one in which the circles can be packed. We considered the following problem: Does this instance constitute the worst case in terms of packing density? Put differently, can all other sets of circles with the same combined area as these two
+%(like the one in \Cref{fig:big-question})
+be packed into this specific square?
+We will give a constructive proof that this is indeed the case.
+
+%\begin{figure}[htb]
+%    \centering
+%
+%    \begin{tikzpicture}[scale=2.5]
+%        \bigquestion
+%    \end{tikzpicture}
+%
+%    \caption{Can these circles be packed?}
+%    \label{fig:big-question}
+%\end{figure}
+
+\chapter{Preliminaries}
+
+We start off with some definitions which make our life easier when talking about circles and circle instances:
+
+\begin{definition}
+    For each $0 \le a$, an \emph{$a$-circle} is a circle with an area of $a$.
+\end{definition}
+
+\begin{definition}
+    A \emph{circle instance} is a multiset of non-negative real numbers, which define the circles' areas.
+\end{definition}
+
+\begin{definition}
+    For a circle instance $A$, $\mysum(A)$ is the combined area of the instance's circles.
+\end{definition}
+
+\begin{definition}
+    $\C$ is the set of all circle instances. $\C(a)$ consist of exactly those circle instances with a combined area of at most $a$. Finally, $\C(a,b)$ consists of exactly those circle instances $A \in \C(a)$, for which each circle in $A$ has an area of at least $b$.
+\end{definition}
+
+\begin{lemma}
+    If the circle instance shown in \Cref{fig:b} has a combined area of $a$, the square has an area of $\frac{3+2\s}{\pi}a \approx 1.85525a$. Call this worst-case factor $\Psi$.
+\end{lemma}
+
+\begin{proof}
+    Note that because a circle of radius $r$ has an area of $a = \pi r^2$, an $a$-circle has a radius of $r = \sqrt{\frac a \pi}$. Then, by construction as seen in \Cref{fig:b}:
+
+    $$\Psi a = \left(2r + 2\frac{r}{\s}\right)^2 = r^2\left(2+\s\right)^2 = \frac{\frac a 2}{\pi}\left(4+4\s+2\right) = \frac{3+2\s}{\pi}a$$
+\end{proof}
+
+\begin{figure}[htb]
+    \centering
+
+    \begin{tikzpicture}[scale=3]
+        \squareworstcaseconstruction
+    \end{tikzpicture}
+
+    \caption{Constructing $\Psi$.}
+    \label{fig:b}
+\end{figure}
+
+Our problem can now be expressed like this: Can all circle instances $A \in \C(a)$ be packed into a square with an area of $\Psi a$? This will be \Cref{th:circlesinsquare}, and the rest of this paper will build up to its proof.
+
+\chapter{Common techniques}
+
+\section{Greedy splitting}
+
+The core idea of the proposed packing algorithm is to repeatedly split the set of input circles into two groups. The method which performs this splitting resembles a greedy scheduling algorithm:
+
+\begin{algorithmic}
+    \Require A circle instance $A \in \C$
+    \Ensure Circle instances $X$ and $Y$ with $X \cup Y = A$
+    \Function{Split}{$A$}
+        \State $X \gets \emptyset$
+        \State $Y \gets \emptyset$
+        \State Sort $A$ descending by size
+        \ForAll{$a \in A$}
+            \If{$\mysum(X) < \mysum(Y)$}
+                \State $X \gets X \cup \{a\}$
+            \Else
+                \State $Y \gets Y \cup \{a\}$
+            \EndIf
+        \EndFor
+        \If{$\mysum(X) \ge \mysum(Y)$}
+            \State Swap $X$ and $Y$
+        \EndIf
+    \EndFunction
+\end{algorithmic}
+
+One can make an interesting observation about the non-smaller group $Y$: All its elements are at least as large as the difference of both groups:
+
+\begin{theorem}\label{th:split-property}
+    \textsc{Split} decomposes $A \in \C$ into subinstances $X \in \C(x)$ and $Y \in \C(y,y-x)$.
+\end{theorem}
+
+\begin{proof}
+    Assume the non-smaller group $Y$ contained an element smaller than the groups' difference. All elements which were put into $Y$ after that have to be at least as small, as the elements were sorted by descending size. So the last element put into $Y$ is smaller than the groups' difference as well. But this means that at the moment this element was inserted, $Y$ would already have been larger than $X$, a contradiction to the algorithm's greedy nature, as \textsc{Split} would have put the element into $X$ in this situation.
+\end{proof}
+
+
+\section{Hat packing}
+
+The packing algorithm will also involve a specific family of shapes, which can recursively be packed into each other. We call these shapes \emph{hats}:
+
+\begin{definition}
+    For each $0 \le b \le a$, an ($a,b$)-hat is an isosceles right triangle with an incircle of area $a$, whose acute corners are rounded to the radius of a $b$-circle (see \Cref{fig:hat}).
+    An $a$-hat is an $(a,0)$-hat.
+\end{definition}
+
+\begin{figure}[htb]
+    \centering
+
+    \begin{tikzpicture}[scale=3]
+        \hatsimple
+    \end{tikzpicture}
+
+    \caption{An $(a,b)$-hat.}
+    \label{fig:hat}
+\end{figure}
+
+\newpage
+
+For the following proofs, we need to know a hat's dimensions in detail. We construct these measures using \Cref{fig:construction}.
+
+\begin{lemma}\label{lm:sizes}
+    Let $r$ be the radius of an $a$-circle, and $s$ be the radius of a $b$-circle.
+
+    A ($a,b$)-hat has
+    \begin{itemize}
+        \item height $h(a) = \textcolor{blue}{r + r\s} = \sqrt{\frac a \pi}(1+\s)$,
+        \item width $w(a,b) = 2\textcolor{blue}{(r+r\s)} - 2\textcolor{orange}{s\s} = \sqrt{\frac a \pi}(2+2\s)-\sqrt{\frac b \pi}2\s$,
+        \item and diagonal $d(a,b) = \textcolor{red}{(r+r\s)\s} - \textcolor{orange}{s\s} = \sqrt{\frac a \pi}(2+\s)-\sqrt{\frac b \pi}\s$.
+    \end{itemize}
+
+    We define two additional measures for the case when one of the corners is not rounded:
+    \begin{itemize}
+        \item corner-width $w'(a,b) = w(a,b) + \textcolor{orange}{s\s} = \sqrt{\frac a \pi}(2+2\s)-\sqrt{\frac b \pi}\s$,
+        \item and corner-diagonal $d'(a) = d(a,0) = \sqrt{\frac a \pi}(2+\s)$.
+    \end{itemize}
+\end{lemma}
+
+\begin{figure}[tb]
+    \centering
+
+    \begin{tikzpicture}[scale=4]
+        \hatconstruction
+    \end{tikzpicture}
+
+    \caption{Constructing the dimensions of an $(a,b)$-hat.}
+    \label{fig:construction}
+\end{figure}
+
+\newpage
+
+\begin{figure}[htb]
+    \centering
+
+    \begin{tikzpicture}[scale=2]
+        \hatsinsquare{0.5}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2]
+        \hatsinsquare{0.49}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2]
+        \hatsinsquare{0.4}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2]
+        \hatsinsquare{0.2}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2]
+        \hatsinsquare{0}
+    \end{tikzpicture}
+
+    \caption{Hat-in-square packings for different values of $\frac{x}{x+y}$}
+    \label{fig:hatsinsquare}
+\end{figure}
+
+\begin{theorem}\label{th:hatsinsquare}
+    For any $0 \le x \le y$, an $x$-hat and a $(y,y-x)$-hat can always be packed into a square with an area of $\Psi(x+y)$.
+\end{theorem}
+
+\begin{proof}
+    Place the tips of the hats in two opposing corners of the square, like in \Cref{fig:hatsinsquare}.
+    This placement constitues a valid packing if (1) the hats fit into the square individually and (2) the hats do not overlap.
+
+    \begin{itemize}
+        \item[(1)]
+            The hats fit into the square individually if their diagonal never gets larger than the square's edge length $\sqrt{\Psi(x+y)} = \frac{1+\s}{\sqrt{\pi}}\sqrt{x+y}$.
+            As $x \le \frac {x+y} 2$, \Cref{lm:sizes} directly tells us that the $x$-hat has a diagonal of at most
+            \begin{align*}
+                d(x,0) \le d(\frac{x+y}{2},0) = \sqrt{\frac{\frac{x+y}{2}}{\pi}}(2+\s) + 0 = \sqrt{\Psi(x+y)}
+            \end{align*}
+
+            As for the $(y,y-x)$-hat, its diagonal is also never larger than $\sqrt{\Psi(x+y)}$: \todo[inline]{algebraic proof TBD :-)}
+
+            \begin{tikzpicture}
+                \begin{axis}[height=5cm,xtick={0,0.5},xlabel=$\frac{x}{x+y}$,domain=0:0.5,legend pos=outer north east,no markers,samples=500]
+                    \addplot[red,thick] {sqrt((1-x)/pi)*(2+sqrt(2))-sqrt((1-2*x)/pi)*sqrt(2)};
+                    \addplot[blue,thick] {(1+sqrt(2))/sqrt(pi)};
+                    \legend{$\frac{d{(y,y-x)}}{\sqrt{x+y}}$,$\sqrt{\Psi}$}
+                \end{axis} 
+            \end{tikzpicture}
+
+            %\begin{align*}
+            %    d(y,y-x)
+            %    &= \sqrt{\frac{y}{\pi}}(2+\s)-\sqrt{\frac{y-x}{\pi}}\s\\
+            %    &\le \sqrt{\frac{\frac{x+y}{2}}{\pi}}(2+\s)-\sqrt{\frac{y-y}{\pi}}\s\\
+            %    &= \frac{1+\s}{\sqrt{\pi}}\sqrt{x+y} = \sqrt{\Psi(x+y)}
+            %\end{align*}
+
+        \item[(2)]
+            The hats don't overlap if their combined height never exceeds $\sqrt{2\Psi(x+y)}$, the square's diagonal:
+            \begin{align*}
+                h(x) + h(y)
+                &= \sqrt{\frac{x}{\pi}}(1+\s) + \sqrt{\frac{y}{\pi}}(1+\s)\\
+                &= \frac{1+\s}{\sqrt\pi}(\sqrt{x}+\sqrt{y})\\
+                &\le \frac{1+\s}{\sqrt\pi}(\sqrt{2x+2y})\\
+                &= \s\frac{1+\s}{\sqrt\pi}\sqrt{x+y} = \sqrt{2\Psi(x+y)} \qedhere
+            \end{align*}
+    \end{itemize}
+\end{proof}
+
+\begin{figure}[tb]
+    \centering
+
+    \begin{tikzpicture}[scale=1.3]
+        \hatsinhat{0.5}{0}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=1.3]
+        \hatsinhat{0.3}{0}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=1.3]
+        \hatsinhat{0.1}{0}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=1.3]
+        \hatsinhat{0}{0}
+    \end{tikzpicture}
+
+    \caption{Hat-in-hat packings for different values of $\frac{x}{x+y}$}
+    \label{fig:hatsinhat}
+\end{figure}
+
+\begin{lemma}\label{th:hatsinhat}
+    For any $0 \le x \le y$, an $x$-hat and a $(y,y-x)$-hat can always be packed in a $(x+y)$-hat.
+\end{lemma}
+
+\begin{proof}
+    Place the hats' tips at the bottom of the $(x+y)$-hat and push them as far to the left/right as possible, like in \Cref{fig:hatsinhat}.
+
+    Again, this placement constitutes a valid packing if (1) the hats fit into the $(x+y)$-hat individually and (2) the hats do not overlap.
+    \begin{itemize}
+        \item[(1)]
+            The hats fit into the $(x+y)$-hat individually if their corner-width never gets larger than the $(x+y)$-hat's diagonal, $d(x+y,0)$.
+            \Cref{lm:sizes} directly tells us that the $x$-hat has a corner-width of at most
+            \begin{align*}
+                w'(x,0) \le w'(\frac{x+y}{2},0) = \sqrt{\frac{\frac{1}{2}}{\pi}}(2+2\s) + 0 = d(x+y,0)
+            \end{align*}
+
+            For the $(y,y-x)$-hat, we can show that $w'(y,y-x) \le d(x+y,0)$: \todo[inline]{algebraic proof TBD :-)}
+
+            \begin{tikzpicture}
+                \begin{axis}[height=5cm,xtick={0,0.5},xlabel=$\frac{x}{x+y}$,domain=0:0.5,legend pos=outer north east,no markers,samples=100]
+                    \addplot[red,thick] {sqrt((1-x)/pi)*(2+2*sqrt(2))-sqrt((1-2*x)/pi)*sqrt(2)};
+                    \addplot[blue,thick] {sqrt(1/pi)*(2+sqrt(2))};
+                    \legend{$\frac{w'{(y,y-x)}}{\sqrt{x+y}}$,$\frac{d{(x+y,0)}}{\sqrt{x+y}}$}
+                \end{axis} 
+            \end{tikzpicture}
+
+        \item[(2)]
+            The hats don't overlap if the sum of their corner-diagonals is never larger than the width of the $(x+y)$-hat, that is, if $d'(x) + d'(y) \le w(x+y,0)$, which is the case:
+
+            \begin{align*}
+                d'(x) + d'(y)
+                &= \sqrt{\frac x \pi}(2+\s) + \sqrt{\frac{y}{\pi}}(2+\s)\\
+                &= \frac{2+\s}{\sqrt\pi}(\sqrt{x} + \sqrt{y})\\
+                &= \frac{2+\s}{\sqrt\pi}(\sqrt{2x+2y)}) = w(x+y,0)
+            \end{align*}
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}\label{th:roundedhatsinhat}
+    For any $0 \le b \le x \le y$, an $(x,b)$-hat and an $(y,\max(y-x,b))$-hat can always be packed in an $(x+y,b)$-hat.
+\end{theorem}
+
+\begin{proof}
+    The container's lower corners are now rounded to the radius of a $b$-circle, and we need to show that the two hats still fit inside. But the two corners placed in the container's corners are also rounded to (at least) the same radius, so they will never overlap the container, see \Cref{fig:rounding-hats}.
+\end{proof}
+
+\begin{figure}[htb]
+    \centering
+
+    \begin{tikzpicture}[scale=2]
+        \hatsinhat{0.3}{0}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2]
+        \hatsinhat{0.3}{0.1}
+    \end{tikzpicture}
+
+    \caption{Rounding all hats' corners by the same radius does not affect the packing.}
+    \label{fig:rounding-hats}
+\end{figure}
+
+\chapter{Packing into an obtuse triangle}
+
+\chapter{Packing into a square}
+
+Finally, we can bring the \textsc{Split} algorithm and the properties of the hat shapes together and give constructive proofs for the existence of circle packings:
+
+\begin{theorem}\label{th:circlesinhat}
+    Each $A \in \C(a,b)$ can be packed into an $(a,b)$-hat.
+\end{theorem}
+
+\begin{proof}
+    If $A$ only consists of a single $a$-circle, it is the incircle of the $(a,b)$-hat, so it can be packed. Otherwise, by \Cref{th:split-property}, \textsc{Split} decomposes $A$ into $X \in \C(x)$ and $Y \in \C(y,y-x)$. As all circles in $A$ are at least of area $b$, the same is true for $X$ and $Y$, so $X \in \C(x,b)$ and $Y \in \C(y,\max(y-x,b))$
+    If we assume this theorem to be true for all instances with fewer circles than $A$, we can pack $X$ into a $(x,b)$-hat and $Y$ into a $(y,\max(y-x,b))$-hat. By \Cref{th:roundedhatsinhat}, we can pack those two hats into the $(a,b)$-hat.
+\end{proof}
+
+We are now ready to prove our main theorem:
+
+\begin{theorem}\label{th:circlesinsquare}
+    Each $A \in \C(a)$ can be packed into a square with an area of $\Psi a$.
+\end{theorem}
+
+\begin{proof}
+    If $A$ only consists of a single $a$-circle, it can be placed at the center of the square, as its diameter of $2\sqrt{\frac{a}{\pi}} \approx 1.12838\sqrt{a}$ is smaller than the squares edge length $\sqrt{\Psi a} \approx 1.36207\sqrt{a}$. Otherwise, by \Cref{th:split-property}, \textsc{Split} decomposes $A$ into $X \in \C(x)$ and $Y \in \C(y,y-x)$. By \Cref{th:circlesinhat}, we can pack $X$ into a $x$-hat and $Y$ into a $(y,y-x)$-hat. By \Cref{th:hatsinsquare}, we can pack those two hats into the square.
+
+    See \Cref{fig:example} for a complete example packing.
+\end{proof}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{square_example.png}
+    \caption{Packing of an example instance.}
+    \label{fig:example}
+\end{figure}
+
+\chapter{Conclusions and Future Work}
+
+\appendix
+
+\end{document}

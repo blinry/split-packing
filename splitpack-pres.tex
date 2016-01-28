@@ -1,0 +1,245 @@
+\documentclass[notheorems]{beamer}
+\input{header.tex}
+
+\usepackage{pifont}
+\newcommand{\cmark}{\onslide<+->\ding{51}}
+
+% \AtBeginSection[] {
+%   \begin{frame}<beamer>{Outline}
+%     \tableofcontents[currentsection]
+%   \end{frame}
+% }
+
+%\usepackage{lmodern}
+
+\usetheme{Boadilla}
+\usecolortheme{orchid}
+
+\title[Packing circles in a square]{A worst-case optimal approximation algorithm\\for packing circles in a square}
+\subtitle{}
+\author{Sebastian Morr}
+\institute{}
+
+\date{2015-12-14}
+
+%\beamerdefaultoverlayspecification{<+->}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercolor{alerted text}{fg=blue}
+
+\begin{document}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics[width=0.3\textwidth]{square_example2.png}
+    \end{center}
+    \vspace{-1cm}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+    \frametitle{The worst case for packing density?}
+
+    %Consider circle instances with a total area of 1.
+
+    %Conjecture: This is the worst-case instance in terms of packing density:
+
+    \begin{center}
+        \begin{tikzpicture}[scale=4]
+            \squareworstcase
+        \end{tikzpicture}
+    \end{center}
+
+    %Constructive proof: \emph{All} instances can be packed in this square.
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Constructing the worst-case area}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{align*}
+                \Psi
+                &= \left(2r + 2\frac{r}{\s}\right)^2\\
+                &= r^2\left(2+\s\right)^2\\
+                &= \frac{\frac 1 2}{\pi}\left(4+4\s+2\right)\\
+                &= \frac{3+2\s}{\pi}\\
+                &\approx 1.855\\
+            \end{align*}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{tikzpicture}[scale=3]
+                \squareworstcaseconstruction
+            \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Problem statement}
+
+    \begin{center}
+        \begin{tikzpicture}[scale=2]
+            \bigquestion
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Observation: Splitting in half is easy}
+
+    \begin{center}
+        \begin{tikzpicture}[scale=4]
+            \draw<+-> (0,0) rectangle (\B,\B);
+            \draw<.>[filled] ({\B/2},{\B/2}) circle(0.5642) node {$1$};
+
+            \draw<+-> (\B,0) -- (0,\B);
+            \draw<.->[filled] ({\B-0.3989},{\B-0.3989}) circle(0.3989) node {$\frac 1 2$};
+            \draw<.>[filled] (0.3989,0.3989) circle(0.3989) node {$\frac 1 2$};
+
+            \draw<+-> ({\B/2}, {\B/2}) -- (0,0);
+            \draw<.->[filled] (0.2820,{\B/2}) circle(0.2820) node {$\frac 1 4$};
+            \draw<.>[filled] ({\B/2},0.2820) circle(0.2820) node {$\frac 1 4$};
+
+            \draw<+-> ({\B/2}, {\B/2}) -- ({\B/2}, 0);
+            \draw<.-.(1)>[filled] ({\B/2+0.1995},0.1995) circle(0.1995) node {$\frac 1 8$};
+            \draw<.>[filled] ({\B/2-0.1995},0.1995) circle(0.1995) node {$\frac 1 8$};
+
+            \draw<+-> ({\B/4}, {\B/4}) -- ({\B/2}, 0);
+            \draw<.->[filled] ({\B/2-0.1410},{\B/4}) circle(0.1410) node {$\frac 1 {16}$};
+            \draw<.->[filled] ({\B/4},0.1410) circle(0.1410) node {$\frac 1 {16}$};
+
+            \draw<+-> ({\B/2+0.2}, 0) -- ({\B/4*3+0.1}, {\B/4-0.1});
+            \draw<.->[filled] ({\B/2+0.1995},0.1995) node {?};
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Greedy splitting}
+
+    \begin{tikzpicture}[scale=10]
+        \draw (0,0) -- node[left] {$A$} ++(0,0.1);
+        \draw<+-> (0,-0.15) -- node[left] {$B$} ++(0,0.1);
+
+        \draw<+-> (0,0) rectangle ++(1/3, 0.1) ++(0,-0.1) coordinate (a1);
+        \draw<+-> (0,-0.15) rectangle ++(1/4, 0.1) ++(0,-0.1) coordinate (b1);
+        \draw<+-> (b1) rectangle ++(1/5, 0.1) ++(0,-0.1) coordinate (b2);
+        \draw<+-> (a1) rectangle ++(1/6, 0.1) ++(0,-0.1) coordinate (a2);
+        \draw<+-> (b2) rectangle ++(1/7, 0.1) ++(0,-0.1) coordinate (b3);
+        \draw<+-> (a2) rectangle ++(1/15, 0.1) ++(0,-0.1) coordinate (a3);
+        \draw<+-> (a3) rectangle ++(1/15, 0.1) ++(0,-0.1) coordinate (a4);
+
+        \draw<+(1)>[fill=red] (a4) rectangle ++(1/15, 0.1) ++(0,-0.1) coordinate (a5);
+        \draw<+(1)>[fill=red] (b3) rectangle ++(1/15, 0.1) ++(0,-0.1) coordinate (b4);
+    \end{tikzpicture}
+
+    \vspace{1cm}
+
+    \begin{block}<+(-2)->{Split property:}
+        All elements of larger group $\ge$ groups' difference.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Hat shape}
+
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \hatsimple
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+%\begin{frame}
+%    \frametitle{}
+%
+%    \begin{center}
+%        \begin{tikzpicture}[scale=3]
+%            \hatconstruction
+%        \end{tikzpicture}
+%    \end{center}
+%\end{frame}
+
+\begin{frame}
+    \frametitle{Packing hats in a square}
+
+    \begin{center}
+        \begin{tikzpicture}[scale=4]
+            \foreach \x in {0.5,0.495,0.49,0.48,0.47,0.46,0.45,0.4,0.3,0.2,0.1,0} {
+                \only<+> {
+                    \hatsinsquare{\x}
+                }
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Packing hats in a hat}
+
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \foreach \x in {0.5,0.495,0.49,0.48,0.47,0.46,0.45,0.4,0.3,0.2,0.1,0} {
+                \only<+> {
+                    \hatsinhat{\x}{0}
+                }
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Rounding all hats does not affect the packing}
+
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \foreach \x in {0,0.1} {
+                \only<+> {
+                    \hatsinhat{0.3}{\x}
+                }
+            }
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example packings}
+
+    \begin{center}
+        \includegraphics<1>[width=0.5\textwidth]{square_example.png}
+        \includegraphics<2>[width=0.5\textwidth]{square_example2.png}
+        \includegraphics<3>[width=0.5\textwidth]{square_example3.png}
+        \includegraphics<4>[width=0.5\textwidth]{square_example4.png}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Possible extensions}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}[<+->]
+                \item Online?
+                \item Other containers
+                    \begin{itemize}
+                        \item isosceles right triangles \cmark
+                        \item \alert<12->{equilateral triangles}?
+                        \item general triangles?
+                        \item rectangles?
+                        \item regular $n$-gons?
+                        \item circles?
+                    \end{itemize}
+                \item “What about 3D?”
+                    \begin{itemize}
+                        \item Packing spheres into a cube?
+                    \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{\textwidth}
+            \includegraphics<+->[width=0.5\textwidth]{triangle_example.png}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\end{document}
