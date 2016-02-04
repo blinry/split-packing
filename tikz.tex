@@ -1,29 +1,57 @@
 \newcommand{\B}{1.36207}
 
 \tikzset{tight/.style={inner sep=1pt}}
-\tikzset{bracket/.style={inner sep=10pt,decorate,decoration={brace,amplitude=5pt}}}
+\tikzset{bracket/.style={inner sep=10pt,draw=gray,decorate,decoration={brace,amplitude=5pt}}}
 \tikzset{filled/.style={fill=black!30!white}}
 \tikzset{filled2/.style={fill=black!15!white}}
 
-\newcommand\hatshape[3][]{
+%\newcommand\hatshape[3][]{
+%    \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
+%    \pgfmathsetmacro{\s}{sqrt((#3)/pi)}
+%
+%    \coordinate (top) at (0,{(\r/(sqrt(2)-1)});
+%    \coordinate (right) at ({(\r/(sqrt(2)-1)},0);
+%    \coordinate (left) at ({(-\r/(sqrt(2)-1)},0);
+%
+%    \coordinate (leftcenter) at ($({-(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+%    \coordinate (leftbottom) at ($(leftcenter)+(-90:\s)$);
+%    \coordinate (lefttop) at ($(leftcenter)+(-225:\s)$);
+%
+%    \coordinate (rightcenter) at ($({(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+%    \coordinate (rightbottom) at ($(rightcenter)+(-90:\s)$);
+%    \coordinate (righttop) at ($(rightcenter)+(45:\s)$);
+%
+%    \coordinate (midcenter) at (0,\r);
+%
+%    \draw[#1] (rightbottom) arc (-90:45:\s) -- (top) -- (lefttop) arc (-225:-90:\s) -- cycle;
+%}
+
+\newcommand\hatshape[5][]{
     \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
     \pgfmathsetmacro{\s}{sqrt((#3)/pi)}
+    \pgfmathsetmacro{\a}{(#4)}
+    \pgfmathsetmacro{\b}{(#5)}
 
-    \coordinate (top) at (0,{(\r/(sqrt(2)-1)});
-    \coordinate (right) at ({(\r/(sqrt(2)-1)},0);
-    \coordinate (left) at ({(-\r/(sqrt(2)-1)},0);
+    \coordinate (top) at ({cos((90+(\a-\b)/2))*(\r/cos((\a+\b)/2))},{sin((90+(\a-\b)/2))*(\r/cos((\a+\b)/2)});
+    \coordinate (left) at ({-\r/tan(\a/2)},-\r);
+    \coordinate (right) at ({\r/tan(\b/2)},-\r);
 
-    \coordinate (leftcenter) at ($({-(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+    \coordinate (leftcenter) at ($(left)+({\s/tan(\a/2)},\s)$);
     \coordinate (leftbottom) at ($(leftcenter)+(-90:\s)$);
-    \coordinate (lefttop) at ($(leftcenter)+(-225:\s)$);
+    \coordinate (lefttop) at ($(leftcenter)+({-270+\a}:\s)$);
 
-    \coordinate (rightcenter) at ($({(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+    \coordinate (rightcenter) at ($(right)+({-\s/tan(\b/2)},\s)$);
     \coordinate (rightbottom) at ($(rightcenter)+(-90:\s)$);
-    \coordinate (righttop) at ($(rightcenter)+(45:\s)$);
+    \coordinate (righttop) at ($(rightcenter)+({90-\b}:\s)$);
 
-    \coordinate (midcenter) at (0,\r);
+    \coordinate (topcenter) at ($(top)-({cos((90+(\a-\b)/2))*(\s/cos((\a+\b)/2))},{sin((90+(\a-\b)/2))*(\s/cos((\a+\b)/2)})$);
+    \coordinate (topleft) at ($(topcenter)+({-270+\a}:\s)$);
+    \coordinate (topright) at ($(topcenter)+({90-\b}:\s)$);
 
-    \draw[#1] (rightbottom) arc (-90:45:\s) -- (top) -- (lefttop) arc (-225:-90:\s) -- cycle;
+    \coordinate (midcenter) at (0,0);
+
+    %\draw[#1] (right) -- (top) -- (left) -- cycle;
+    \draw[#1] (rightbottom) arc (-90:{90-\b}:\s) -- (topright) arc ({90-\b}:{90+\a}:\s) -- (lefttop) arc ({-270+\a}:-90:\s) -- cycle;
 }
 
 \newcommand\hatsinsquare[1]{
@@ -51,32 +79,106 @@
     \fi
 }
 
-\newcommand\hatsinhat[2]{
-    \hatshape{1}{#2}
+% alpha, beta, incircle-area of right hat, rounding
+\newcommand\hatsinhat[4]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\x}{(#3)}
+    \pgfmathsetmacro{\round}{(#4)}
+    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
 
-    \pgfmathparse{(sqrt((1-(#1))/pi)/(sqrt(2)-1))/sqrt(2)}
-    \begin{scope}[shift={(0,\pgfmathresult)}]
-        \pgfmathparse{\B-(sqrt((1-(#1))/pi)/(sqrt(2)-1))/sqrt(2)}
-        \begin{scope}[shift={(\pgfmathresult,0)}]
-            \begin{scope}[rotate=135]
-                \pgfmathsetmacro{\hata}{1-(#1)}
-                \pgfmathsetmacro{\hatb}{max((1-2*(#1)),#2)}
-                \hatshape[filled]{\hata}{\hatb}
-                \node at (midcenter) {\hata};
-            \end{scope}
+    \hatshape{1}{\round}{\a}{\b}
+
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+    \begin{scope}[shift={(\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \pgfmathsetmacro{\hata}{\x}
+            \pgfmathsetmacro{\hatb}{max(\round,\f*(\x/\f-(1-\x)/(1-\f)))}
+            \hatshape[filled]{\hata}{\hatb}{90}{\b}
+            \node at (midcenter) {\hata};
         \end{scope}
     \end{scope}
 
-    \def\comparg{#1}
-    \if\comparg0\else
-        \pgfmathparse{(sqrt((#1)/pi)/(sqrt(2)-1))/sqrt(2)}
-        \begin{scope}[shift={(0,\pgfmathresult)}]
-            \pgfmathparse{(sqrt((#1)/pi)/(sqrt(2)-1))/sqrt(2)-\B}
-            \begin{scope}[shift={(\pgfmathresult,0)}]
-                \begin{scope}[rotate=-135]
-                    \hatshape[filled2]{#1}{#2}
-                    \node at (midcenter) {#1};
-                \end{scope}
+    \def\comparg{\x}
+    \if\comparg1\else
+        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
+        \begin{scope}[shift={(-\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt((1-\x)/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)}]
+                \pgfmathsetmacro{\hata}{1-\x}
+                \pgfmathsetmacro{\hatb}{\round}
+                \hatshape[filled2]{\hata}{\hatb}{\a}{90}
+                \node at (midcenter) {\hata};
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
+\newcommand\hatlr[4]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\aa}{(#3)}
+    \pgfmathsetmacro{\bb}{(#4)}
+
+    \hatshape{1}{0}{\a}{\b}
+    \draw (midcenter) circle(\r);
+    \draw[draw=none] (left) -- node[sloped,above] {$x$} (top);
+    \draw[draw=none] (top) -- node[sloped,above] {$y$} (right);
+
+    \coordinate (lc) at ($(midcenter)-(\r,0)$);
+    \coordinate (rc) at ($(midcenter)+(\r,0)$);
+    \coordinate (l) at ($(midcenter)+(-\r,-\r)$);
+    \coordinate (r) at ($(midcenter)+(\r,-\r)$);
+
+    \draw[dashed] (lc) -- (l);
+    \draw[dashed] (rc) -- (r);
+
+    \draw[bracket] ([yshift=-2pt]right) -- node[below] {$r$} ([yshift=-2pt]l);
+    \draw[bracket] ([yshift=-5pt]r) -- node[below] {$l$} ([yshift=-5pt]left);
+    \draw[bracket] ([yshift=-12pt]right) -- node[below] {$1$} ([yshift=-12pt]left);
+
+    \begin{scope}[scale=0.82,shift={(0,-0.124)}]
+        \hatshape[dotted]{1}{0}{\aa}{\bb}
+        \draw[dotted] (midcenter) circle(\r);
+    \end{scope}
+}
+
+% alpha, beta, incircle-area of right hat, rounding
+\newcommand\hatsoverlap[4]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\x}{(#3)}
+    \pgfmathsetmacro{\round}{(#4)}
+    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
+
+    \hatshape{1}{\round}{\a}{\b}
+    \draw[dotted] (midcenter) circle(\r) node {$a$};
+    \draw[bracket] ([yshift=-12pt]right) -- node[below] {$1$} ([yshift=-12pt]left);
+
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+    \begin{scope}[shift={(\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \pgfmathsetmacro{\hata}{\x}
+            \hatshape[dashed]{\hata}{0}{\a}{\b}
+            \pgfmathsetmacro{\r}{sqrt(\x/pi)}
+            \draw (midcenter) circle(\r) node {$a_2$};
+            \draw[bracket] ([yshift=-1pt]right) -- node[below] {$g$} ([yshift=-1pt]left);
+        \end{scope}
+    \end{scope}
+
+    \def\comparg{\x}
+    \if\comparg1\else
+        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
+        \begin{scope}[shift={(-\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt((1-\x)/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)}]
+                \pgfmathsetmacro{\hata}{1-\x}
+                \hatshape[dashed]{\hata}{0}{\a}{\b}
+                \pgfmathsetmacro{\r}{sqrt((1-\x)/pi)}
+                \draw (midcenter) circle(\r) node {$a_1$};
+                \draw[bracket] ([yshift=-4pt]right) -- node[below] {$f$} ([yshift=-4pt]left);
             \end{scope}
         \end{scope}
     \fi
@@ -115,10 +217,11 @@
 }
 
 \newcommand\hatsimple{
-    \hatshape{1}{0.3}
+    \hatshape{1}{0.2}{45}{30}
 
     \draw[dashed] (rightcenter) circle(\s) node {$b$};
     \draw[dashed] (leftcenter) circle(\s) node {$b$};
+    \draw[dashed] (topcenter) circle(\s) node {$b$};
     \draw[dashed] (midcenter) circle(\r) node {$a$};
 }
 
