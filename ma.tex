@@ -231,27 +231,29 @@ What is means for shapes to be $(F,b)$-rounded is that we lift some requirements
 With these preparations, we can now state our main theorem:
 
 \begin{theorem}[Split Packing]\label{th:splitpack}
-    For a given shape, and for any $0 \le b < a$, if there is a split key $F$ of length $n$, so that for all tuples $(a_1, a_2, \dots, a_n)$
-    one can find $n$ $(F,b)$-rounded shapes where the $i$-th shape has a total of $a_i$, and these shapes can be packed into the original shape, then the original shape is a $\C(a,b)$-shape.
+    For a given shape $s$, and for any $0 \le b < a$, if there is a split key $F$ of length $n$, so that for all tuples $(a_1, a_2, \dots, a_n)$ with $a_1 + a_2 + \dots + a_n \le a$
+    one can find $n$ $(F,b)$-rounded shapes where the $i$-th shape has a total of $a_i$, and these shapes can be packed into $s$, then $s$ is a $\C(a,b)$-shape.
 \end{theorem}
 
 \begin{proof}
-    Given an arbitrary $C \in \C(a,b)$, regardless of which groups \textsc{Split} produces, we know from \Cref{th:split-tangle} that we can always pack them into our $(F,b)$-rounded shapes. As these shapes also fit into the original shape, we know that we can pack $C$ into that shape.
+    Consider an arbitrary $C \in \C(a,b)$. Regardless of which groups \textsc{Split} produces, we know from \Cref{th:split-tangle} that we can always pack them into our $(F,b)$-rounded shapes. As these shapes (by assumption) also fit into $s$, we know that we can pack $C$ into $s$.
 \end{proof}
 
-As this theorem is important for the whole thesis, let us rephrase it: \Cref{th:splitpack} encapsulates what is sufficient to proof that a shape is a $\C(a,b)$-shape: Find a shape-specific split key $F$ and show that for all possible decompositions of the area $a$ (which is going to be perfomed by \textsc{Split}), one can find $(F,b)$-rounded shapes of matching sums.
+As this theorem is important for the whole thesis, let us rephrase it: \Cref{th:splitpack} encapsulates what is sufficient to proof that a shape is a $\C(a,b)$-shape: Find a shape-specific split key $F$ and show that for all possible decompositions of the area $a$ (which is going to be perfomed by \textsc{Split}), that one can find $(F,b)$-rounded shapes of matching sums that fit into the original shape.
+
+The general \textsc{Splitpack} algorithm, then, reads as follows:
 
 \begin{algorithm}[htbp!]
     \caption{\textsc{Splitpack}$(S,C)$}
     \begin{algorithmic}
-        \Require A $\C(a,b)$-shape $S$ and a circle instance $C \in \C(a,b)$
-        \Ensure A packing of $C$ into $S$
-        \State Determine split key $F$ for $S$
+        \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$
+        \Ensure A packing of $C$ into $s$
+        \State Determine split key $F$ for $s$
         \State $(C_1, C_2, \dots, C_n) \gets \textsc{Split}(C,F)$
-        \State $(S_1, S_2, \dots, S_n) \gets$ any $(F,b)$-rounded shapes of matching sums
-        \State Pack these shapes into $S$
+        \State $(s_1, s_2, \dots, s_n) \gets$ any $(F,b)$-rounded shapes of matching sums
+        \State Pack these shapes into $s$
         \ForAll{$C_i \in (C_1, C_2, \dots, C_n)$}
-            \State \Call{Splitpack}{$S_1, C_1$}
+            \State \Call{Splitpack}{$s_1, C_1$}
         \EndFor
     \end{algorithmic}
 \end{algorithm}
@@ -261,14 +263,10 @@ One needs the following elements to use \textsc{Splitpack} for a shape:
 \begin{enumerate}
     \item A strategy to determine the split factor $F$
     \item A strategy to determine $n$ $(F,b)$-rounded shapes of matching sums for each decomposition of the area $a$
-    \item A strategy to pack these shapes into $S$
+    \item A strategy to pack these shapes into $s$
 \end{enumerate}
 
-To proof that the shape is indeed a $\C(a,b)$-shape, one needs to show that the first two strategies always exist, and that the third strategy always works.
-
-\begin{itemize}
-    \item One can always find $(F,b)$-rounded shapes which can be packed 
-\end{itemize}
+To proof that the shape is indeed a $\C(a,b)$-shape, one needs to show that these three strategies always work.
 
 \section{Normalization}
 
@@ -276,7 +274,7 @@ In some proofs, we will normalize the instances, shapes, or figures in question.
 
 \chapter{Hats}
 
-A useful family of shapes, which can be packed into each other quite well, are rounded triangles. We call these shapes \emph{hats}:
+A useful family of shapes, which can be packed into each other quite well, are rounded, non-acute triangles. We call these shapes \emph{hats}:
 
 \begin{definition}
     For each $0 \le b \le a$, an \emph{$(a,b)$-hat} is a non-acute triangle with an incircle of area $a$, whose corners are rounded to the radius of a $b$-circle (see \Cref{fig:hat}).
@@ -296,8 +294,19 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \end{figure}
 
 \begin{definition}
-    A hat's \emph{associated split key} equals the areas of the two circles incribed in the hat's two sides when splitting it orthogonal to its base through its tip.
+    A hat's \emph{associated split key} equals the tuple of the areas of the two circles incribed in the hat's two sides when splitting the underlying triangle orthogonally to its base through its tip, see \Cref{fig:hatf}.
 \end{definition}
+
+\begin{figure}[htbp!]
+    \centering
+
+    \begin{tikzpicture}[scale=3]
+        \hatf{60}{30}
+    \end{tikzpicture}
+
+    \caption{A hat's \emph{associated split key} equals $\{f_1, f_2\}$}
+    \label{fig:hatf}
+\end{figure}
 
 %%For the following proofs, we need to know a hat's dimensions in detail. We construct these measures using \Cref{fig:construction}.
 %%
@@ -329,62 +338,64 @@ A useful family of shapes, which can be packed into each other quite well, are r
 %%    \label{fig:construction}
 %%\end{figure}
 %%
-\begin{figure}[htbp!]
-    \centering
-
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.1}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.2}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.3}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.4}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.5}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.6}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.7}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.8}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{0.9}{0}
-    \end{tikzpicture}
-    \begin{tikzpicture}[scale=1.3]
-        \hatsinhat{45}{30}{1}{0}
-    \end{tikzpicture}
-
-    \caption{Hat-in-hat packings for different split ratios}
-    \label{fig:hatsinhat}
-\end{figure}
 
 \begin{lemma}\label{th:hatsinhat}
-    For each $(a,0)$-hat with the associated split key $F$,
-    %for $$f = \frac{1}{1+\frac{1+\cot(\frac{\pi}{4}-\frac{\alpha}{2}))^2}{(1+\cot(\frac{\pi}{4}-\frac{\beta}{2}))^2}}$$,
-    any two $F$-rounded right hats with an incircle sum of at most $a$ can be packed into the hat.
+    Consider an $(a,0)$-hat with the associated split key $F$, and call its smaller angles $\alpha$ and $\beta$.
+
+    Any two $(F,0)$-rounded right hats with an incircle sum of at most $a$ can be packed into the hat, if the first hat has some angle of $\alpha$, and the second some angle of $\beta$.
 \end{lemma}
 
 \begin{proof}
     Place the hats' tips at the bottom of the hat and push them as far to the left/right as possible, like in \Cref{fig:hatsinhat}.
 
-    This placement constitutes a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually.
+    \begin{figure}[htbp!]
+        \centering
+
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.1}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.2}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.3}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.4}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.5}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.6}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.7}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.8}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{0.9}{0}
+        \end{tikzpicture}
+        \begin{tikzpicture}[scale=1.3]
+            \hatsinhat{45}{30}{1}{0}
+        \end{tikzpicture}
+
+        \caption{Hat-in-hat packings for different split ratios}
+        \label{fig:hatsinhat}
+    \end{figure}
+
+    This placement constitutes a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are now going to proof these two properties.
+
     \begin{itemize}
         \item[(1)]
-            We will first show that the hats do not overlap each other.
+            We have to show that the hats do not overlap each other.
 
-            To do so, we first normalize the container hat's width to 1 and make an observation about the partial widths $l$ and $r$ in \Cref{fig:hatlr}: If the top angle is a right angle, the partial widths have the same lengths as the triangle's two cathetus $x$ and $y$, so $l^2 + r^2 = 1$. If the top angle is obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant), both $l$ and $r$ shrink, so for each hat, $l^2 + r^2 \le 1$.
+            To do so, we first normalize the container hat's width to 1 and make an observation about the partial widths $l$ and $r$ in \Cref{fig:hatlr}: If the top angle is a right angle, the partial widths have the same lengths as the triangle's two cathetus $x$ and $y$, so $l^2 + r^2 = 1$. If the top angle is obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant), both $l$ and $r$ shrink, so for each hat, $l^2 + r^2 \le 1$, or $r \le \sqrt{1-l^2}$.
 
             \begin{figure}[htbp!]
                 \centering
@@ -397,7 +408,9 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \label{fig:hatlr}
             \end{figure}
 
-            We then observe that the hats to be packed don't overlap if their incircles don't overlap, which is true if in \Cref{fig:hatsoverlap}, $lf + rg \le 1$ holds. Also note that for \emph{similar} hats, the ratio between their incircle's area and the square of their widths is constant. This means that if $a_1 + a_2 = a$, $f^2 + g^2 = 1$.
+            We then observe that the two hats which we want to pack don't overlap if their incircles don't overlap. If we surround the incircles with triangles similar to the container's triangle, like in \Cref{fig:hatsoverlap}, we can see that they don't overlap if $lf + rg \le 1$ holds.
+
+            Also note that for similar hats, the ratio between their incircle's area and the square of their widths is constant. This means that if $a_1 + a_2 \le a$, then $f^2 + g^2 \le 1$. Thus, $g \le \sqrt{1-f^2}$.
 
             \begin{figure}[htbp!]
                 \centering
@@ -410,7 +423,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \label{fig:hatsoverlap}
             \end{figure}
 
-            Thus:
+            Putting it all together, we can show the required property:
 
             \begin{align*}
                 lf + rg
@@ -422,12 +435,19 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 &= 1
             \end{align*}
 
-            Line \ref{eq:am-gm} is a consequence of the inequality of arithmetic and geometric means.
+            Line \ref{eq:am-gm} is a consequence of the inequality of arithmetic and geometric means, $\sqrt{lf} \le \frac{l+f}{2}$.
 
         \item[(2)]
-            It is left to show that the hats fit inside the container individually.
+            The second property we need to show is that the hats fit inside the container individually.
 
-            If a hat's area $a_i \le f_i$, its incircle is at most as big as the incircle of the container hat's side, so it will fit inside without question.
+            If a hat's incircle area $a_i \le f_i$, its incircle is at most as big as the incircle of the container hat's side, so it will fit inside without question.
+
+            So let's assume $a_i > f_i$. For this proof, normalize the container hat's incircle to 1. Again, for triangles similar to the container hat's right side in \Cref{fig:hatpoke}, the ratio between the incircle and the longest side is constant, let us call this constant $d$. Let $y$ be the rounding of the hat to be packed. We can observe that the hat fits into the container hat if
+
+            \begin{align*}
+                &d\sqrt{a_i} - (1-\sqrt{f_i})d\sqrt{y} \le d\sqrt{f_i}\\
+                \iff &\sqrt{a_i} - (1-\sqrt{f_i})\sqrt{y} \le \sqrt{f_i}
+            \end{align*}
 
             \begin{figure}[htbp!]
                 \centering
@@ -440,15 +460,11 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \label{fig:hatpoke}
             \end{figure}
 
-            So let's assume $a_i > f_i$. For this proof, normalize $a$ to 1. The hat fits into the container hat individually if
+            As the relative filling level of this hat is higher than that of the other one, this hat is rounded by $y = a - f\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$.
 
-            $$\sqrt{a} - (1-\sqrt{f})\sqrt{y} \le \sqrt{f}$$
+            %$$\sqrt{f+z} - (1-\sqrt{f})\sqrt{\frac{z}{1-f}} \le \sqrt{f}$$
 
-            As the relative filling level of this hat is higher than that of the other one, this hat is rounded by $y = a - f\frac{1-a}{1-f}) = \frac{a(1-f)-f(1-a)}{1-f} = \frac{a-f}{1-f}$. $z = a-f$.
-
-            $$\sqrt{f+z} - (1-\sqrt{f})\sqrt{\frac{z}{1-f}} \le \sqrt{f}$$
-
-            Substitute $f = b^2$ and $z = c^2$.
+            Substitute $f_i = b^2$ and $a_i-f_i = c^2$, and the inequality becomes
 
             $$\sqrt{b^2+c^2} - (1-b)\frac{c}{\sqrt{1-b^2}} \le b$$
 
@@ -460,18 +476,24 @@ A useful family of shapes, which can be packed into each other quite well, are r
 
             $$c\frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}} \le \frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}}\sqrt{1-b^2}$$
 
-            $$c \le \sqrt{1-b^2} \iff c^2 \le 1-b^2 \iff z \le 1-f$$
+            \begin{align*}
+                &c \le \sqrt{1-b^2}\\
+                \iff &c^2 \le 1-b^2\\
+                \iff &a_i - f_i \le 1-f_i\\
+                \iff &a_i \le 1\\
+            \end{align*}
+
+            As $a_i$ is never larger than 1, the condition is true and the hat always fits into the container.
     \end{itemize}
 \end{proof}
 
-\begin{theorem}\label{th:roundedhatsinhat}
+\begin{lemma}\label{th:roundedhatsinhat}
     For each $(a,b)$-hat with the associated split key $F$,
-    %for $$f = \frac{1}{1+\frac{1+\cot(\frac{\pi}{4}-\frac{\alpha}{2}))^2}{(1+\cot(\frac{\pi}{4}-\frac{\beta}{2}))^2}}$$,
-    for each $a_1 + a_2 = a$, there are two $F$-rounded right hats, where one is an $(a_1,b)$-hat and the other an $(a_2,b)$-hat, which can be packed into the hat.
-\end{theorem}
+    for each $a_1 + a_2 = a$, there are two $(F,b)$-rounded right hats with incircle areas of $a_1$ and $a_2$, which can be packed into the hat.
+\end{lemma}
 
 \begin{proof}
-    The container's corners are now rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But the all corners of the contained hats are also rounded to (at least) the same radius, so they will never overlap the container, see \Cref{fig:rounding-hats}.
+    \label{th:hatsinhat} tells us that this theorem is true for $b = 0$. Now, the container's corners are now rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But as the two hats are $(F,b)$-rounded, all of their corners are also rounded to (at least) the same radius, so they will never overlap the container, see \Cref{fig:rounding-hats}.
 \end{proof}
 
 \begin{figure}[htbp!]
@@ -493,9 +515,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \end{theorem}
 
 \begin{proof}
-    Given a circle instance $C \in \C(a,b)$, if it only consists of a single circle, it cannot be larger than the incircle of the $(a,b)$-hat, so it can be packed.
-
-    Otherwise, by \Cref{th:roundedhatsinhat} and \Cref{th:split-tangle}, it follows directly that the hat is a $\C(a,b)$-shape.
+    \Cref{th:roundedhatsinhat} and \Cref{th:split-tangle}, it follows directly that the hat is a $\C(a,b)$-shape.
 \end{proof}
 
 \chapter{Triangles}
@@ -509,11 +529,11 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \end{proof}
 
 \begin{theorem}
-    A non-acute triangle with an incircle of area $a$ is an $\C(a)$-shape.
+    A non-acute triangle with an incircle of area $a$ is a $\C(a)$-shape.
 \end{theorem}
 
 \begin{proof}
-    The triangle is an $(a,0)$-hat, which is an $\C(a)$-shape.
+    The triangle is an $(a,0)$-hat, which is a $\C(a)$-shape.
 \end{proof}
 
 %\begin{theorem}

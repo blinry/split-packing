@@ -119,6 +119,42 @@
     \fi
 }
 
+% alpha, beta
+\newcommand\hatf[2]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\round}{0.1}
+    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
+
+    \hatshape{1}{\round}{\a}{\b}
+    %\hatshape[dashed]{1}{0}{\a}{\b}
+
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\f))/pi)/tan(\b/2)}
+    \begin{scope}[shift={(\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(1/pi)-sqrt(\f/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \pgfmathsetmacro{\hata}{\f}
+            \hatshape[dashed]{\hata}{0}{90}{\b}
+            \pgfmathsetmacro{\r}{sqrt(\f/pi)}
+            \draw (midcenter) circle(\r) node {$f_2$};
+        \end{scope}
+    \end{scope}
+
+    \def\comparg{\f}
+    \if\comparg1\else
+        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\f))/pi)/tan(\a/2)}
+        \begin{scope}[shift={(-\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt((1-\f)/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)}]
+                \pgfmathsetmacro{\hata}{1-\f}
+                \hatshape[dashed]{\hata}{0}{\a}{90}
+                \pgfmathsetmacro{\r}{sqrt((1-\f)/pi)}
+                \draw (midcenter) circle(\r) node {$f_1$};
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
 \newcommand\hatlr[4]{
     \pgfmathsetmacro{\a}{(#1)}
     \pgfmathsetmacro{\b}{(#2)}
@@ -158,7 +194,7 @@
 
     \hatshape{1}{\round}{\a}{\b}
     \draw[dotted] (midcenter) circle(\r) node {$a$};
-    \draw[bracket] ([yshift=-12pt]right) -- node[below] {$1$} ([yshift=-12pt]left);
+    \draw[bracket] ([yshift=-20pt]right) -- node[below] {$1$} ([yshift=-20pt]left);
 
     \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
     \begin{scope}[shift={(\pgfmathresult,0)}]
@@ -167,8 +203,10 @@
             \pgfmathsetmacro{\hata}{\x}
             \hatshape[dashed]{\hata}{0}{\a}{\b}
             \pgfmathsetmacro{\r}{sqrt(\x/pi)}
+            \coordinate (r) at ($(midcenter)+(-\r,-\r)$);
             \draw (midcenter) circle(\r) node {$a_2$};
             \draw[bracket] ([yshift=-1pt]right) -- node[below] {$g$} ([yshift=-1pt]left);
+            \draw[bracket] ([yshift=-12pt]right) -- node[below] {$rg$} ([yshift=-12pt]r);
         \end{scope}
     \end{scope}
 
@@ -181,8 +219,10 @@
                 \pgfmathsetmacro{\hata}{1-\x}
                 \hatshape[dashed]{\hata}{0}{\a}{\b}
                 \pgfmathsetmacro{\r}{sqrt((1-\x)/pi)}
+                \coordinate (l) at ($(midcenter)+(\r,-\r)$);
                 \draw (midcenter) circle(\r) node {$a_1$};
                 \draw[bracket] ([yshift=-4pt]right) -- node[below] {$f$} ([yshift=-4pt]left);
+                \draw[bracket] ([yshift=-12pt]l) -- node[below] {$lf$} ([yshift=-12pt]left);
             \end{scope}
         \end{scope}
     \fi
@@ -205,9 +245,9 @@
             \pgfmathsetmacro{\hata}{\x}
             \pgfmathsetmacro{\hatb}{max(\round,\f*(\x/\f-(1-\x)/(1-\f)))}
             \hatshape[draw=none]{\hata}{\hatb}{90}{\b}
-            \draw[dashed] (midcenter) circle(\r) node {$a$};
+            \draw[dashed] (midcenter) circle(\r) node {$a_i$};
             \draw[dashed] (topcenter) circle(\s) node {$y$};
-            \draw[bracket] ([shift={(11pt,11pt)}]top) -- node[sloped,above] {$d\sqrt{a}$} ([shift={(11pt,11pt)}]right);
+            \draw[bracket] ([shift={(11pt,11pt)}]top) -- node[sloped,above] {$d\sqrt{a_i}$} ([shift={(11pt,11pt)}]right);
 
             \begin{scope}[shift={(topcenter)}]
                 \hatshape{\hatb}{0}{90}{\b}
@@ -223,8 +263,8 @@
         \pgfmathparse{sqrt(1/pi)-sqrt((\f)/pi)}
         \begin{scope}[shift={(0,-\pgfmathresult)}]
             \hatshape{\f}{0}{90}{\b}
-            \draw[dashed] (midcenter) circle(\r) node {$f$};
-            \draw[bracket] ([shift={(6pt,6pt)}]top) -- node[sloped,above] {$d\sqrt{f}$} ([shift={(6pt,6pt)}]right);
+            \draw[dashed] (midcenter) circle(\r) node {$f_i$};
+            \draw[bracket] ([shift={(6pt,6pt)}]top) -- node[sloped,above] {$d\sqrt{f_i}$} ([shift={(6pt,6pt)}]right);
         \end{scope}
     \end{scope}
 
