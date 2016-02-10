@@ -85,7 +85,8 @@
     \pgfmathsetmacro{\b}{(#2)}
     \pgfmathsetmacro{\x}{(#3)}
     \pgfmathsetmacro{\round}{(#4)}
-    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
+    \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+    \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
 
     \hatshape{1}{\round}{\a}{\b}
 
@@ -96,7 +97,7 @@
             \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
             \begin{scope}[shift={(0,-\pgfmathresult)}]
                 \pgfmathsetmacro{\hata}{\x}
-                \pgfmathsetmacro{\hatb}{max(\round,\f*(\x/\f-(1-\x)/(1-\f)))}
+                \pgfmathsetmacro{\hatb}{max(\round,\x-\g*(1-\x)/(\f)))}
                 \hatshape[filled]{\hata}{\hatb}{90}{\b}
                 \node at (midcenter) {\hata};
             \end{scope}
@@ -111,7 +112,7 @@
             \begin{scope}[shift={(0,-\pgfmathresult)}]
                 \pgfmathsetmacro{\hata}{1-\x}
                 \pgfmathsetmacro{\hatb}{\round}
-                \pgfmathsetmacro{\hatb}{max(\round,(1-\f)*((1-\x)/(1-\f)-(\x)/(\f)))}
+                \pgfmathsetmacro{\hatb}{max(\round,(1-\x)-\f*(\x)/(\g)))}
                 \hatshape[filled2]{\hata}{\hatb}{\a}{90}
                 \node at (midcenter) {\hata};
             \end{scope}
@@ -120,35 +121,35 @@
 }
 
 % alpha, beta
-\newcommand\hatf[2]{
+\newcommand\hatf[3]{
     \pgfmathsetmacro{\a}{(#1)}
     \pgfmathsetmacro{\b}{(#2)}
-    \pgfmathsetmacro{\round}{0.1}
-    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
+    \pgfmathsetmacro{\round}{(#3)}
+    \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+    \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
 
     \hatshape{1}{\round}{\a}{\b}
-    %\hatshape[dashed]{1}{0}{\a}{\b}
 
-    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\f))/pi)/tan(\b/2)}
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\g))/pi)/tan(\b/2)}
     \begin{scope}[shift={(\pgfmathresult,0)}]
-        \pgfmathparse{sqrt(1/pi)-sqrt(\f/pi)}
+        \pgfmathparse{sqrt(1/pi)-sqrt(\g/pi)}
         \begin{scope}[shift={(0,-\pgfmathresult)}]
-            \pgfmathsetmacro{\hata}{\f}
+            \pgfmathsetmacro{\hata}{\g}
             \hatshape[dashed]{\hata}{0}{90}{\b}
-            \pgfmathsetmacro{\r}{sqrt(\f/pi)}
+            \pgfmathsetmacro{\r}{sqrt(\g/pi)}
             \draw (midcenter) circle(\r) node {$f_2$};
         \end{scope}
     \end{scope}
 
     \def\comparg{\f}
     \if\comparg1\else
-        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\f))/pi)/tan(\a/2)}
+        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((\f))/pi)/tan(\a/2)}
         \begin{scope}[shift={(-\pgfmathresult,0)}]
-            \pgfmathparse{sqrt(1/pi)-sqrt((1-\f)/pi)}
+            \pgfmathparse{sqrt(1/pi)-sqrt((\f)/pi)}
             \begin{scope}[shift={(0,-\pgfmathresult)}]
-                \pgfmathsetmacro{\hata}{1-\f}
+                \pgfmathsetmacro{\hata}{\f}
                 \hatshape[dashed]{\hata}{0}{\a}{90}
-                \pgfmathsetmacro{\r}{sqrt((1-\f)/pi)}
+                \pgfmathsetmacro{\r}{sqrt((\f)/pi)}
                 \draw (midcenter) circle(\r) node {$f_1$};
             \end{scope}
         \end{scope}
@@ -156,10 +157,10 @@
 }
 
 \newcommand\hatlr[4]{
-    \pgfmathsetmacro{\a}{(#1)}
-    \pgfmathsetmacro{\b}{(#2)}
-    \pgfmathsetmacro{\aa}{(#3)}
-    \pgfmathsetmacro{\bb}{(#4)}
+    \pgfmathsetmacro{\aa}{(#1)}
+    \pgfmathsetmacro{\bb}{(#2)}
+    \pgfmathsetmacro{\a}{(#3)}
+    \pgfmathsetmacro{\b}{(#4)}
 
     \hatshape{1}{0}{\a}{\b}
     \draw (midcenter) circle(\r);
@@ -178,7 +179,7 @@
     \draw[bracket] ([yshift=-5pt]r) -- node[below] {$l$} ([yshift=-5pt]left);
     \draw[bracket] ([yshift=-12pt]right) -- node[below] {$1$} ([yshift=-12pt]left);
 
-    \begin{scope}[scale=0.82,shift={(0,-0.124)}]
+    \begin{scope}[scale=0.76,shift={(0,-0.178)}]
         \hatshape[dotted]{1}{0}{\aa}{\bb}
         \draw[dotted] (midcenter) circle(\r);
     \end{scope}
@@ -190,11 +191,10 @@
     \pgfmathsetmacro{\b}{(#2)}
     \pgfmathsetmacro{\x}{(#3)}
     \pgfmathsetmacro{\round}{(#4)}
-    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
 
     \hatshape{1}{\round}{\a}{\b}
     \draw[dotted] (midcenter) circle(\r) node {$a$};
-    \draw[bracket] ([yshift=-20pt]right) -- node[below] {$1$} ([yshift=-20pt]left);
+    \draw[bracket] ([yshift=-20pt]right) -- node[below] {$w$} ([yshift=-20pt]left);
 
     \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
     \begin{scope}[shift={(\pgfmathresult,0)}]
@@ -234,7 +234,8 @@
     \pgfmathsetmacro{\b}{(#2)}
     \pgfmathsetmacro{\x}{(#3)}
     \pgfmathsetmacro{\round}{(#4)}
-    \pgfmathsetmacro{\f}{(1/(1+(1+cot(45-\b/2))^2/(1+cot(45-\a/2))^2))}
+    \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+    \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
 
     \hatshape{1}{\round}{\a}{\b}
 
@@ -243,28 +244,31 @@
         \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
         \begin{scope}[shift={(0,-\pgfmathresult)}]
             \pgfmathsetmacro{\hata}{\x}
-            \pgfmathsetmacro{\hatb}{max(\round,\f*(\x/\f-(1-\x)/(1-\f)))}
+            \pgfmathsetmacro{\hatb}{max(\round,\x-\g*(1-\x)/(\f)))}
+            \pgfmathsetmacro{\origa}{\a}
             \hatshape[draw=none]{\hata}{\hatb}{90}{\b}
             \draw[dashed] (midcenter) circle(\r) node {$a_i$};
             \draw[dashed] (topcenter) circle(\s) node {$y$};
-            \draw[bracket] ([shift={(11pt,11pt)}]top) -- node[sloped,above] {$d\sqrt{a_i}$} ([shift={(11pt,11pt)}]right);
+            \draw[bracket] ([shift={(19pt,19pt)}]top) -- node[sloped,above] {$d\sqrt{a_i}$} ([shift={(19pt,19pt)}]right);
 
             \begin{scope}[shift={(topcenter)}]
+                \hatshape{\hatb}{0}{\origa}{\b}
+                \draw[bracket] ([shift={(1pt,1pt)}]top) -- node[sloped,above] {$e\sqrt{y}$} ([shift={(1pt,1pt)}]right);
                 \hatshape{\hatb}{0}{90}{\b}
-                \draw[bracket] ([shift={(1pt,1pt)}]top) -- node[sloped,above] {$d\sqrt{y}$} ([shift={(1pt,1pt)}]right);
+                \draw[bracket] ([shift={(7pt,7pt)}]top) -- node[sloped,above] {$d\sqrt{y}$} ([shift={(7pt,7pt)}]right);
             \end{scope}
 
             \hatshape{\hata}{0}{90}{\b}
         \end{scope}
     \end{scope}
 
-    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt((\f)/pi)/tan(\b/2)}
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt((\g)/pi)/tan(\b/2)}
     \begin{scope}[shift={(\pgfmathresult,0)}]
-        \pgfmathparse{sqrt(1/pi)-sqrt((\f)/pi)}
+        \pgfmathparse{sqrt(1/pi)-sqrt((\g)/pi)}
         \begin{scope}[shift={(0,-\pgfmathresult)}]
-            \hatshape{\f}{0}{90}{\b}
+            \hatshape{\g}{0}{90}{\b}
             \draw[dashed] (midcenter) circle(\r) node {$f_i$};
-            \draw[bracket] ([shift={(6pt,6pt)}]top) -- node[sloped,above] {$d\sqrt{f_i}$} ([shift={(6pt,6pt)}]right);
+            \draw[bracket] ([shift={(13pt,13pt)}]top) -- node[sloped,above] {$d\sqrt{f_i}$} ([shift={(13pt,13pt)}]right);
         \end{scope}
     \end{scope}
 
@@ -281,6 +285,42 @@
     %        \end{scope}
     %    \end{scope}
     %\fi
+}
+
+% alpha, beta
+\newcommand\hatpokef[2]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\x}{1}
+    \pgfmathsetmacro{\round}{0}
+    \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+    \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
+
+    \hatshape{1}{\round}{\a}{\b}
+
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+    \begin{scope}[shift={(\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \pgfmathsetmacro{\hata}{\x}
+            \hatshape{\hata}{0}{90}{\b}
+            \draw[dashed] (midcenter) circle(\r) node {$a$};
+            \draw[bracket] ([shift={(11pt,11pt)}]top) -- node[sloped,above] {$d\sqrt{a}$} ([shift={(11pt,11pt)}]right);
+            %\coordinate (thetop) at (top);
+            \hatshape{\hata}{0}{90}{\b}
+        \end{scope}
+    \end{scope}
+
+    \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt((\g)/pi)/tan(\b/2)}
+    \begin{scope}[shift={(\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(1/pi)-sqrt((\g)/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \hatshape{\g}{0}{90}{\b}
+            \draw[dashed] (midcenter) circle(\r) node {$f_i$};
+            \draw[bracket] ([shift={(6pt,6pt)}]top) -- node[sloped,above] {$e\sqrt{a}$} ([shift={(6pt,6pt)}]right);
+            %\draw[bracket] ([shift={(6pt,6pt)}]thetop) -- node[sloped,above] {$x$} ([shift={(6pt,6pt)}]top);
+        \end{scope}
+    \end{scope}
 }
 
 \newcommand\squareworstcase{
@@ -315,8 +355,11 @@
     \draw[bracket] (-1.4697,0) -- node[below] {$1$} (-3.3257,0);
 }
 
-\newcommand\hatsimple{
-    \hatshape{1}{0.2}{45}{30}
+\newcommand\hatsimple[3]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\round}{(#3)}
+    \hatshape{1}{\round}{\a}{\b}
 
     \draw[dashed] (rightcenter) circle(\s) node {$b$};
     \draw[dashed] (leftcenter) circle(\s) node {$b$};
