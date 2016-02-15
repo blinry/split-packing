@@ -282,9 +282,9 @@ In some proofs, we will normalize the instances, shapes, or figures in question.
 A useful family of shapes, which can be packed into each other quite well, are rounded, non-acute triangles. We call these shapes \emph{hats}:
 
 \begin{definition}
-    For each $0 \le b \le a$, an \emph{$(a,b)$-hat} is a non-acute triangle with an incircle of area $a$, whose corners are rounded to the radius of a $b$-circle (see \Cref{fig:hat}).
+    For each $0 \le b \le a$, an \emph{$(a,b)$-hat} is a non-acute triangle with an incircle of area $a$, whose corners are rounded to the radius of a $b$-circle, see \Cref{fig:hat}. Call the triangle's longest side the hat's \emph{base}, and the triangle's angles to the left and to the right of the base the triangle's \emph{right-angle} and \emph{left-angle}.
     %An $a$-hat is an $(a,0)$-hat.
-    %If we say \emph{obtuse hat}, \emph{right hat}, or \emph{acute hat}, the hat is based on an obtuse/right/acute triangle.
+    If we say \emph{right hat} or \emph{obtuse hat}, the hat is based on a right/obtuse triangle.
 \end{definition}
 
 \begin{figure}[htbp!]
@@ -298,8 +298,8 @@ A useful family of shapes, which can be packed into each other quite well, are r
     \label{fig:hat}
 \end{figure}
 
-\begin{definition}
-    A hat's \emph{associated split key} equals the tuple of the areas of the two circles incribed in the hat's two sides when splitting the underlying triangle orthogonally to its base through its tip, see \Cref{fig:hatf}.
+\begin{definition}\label{def:hat-split-key}
+    A hat's \emph{associated split key} equals the tuple of the areas of the two circles incribed in the hat's two sides when splitting the underlying triangle orthogonally to its base through its tip. In \Cref{fig:hatf}, the split key would be $(f_1, f_2)$.
 \end{definition}
 
 \begin{figure}[htbp!]
@@ -309,7 +309,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
         \hatf{\defaulta}{\defaultb}{\defaultr}
     \end{tikzpicture}
 
-    \caption{A hat's \emph{associated split key} equals $\{f_1, f_2\}$}
+    \caption{A hat's \emph{associated split key} equals $(f_1, f_2)$}
     \label{fig:hatf}
 \end{figure}
 
@@ -345,66 +345,65 @@ A useful family of shapes, which can be packed into each other quite well, are r
 %%
 
 \begin{lemma}\label{th:hatsinhat}
-    Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its smaller angles $\alpha$ and $\beta$.
+    Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
     For each $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
     \begin{itemize}
-        \item A right $(a_1,a_1-f_1 r^*)$-hat with some angle of $\alpha$ and
-        \item a right $(a_2,a_2 - f_2 r^*)$-hat with some angle of $\beta$
+        \item A right $(a_1,a_1-f_1 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,a_2 - f_2 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$-hat with a left-angle of $\beta$.
     \end{itemize}
-    with $r^* = \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}$.
 \end{lemma}
 
 \begin{proof}
-    Place the hats' tips at the bottom of the hat and push them as far to the left/right as possible, like in \Cref{fig:hatsinhat}.
+    Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles towards the container's smaller angles and push them as far to the left/right as possible. Figure \Cref{fig:hatsinhat} demonstrates how this packing looks like for different values of $a_1$ and $a_2$.
 
     \begin{figure}[htbp!]
         \centering
 
-        \begin{tikzpicture}[scale=1.3]
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0.1}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+
+        \vspace{5mm}
+
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0.2}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
-            \hatsinhat{\defaulta}{\defaultb}{0.3}{0}
-        \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0.4}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+
+        \vspace{5mm}
+
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0.5}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
-            \hatsinhat{\defaulta}{\defaultb}{0.6}{0}
-        \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0.7}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
-            \hatsinhat{\defaulta}{\defaultb}{0.8}{0}
-        \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+
+        \vspace{5mm}
+
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0.9}{0}
         \end{tikzpicture}
-        \begin{tikzpicture}[scale=1.3]
+        \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{1}{0}
         \end{tikzpicture}
 
-        \caption{Hat-in-hat packings for different split ratios}
+        \caption{Hat-in-hat packings for different values of $a_1$ and $a_2$}
         \label{fig:hatsinhat}
     \end{figure}
 
-    This placement constitutes a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are now going to proof these two properties.
+    This placement constitutes a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
 
     \begin{itemize}
         \item[(1)]
-            We have to show that the hats do not overlap each other.
+            We want to show that the hats do not overlap each other.
 
-            To do so, we first normalize the container hat's width to 1 and make an observation about the partial widths $l$ and $r$ in \Cref{fig:hatlr}: If the top angle is a right angle, the partial widths have the same lengths as the triangle's two cathetus $x$ and $y$, so $l^2 + r^2 = 1$. If the top angle is obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant), both $l$ and $r$ shrink, so for each hat, $l^2 + r^2 \le 1$, or $r \le \sqrt{1-l^2}$.
+            We first normalize the container hat's width to 1 and make an observation about the partial widths $l$ and $r$ in \Cref{fig:hatlr}: If the top angle is a right angle, the partial widths have the same lengths as the triangle's two cathetus $x$ and $y$, so by Pythagoras, $l^2 + r^2 = 1$. If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant), both $l$ and $r$ shrink, so for each hat, $l^2 + r^2 \le 1$, or $r \le \sqrt{1-l^2}$.
 
             \begin{figure}[htbp!]
                 \centering
@@ -417,7 +416,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \label{fig:hatlr}
             \end{figure}
 
-            We then observe that the two hats which we want to pack don't overlap if their incircles don't overlap. If we surround the incircles with triangles similar to the container's triangle, like in \Cref{fig:hatsoverlap}, we can see that they don't overlap if $lf + rg \le w$ holds.
+            We then observe that the two hats do not overlap if their incircles don not overlap. If we enclose these incircles with hats similar to the container, like in \Cref{fig:hatsoverlap}, we see that they do not overlap if $lf + rg \le w$ holds.
 
             Also note that for similar hats, the ratio between their incircle's area and the square of their widths is constant. This means that if $a_1 + a_2 \le a$, then $f^2 + g^2 \le w^2$. Thus, $g \le \sqrt{w^2-f^2}$.
 
@@ -438,23 +437,24 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 lf + rg
                 &\le lf + \sqrt{1-l^2} \sqrt{w^2-f^2}\\
                 &= lf + \sqrt{(1-l^2)(w^2-f^2)}\\
-                &= lf + \sqrt{w - w^2l^2 - f^2 + l^2f^2}\\
-                &\le lf + \sqrt{w - 2wlf + l^2f^2}\tag{\theequation}\label{eq:am-gm}\\
+                &= lf + \sqrt{w - \textcolor{blue}{l^2w^2} - \textcolor{blue}{f^2} + l^2f^2}\\
+                &\le lf + \sqrt{w - \textcolor{orange}{2lwf} + l^2f^2}\tag{\theequation}\label{eq:am-gm}\\
                 &= lf + \sqrt{(w-lf)^2}\\
                 &= w
             \end{align*}
 
-            Line \ref{eq:am-gm} is a consequence of the inequality of arithmetic and geometric means: $\frac{wl+f}{2} \ge \sqrt{wlf} \Rightarrow \frac{(wl+f)^2}{4} \ge wlf \Rightarrow w^2l^2 + 2 wlf + f^2 \ge 4 wlf \Rightarrow w^2l^2 + f^2 \ge 2wlf$
+            Line \ref{eq:am-gm} is a consequence of the inequality of arithmetic and geometric means: $\frac{lw+f}{2} \ge \sqrt{lwf} \Rightarrow \frac{(lw+f)^2}{4} \ge lwf \Rightarrow l^2w^2 + 2 lwf + f^2 \ge 4 lwf \Rightarrow \textcolor{blue}{l^2w^2 + f^2} \ge \textcolor{orange}{2lwf}$.
 
         \item[(2)]
             The second property we need to show is that the hats fit inside the container individually.
 
-            If a hat's incircle area $a_i < f_i$, its incircle is smaller than the incircle of the container hat's side, so it will fit inside without question.
+            If a hat's incircle area $a_i < f_i$, its incircle is smaller than the incircle of the container hat's side, so it will fit inside without question (like all the not-rounded hats in \Cref{fig:hatsinhat}).
 
-            So let us assume $a_i \ge f_i$. For this proof, normalize the container hat's incircle to 1. Again, for triangles similar to the container hat's right side, the ratio between the square root of the incircle's area and the longest side is constant, call this constant $d$, see \Cref{fig:hatpokef}.
-
+            So let us assume $a_i \ge f_i$. For this proof, normalize the container hat's incircle to 1. Again, for hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
             %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hatpokef}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
-            Also, we are interested in the ratio between the square root of the incircle's area of a triangle similar to the container triangle and the length of its right side. We call this ratio $e$. In \Cref{fig:hatpokef} we can observe that
+            We are also interested in the ratio between the square root of the incircle's area of a triangle similar to the container triangle and the length of its right side. We call this ratio $e$. See \Cref{fig:hatpokef} for an illustration of $d$ and $e$.
+
+            From the same figure we can observe that
 
             $$e\sqrt{a} = d\sqrt{f_i} \iff e = d\sqrt{\frac{f_i}{a}}$$
 
@@ -484,30 +484,27 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \label{fig:hatpoke}
             \end{figure}
 
-            The hat to be packed is placed in such a way that it will never overlap the bottom or the right side of the containing triangle, so it is sufficient to show that it does not overlap the left side.
-            %We can tell from \Cref{fig:hatpoke} that this does not happen if the width of the hat's triangle ($d\sqrt{a_i}$), minus the distance between the triangle's upper corner and the tangent to $y$ (...) is at most the length of the container triangle's right side ($d\sqrt{f_i}$).
+            The hat is placed in such a way that it will never overlap the bottom or the right side of the containing triangle, so it is sufficient to show that it does not overlap the left side.
+            We can tell from \Cref{fig:hatpoke} that this does not happen if the width of the hat's triangle ($d\sqrt{a_i}$), minus the width of the $(y,0)$-triangle similar to the containers right side ($d\sqrt{y}$), plus the length of the right side of the $(y,0)$-triangle similar to the container ($e\sqrt{y}$) is at most the length of the container triangle's right side ($d\sqrt{f_i}$):
 
             \begin{align*}
                 d\sqrt{a_i} - d\sqrt{y} + e\sqrt{y} \le d\sqrt{f_i}\\
             \end{align*}
 
-            We replace $e$:
+            We replace $e$ as by the above observation:
 
             \begin{align*}
                 d\sqrt{a_i} - d\sqrt{y} + d\sqrt{\frac{f_i}{a}}\sqrt{y} \le d\sqrt{f_i}\\
             \end{align*}
 
-            We can immediately cancel out $d$:
+            And immediately divide by $d$:
 
             \begin{align*}
                 \sqrt{a_i} - (1-\sqrt{f_i})\sqrt{y} \le \sqrt{f_i}
             \end{align*}
 
-            As the relative filling level of this hat is higher than that of the other one, this hat is rounded by $y = a - f\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$.
-
-            %$$\sqrt{f+z} - (1-\sqrt{f})\sqrt{\frac{z}{1-f}} \le \sqrt{f}$$
-
-            Substitute $f_i = b^2$ and $a_i-f_i = c^2$, and the inequality becomes
+            By \Cref{th:split-property}, the hat is rounded by $y = a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$.
+            Also substitute $f_i = b^2$ and $a_i-f_i = c^2$, and the inequality becomes
 
             $$\sqrt{b^2+c^2} - (1-b)\frac{c}{\sqrt{1-b^2}} \le b$$
 
@@ -515,9 +512,11 @@ A useful family of shapes, which can be packed into each other quite well, are r
 
             $$b^2+c^2 \le b^2 + \frac{2b(1-b)c}{\sqrt{1-b^2}} + (1-b)^2\frac{c^2}{1-b^2}$$
 
-            Subtract $b^2$, divide by $c$ and rearrange.
+            Subtract $b^2$, divide by $c$, and rearrange, then multiply with $\sqrt{1-b^2}$:
 
             $$c\frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}} \le \frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}}\sqrt{1-b^2}$$
+
+            Divide by the large fraction, and resubstitute:
 
             \begin{align*}
                 &c \le \sqrt{1-b^2}\\
@@ -526,17 +525,23 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \iff &a_i \le 1\\
             \end{align*}
 
-            As $a_i$ is never larger than 1, the condition is true and the hat always fits into the container.
+            As $a_i$ is never larger than 1, the original condition is true and the hat always fits into the container.
     \end{itemize}
 \end{proof}
 
 \begin{lemma}\label{th:roundedhatsinhat}
-    For each $(a,b)$-hat with the associated split key $F$,
-    for each $a_1 + a_2 = a$, there are two $(F,b)$-rounded right hats with incircle areas of $a_1$ and $a_2$, which can be packed into the hat.
+    %For each $(a,b)$-hat with the associated split key $F$,
+    %for each $a_1 + a_2 = a$, there are two $(F,b)$-rounded right hats with incircle areas of $a_1$ and $a_2$, which can be packed into the hat.
+    Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
+    For each $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    \begin{itemize}
+        \item A right $(a_1,\max\{b,a_1-f_1 \min\{\frac{a_1}{f_1}}, \frac{a_2}{f_2}\}\})$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,\max\{a_2 - f_2 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\})$-hat with a left-angle of $\beta$.
+    \end{itemize}
 \end{lemma}
 
 \begin{proof}
-    \label{th:hatsinhat} tells us that this theorem is true for $b = 0$. Now, the container's corners are now rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But as the two hats are $(F,b)$-rounded, all of their corners are also rounded to (at least) the same radius, so they will never overlap the container, see \Cref{fig:rounding-hats}.
+    \Cref{th:hatsinhat} tells us that this theorem is true for $b = 0$. Now, the container's corners can be rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But all of the two hat's corners are also rounded to (at least) the same radius, so they will never overlap the container, see \Cref{fig:rounding-hats}.
 \end{proof}
 
 \begin{figure}[htbp!]
@@ -558,7 +563,11 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \end{theorem}
 
 \begin{proof}
-    \Cref{th:roundedhatsinhat} and \Cref{th:split-tangle}, it follows directly that the hat is a $\C(a,b)$-shape.
+    \Cref{def:hat-split-key} tells us how to compute the split key $F$.
+
+    \Cref{th:roundedhatsinhat} tells us how to determine two shapes which always fit into the hat. It's left to show that these shapes are $(F,b)$-rounded. We proceed by induction:
+
+    and \Cref{th:split-tangle}, it follows directly that the hat is a $\C(a,b)$-shape.
 \end{proof}
 
 \chapter{Triangles}

@@ -176,8 +176,8 @@
     \draw[dashed] (rc) -- (r);
 
     \draw[bracket] ([yshift=-2pt]right) -- node[below] {$r$} ([yshift=-2pt]l);
-    \draw[bracket] ([yshift=-5pt]r) -- node[below] {$l$} ([yshift=-5pt]left);
-    \draw[bracket] ([yshift=-12pt]right) -- node[below] {$1$} ([yshift=-12pt]left);
+    \draw[bracket] ([yshift=-9pt]r) -- node[below] {$l$} ([yshift=-9pt]left);
+    \draw[bracket] ([yshift=-16pt]right) -- node[below] {$1$} ([yshift=-16pt]left);
 
     \begin{scope}[scale=0.76,shift={(0,-0.178)}]
         \hatshape[dotted]{1}{0}{\aa}{\bb}
@@ -194,7 +194,7 @@
 
     \hatshape{1}{\round}{\a}{\b}
     \draw[dotted] (midcenter) circle(\r) node {$a$};
-    \draw[bracket] ([yshift=-20pt]right) -- node[below] {$w$} ([yshift=-20pt]left);
+    \draw[bracket] ([yshift=-23pt]right) -- node[below] {$w$} ([yshift=-23pt]left);
 
     \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
     \begin{scope}[shift={(\pgfmathresult,0)}]
@@ -205,8 +205,8 @@
             \pgfmathsetmacro{\r}{sqrt(\x/pi)}
             \coordinate (r) at ($(midcenter)+(-\r,-\r)$);
             \draw (midcenter) circle(\r) node {$a_2$};
-            \draw[bracket] ([yshift=-1pt]right) -- node[below] {$g$} ([yshift=-1pt]left);
-            \draw[bracket] ([yshift=-12pt]right) -- node[below] {$rg$} ([yshift=-12pt]r);
+            \draw[bracket] ([yshift=-2pt]right) -- node[below] {$g$} ([yshift=-2pt]left);
+            \draw[bracket] ([yshift=-16pt]right) -- node[below] {$rg$} ([yshift=-16pt]r);
         \end{scope}
     \end{scope}
 
@@ -221,8 +221,8 @@
                 \pgfmathsetmacro{\r}{sqrt((1-\x)/pi)}
                 \coordinate (l) at ($(midcenter)+(\r,-\r)$);
                 \draw (midcenter) circle(\r) node {$a_1$};
-                \draw[bracket] ([yshift=-4pt]right) -- node[below] {$f$} ([yshift=-4pt]left);
-                \draw[bracket] ([yshift=-12pt]l) -- node[below] {$lf$} ([yshift=-12pt]left);
+                \draw[bracket] ([yshift=-9pt]right) -- node[below] {$f$} ([yshift=-9pt]left);
+                \draw[bracket] ([yshift=-16pt]l) -- node[below] {$lf$} ([yshift=-16pt]left);
             \end{scope}
         \end{scope}
     \fi
@@ -246,7 +246,7 @@
             \pgfmathsetmacro{\hata}{\x}
             \pgfmathsetmacro{\hatb}{max(\round,\x-\g*(1-\x)/(\f)))}
             \pgfmathsetmacro{\origa}{\a}
-            \hatshape[draw=none]{\hata}{\hatb}{90}{\b}
+            \hatshape[draw=none,filled2]{\hata}{\hatb}{90}{\b}
             \draw[dashed] (midcenter) circle(\r) node {$a_i$};
             \draw[dashed] (topcenter) circle(\s) node {$y$};
             \draw[bracket] ([shift={(19pt,19pt)}]top) -- node[sloped,above] {$d\sqrt{a_i}$} ([shift={(19pt,19pt)}]right);
