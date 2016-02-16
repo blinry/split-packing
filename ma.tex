@@ -125,7 +125,7 @@ We will give a constructive proof that this is indeed the case.
 
 \chapter{Preliminaries}
 
-\section{Circle instances}
+%\section{Circle instances}
 
 We start off with some definitions which make our life easier when talking about circles and circle instances:
 
@@ -151,13 +151,13 @@ We start off with some definitions which make our life easier when talking about
 
 The core idea of the proposed packing algorithms is to repeatedly split the set of input circles into groups. The method which performs this splitting resembles a greedy scheduling algorithm. It is going to be important for the packing algorithm that the ratio of the groups' sizes is close to certain factors.
 
-The algorithm, \textsc{Split}, takes two parameters: The first is an arbitrary circle instance $C$. The second is a tuple of positive factors, which determines which percentages of $C$'s total area should go into the respective groups. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$, and if we wanted to split $C$ into four groups with the proportions 1:1:1:3, we could use $(1,1,1,3)$. We call this tuple the \emph{split key}:
+The algorithm, \textsc{Split}, takes two parameters: The first is an arbitrary circle instance $C$. The second is a tuple of positive factors, which determines which percentages of $C$'s total area should go into the respective groups. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$, and if we wanted to split $C$ into four groups with the proportions 1:1:3:3, we could use $(1,1,3,3)$. We call this tuple the \emph{split key}:
 
 \begin{definition}
     A \emph{split key} is a tuple of at least two positive real numbers.
 \end{definition}
 
-Of course, it will not always be possible to achieve this desired ratio exactly (for example if the input instance consists of few very large---or even only one---circle), but we can derive some properties from the resulting subinstances if the resulting group's sizes derive from the split key.
+Of course, it will not always be possible to achieve this desired ratio exactly (for example if the input instance consists of few very large---or even only one---elements), but we can derive some properties from the resulting subinstances if the resulting group's sizes derive from the split key.
 
 In each step, \textsc{Split} adds the largest remaining circle of the input instance to the “emptiest” group---the group where the ratio between the current total sum and the associated factor of the split key is the smallest. The scenario which is easiest to imagine is when the split key actually describes the desired total area of that group, and \textsc{Split} puts the next circle into the group which has the smallest “filling level”.
 
@@ -178,16 +178,40 @@ In each step, \textsc{Split} adds the largest remaining circle of the input inst
 \end{algorithm}
 
 \begin{theorem}\label{th:split-property}
-    For any circle instance $C$ and any split key $F = (f_1, f_2, \dots, f_n)$, \textsc{Split}$(C,F)$ decomposes $C$ into $n$ circle instances with $C_0 + C_1 + \dots + C_n = C$. 
+    For any circle instance $C$ and any split key $F = (f_1, f_2, \dots, f_n)$, \textsc{Split}$(C,F)$ decomposes $C$ into $n$ circle instances with $C_1 + C_2 + \dots + C_n = C$. 
     Call the instances' sums $a_1, a_2, \dots, a_n$, and define $r_i = \frac{a_i}{f_i}$ as the relative filling level of $C_i$.
-    Set $r^* = \min\{r_0,r_1,\dots,r_n\}$.
-    Then all $c \in C_i$ have a size of at least $f_i(r_i-r^*) = a_i - f_i r^*$.
+    Set $r^* = \min\{r_1,r_2,\dots,r_n\}$.
+    Then all elements $c \in C_i$ have a size of at least $f_i(r_i-r^*) = a_i - f_i r^*$.
 \end{theorem}
 
 \begin{proof}
     Assume for contradicion $C_i$ contained an element smaller than $f_i(r_i-r^*)$. All elements which were put into $C_i$ after that have to be at least as small, as the elements were sorted by descending size. So the last element put into $C_i$ (let us call it $c$) would be smaller than $f_i(r_i-r^*)$, as well.
     But this means that $\frac{\mysum(C_i) - c}{f_i} > \frac{\mysum(C_i) - f_i(r_i-r^*)}{f_i} = r_i - (r_i-r^*) = r^*$, meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than $r^*$. But $r^*$ is the smallest relative filling level by the time the algorithm ends, so when $c$ is inserted, it would have been at least as small. But this is a contradiction to the algorithm's greedy nature, as \textsc{Split} would not have but $c$ into $C_i$ in this situation.
 \end{proof}
+
+%Here is a definition that makes it easier to talk about 
+%The next definition looks a bit weird, but makes it easier to talk about multiple shapes:
+To make it easier to talk about the properties of \textsc{Split}, we introduce the following definition:
+
+%\begin{definition}\label{def:rounded}
+%    For any split key $F$ of length $n$, we say that a tuple of $n$ shapes is \emph{$(F,b)$-rounded}, if the $i$-th shape is a $\C(a_i, \min\{b,a_i - f_i r^*\})$-shape, with $r^* = \max\{\frac{a_i}{f_i}|i \in 1,2,\dots,n\}$.
+%\end{definition}
+
+\begin{definition}\label{def:rounded}
+    For any split key $F = (f_1, f_2, \dots, f_n)$ and any $b \ge 0$ we say that $n$ tuples $(a_1, b_1)$, $(a_2, b_2)$, $\dots$, $(a_n, b_n)$ are \emph{$(F,b)$-rounded} if each $b_i = \max\{b,a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}, \dots, \frac{a_n}{f_n}\}\}$.
+\end{definition}
+
+\begin{lemma}\label{th:split-sets}
+    For any $C \in \C(a,b)$, and any split key $F = (f_1, f_2, \dots, f_n)$, \textsc{Split}$(c,F)$ produces $n$ subinstances $C_1 \in \C(a_1, b_1), C_2 \in \C(a_2, b_2), \dots, C_n \in \C(a_n, b_n)$, where the $a_1 + a_2 + \dots + a_n = a$ and where the instance sets' parameters are $(F,b)$-rounded.
+\end{lemma}
+
+\begin{proof}
+    As all elements in $C$ have at least a size of $b$, it's clear that the subinstances have this property, as well. Additionally, by \Cref{th:split-property}, $C_i \in \C(a_i, a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}, \dots, \frac{a_n}{f_n}\})$.
+\end{proof}
+
+%What is means for shapes to be $(F,b)$-rounded is that we lift some requirements on which instances they need to be able to pack. We combine two lower bounds for the minimum size of the instances: First, the shapes never need to be able to pack any instances containing circles smaller than $b$. Second, they reflect the \textsc{Split}-algorithm's minimum element sizes stated in \Cref{th:split-property}. If a subinstance $C_i$ returned by \textsc{Split} can not possibly contain any circles smaller than a certain size, it makes sense to also relax the requirements for the shapes in which these subinstances will be packed: It suffices if they can pack those instances where the circles have this minimum size. Whichever of the two circle sizes requirements is largest, determines the “minimum size” of the rounded shape.
+
+%Put differently, to have $F$-rounded shapes of the correct totals is a sufficient condition to be able to pack resulting subinstances of a \textsc{Split} operation into them. This is expressed in the following lemma:
 
 \section{Shapes, Rounding, and Split Packing}
 
@@ -210,38 +234,28 @@ Recall that $\C(a,b)$ contains all circle instances with a total area of $a$ and
 %    A shape is a $\mathcal{C}$-shape, if, for a given decomposition method, for all possible decompositions $C_1, C_2, \dots, C_n$ of any $C \in \mathcal{C}$, one can always find $n$ shapes in which the resulting subinstances can be packed, and which fit into the original shape.
 %\end{theorem}
 
-%Here is a definition that makes it easier to talk about 
-The next definition looks a bit weird, but makes it easier to talk about multiple shapes:
-
-\begin{definition}\label{def:tangled}
-    For any split key $F$ of length $n$, we say that a tuple of $n$ shapes is \emph{$(F,b)$-rounded}, if the $i$-th shape is a $\C(a_i, \min\{b,a_i - f_i r^*\})$-shape, with $r^* = \max\{\frac{a_i}{f_i}|i \in 1,2,\dots,n\}$.
-\end{definition}
-
-What is means for shapes to be $(F,b)$-rounded is that we lift some requirements on which instances they need to be able to pack. We combine two lower bounds for the minimum size of the instances: First, the shapes never need to be able to pack any instances containing circles smaller than $b$. Second, they reflect the \textsc{Split}-algorithm's minimum element sizes stated in \Cref{th:split-property}. If a subinstance $C_i$ returned by \textsc{Split} can not possibly contain any circles smaller than a certain size, it makes sense to also relax the requirements for the shapes in which these subinstances will be packed: It suffices if they can pack those instances where the circles have this minimum size. Whichever of the two circle sizes requirements is largest, determines the “minimum size” of the rounded shape.
-
-%Put differently, to have $F$-rounded shapes of the correct totals is a sufficient condition to be able to pack resulting subinstances of a \textsc{Split} operation into them. This is expressed in the following lemma:
-
 %\begin{theorem}
 %    A shape is a $\C(a,b)$-shape, if there is a split key $F$, so that for all $a_1 + a_2 + \dots + a_n \le a$, one can find a $\C(a_1)$-shape, a $\C(a_2)$-shape, \dots, and a $\C(a_n)$-shape, which are $F$-rounded and fit into the original shape.
 %\end{theorem}
 
-\begin{lemma}\label{th:split-tangle}
-    Given an arbitrary $C \in \C(a,b)$ and a split key $F$, use \textsc{Split}$(C,F)$ to decompose $C$ into $n$ subinstances. Call the subinstances' totals $a_1$, $a_2$, \dots, $a_n$. If we can find $n$ $(F,b)$-rounded shapes where the $i$-th shape has a total of $a_i$, we can pack $C$ into the shapes.
+\begin{lemma}\label{th:split-rounded}
+    Given an arbitrary $C \in \C(a,b)$ and a split key $F$, use \textsc{Split}$(C,F)$ to decompose $C$ into $n$ subinstances. Call the subinstances' totals $a_1$, $a_2$, \dots, $a_n$. If we can find a $\C(a_1, b_1)$-shape, a $\C(a_2, b_2)$-shape, \dots, and a $\C(a_n, b_n)$-shape, so that the shapes' parameters are $(F,b)$-rounded, we can pack $C$ into the shapes.
 \end{lemma}
 
 \begin{proof}
-    By \Cref{th:split-property}, \textsc{Split} only produces subinstance $C_i \in \C(a_i, (a_i, a_i-f_i r^*))$. Also, because each $C_i \subseteq C$, $C_i \in \C(a,b)$. So, $C_i \in \C(a_i, \min\{b,a_i - f_i r^*\})$, and as our shapes are $(F,b)$-rounded, \Cref{def:tangled} guarantees that the $i$-th subinstance can be packed into the $i$-th shape.
+    We know from \Cref{th:split-sets} that \textsc{Split} only produces subinstances $C_i \in \C(a_i, b_i)$ so that the instance set's parameters are $(F,b)$-rounded. As the $i$-th shape is a $\C(a_i, b_i)$ shape, we can pack $C_i$ into it.
 \end{proof}
 
 With these preparations, we can now state our main theorem:
 
 \begin{theorem}[Split Packing]\label{th:splitpack}
     For a given shape $s$, and for any $0 \le b < a$, if there is a split key $F$ of length $n$, so that for all tuples $(a_1, a_2, \dots, a_n)$ with $a_1 + a_2 + \dots + a_n \le a$
-    one can find $n$ $(F,b)$-rounded shapes where the $i$-th shape has a total of $a_i$, and these shapes can be packed into $s$, then $s$ is a $\C(a,b)$-shape.
+    one can find a $\C(a_1, b_1)$-shape, a $\C(a_2, b_2)$-shape, \dots, and a $\C(a_n, b_n)$-shape, so that the shapes' parameters are $(F,b)$-rounded
+    and these shapes can be packed into $s$, then $s$ is a $\C(a,b)$-shape.
 \end{theorem}
 
 \begin{proof}
-    Consider an arbitrary $C \in \C(a,b)$. Regardless of which groups \textsc{Split} produces, we know from \Cref{th:split-tangle} that we can always pack them into our $(F,b)$-rounded shapes. As these shapes (by assumption) also fit into $s$, we know that we can pack $C$ into $s$.
+    Consider an arbitrary $C \in \C(a,b)$. Regardless of which groups \textsc{Split} produces, we know from \Cref{th:split-rounded} that we can always pack them into our $(F,b)$-rounded shapes. As these shapes (by assumption) also fit into $s$, we know that we can pack $C$ into $s$.
 \end{proof}
 
 As this theorem is important for the whole thesis, let us rephrase it: \Cref{th:splitpack} encapsulates what is sufficient to proof that a shape is a $\C(a,b)$-shape: Find a shape-specific split key $F$ and show that for all possible decompositions of the area $a$ (which is going to be perfomed by \textsc{Split}), that one can find $(F,b)$-rounded shapes of matching sums that fit into the original shape.
@@ -273,11 +287,13 @@ One needs the following elements to use \textsc{Splitpack} for a shape:
 
 To proof that the shape is indeed a $\C(a,b)$-shape, one needs to show that these three strategies always work.
 
-\section{Normalization}
+%\section{Normalization}
 
-In some proofs, we will normalize the instances, shapes, or figures in question. For example, we can scale all areas involved up by a factor of $f$, as long as we scale all lengths up by a factor of $\sqrt{f}$.
+%In some proofs, we will normalize the instances, shapes, or figures in question. For example, we can scale all areas involved up by a factor of $f$, as long as we scale all lengths up by a factor of $\sqrt{f}$.
 
-\chapter{Hats}
+\chapter{Shapes}
+
+\section{Hats}
 
 A useful family of shapes, which can be packed into each other quite well, are rounded, non-acute triangles. We call these shapes \emph{hats}:
 
@@ -346,10 +362,10 @@ A useful family of shapes, which can be packed into each other quite well, are r
 
 \begin{lemma}\label{th:hatsinhat}
     Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
-    For each $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    For all $(F,0)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
     \begin{itemize}
-        \item A right $(a_1,a_1-f_1 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$-hat with a right-angle of $\alpha$ and
-        \item a right $(a_2,a_2 - f_2 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$-hat with a left-angle of $\beta$.
+        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
     \end{itemize}
 \end{lemma}
 
@@ -503,7 +519,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 \sqrt{a_i} - (1-\sqrt{f_i})\sqrt{y} \le \sqrt{f_i}
             \end{align*}
 
-            By \Cref{th:split-property}, the hat is rounded by $y = a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$.
+            By assumption, the hat is rounded by $y = a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$.
             Also substitute $f_i = b^2$ and $a_i-f_i = c^2$, and the inequality becomes
 
             $$\sqrt{b^2+c^2} - (1-b)\frac{c}{\sqrt{1-b^2}} \le b$$
@@ -530,13 +546,11 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \end{proof}
 
 \begin{lemma}\label{th:roundedhatsinhat}
-    %For each $(a,b)$-hat with the associated split key $F$,
-    %for each $a_1 + a_2 = a$, there are two $(F,b)$-rounded right hats with incircle areas of $a_1$ and $a_2$, which can be packed into the hat.
     Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
-    For each $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    For all $(F,b)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
     \begin{itemize}
-        \item A right $(a_1,\max\{b,a_1-f_1 \min\{\frac{a_1}{f_1}}, \frac{a_2}{f_2}\}\})$-hat with a right-angle of $\alpha$ and
-        \item a right $(a_2,\max\{a_2 - f_2 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\})$-hat with a left-angle of $\beta$.
+        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
     \end{itemize}
 \end{lemma}
 
@@ -559,18 +573,24 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \end{figure}
 
 \begin{theorem}
-    An $(a,b)$-hat is a $\C(a,b)$-shape.
+    Each $(a,b)$-hat is a $\C(a,b)$-shape.
 \end{theorem}
 
 \begin{proof}
     \Cref{def:hat-split-key} tells us how to compute the split key $F$.
 
+    We proof by induction that we can pack each $c \in \C(a,b)$ into the hat:
+
+    If $c$ only consists of a single $a_1$-circle it can be packed into the hat, as it is as most as big as the hat's incircle of area $a$.
+
+    Assume that for each $(a,b)$-hat, all instances in $\C(a,b)$ with at most $n$ circles can be packed. Consider an instance $c$ containing $n+1$ circles. Then we know from \Cref{th:split-rounded} that \textsc{Split} will partition $c$ into two subinstances
+
     \Cref{th:roundedhatsinhat} tells us how to determine two shapes which always fit into the hat. It's left to show that these shapes are $(F,b)$-rounded. We proceed by induction:
 
-    and \Cref{th:split-tangle}, it follows directly that the hat is a $\C(a,b)$-shape.
+    and \Cref{th:split-rounded}, it follows directly that the hat is a $\C(a,b)$-shape.
 \end{proof}
 
-\chapter{Triangles}
+\section{Triangles}
 
 \begin{theorem}
     For any non-acute triangle with an incircle of area $a$, for any $b > a$ there are instances in $\C(b)$ which cannot be packed into the triangle.
@@ -634,7 +654,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 %We are now ready to prove our main theorem:
 %
 
-\chapter{Squares}
+\section{Squares}
 
 \begin{lemma}
     If the circle instance shown in \Cref{fig:b} has a combined area of $a$, the square has an area of $\frac{3+2\s}{\pi}a \approx 1.85525a$. Call this worst-case factor $\Psi$.
