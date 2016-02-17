@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{mathtools}
 \usepackage[nameinlink]{cleveref}
     \newtheorem{theorem}{Theorem}
     \newtheorem{corollary}{Corollary}
@@ -26,7 +27,10 @@
 \usepackage{algpseudocode}
     \renewcommand{\algorithmicrequire}{\textbf{Input:}}
     \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{chngcntr}
+    \counterwithout{equation}{chapter}
 
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\s}{\sqrt{2}}
 \DeclareMathOperator{\mysum}{sum}
+\DeclareMathOperator*{\argmin}{arg\,min}
