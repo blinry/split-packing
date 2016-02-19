@@ -1,0 +1,34 @@
+\chapter{Introduction}
+
+\begin{figure}[htbp!]
+    \centering
+
+    \begin{tikzpicture}[scale=2.5]
+        \squareworstcase
+    \end{tikzpicture}
+
+    \caption{Worst-case instance for packing density?}
+    \label{fig:worst-case}
+\end{figure}
+
+Consider the circle packing shown in \Cref{fig:worst-case}. For these two circles, the surrounding square is the smallest one in which the circles can be packed. Originally, we considered the following problem: Does this instance constitute the worst case in terms of packing density, or is there a set of circles with the same combined area that cannot be packed into this square? Put differently, can all other sets of circles with the same combined area as these two
+(like the one in \Cref{fig:big-question})
+be packed into this specific square?
+We will give a constructive proof that this is indeed the case.
+
+\begin{figure}[htbp!]
+    \centering
+
+    \begin{tikzpicture}[scale=2.5]
+        \bigquestion
+    \end{tikzpicture}
+
+    \caption{Can these circles be packed?}
+    \label{fig:big-question}
+\end{figure}
+
+%Furthermore, we will describe an algorithm which is able to pack circles into non-acute triangles with worst-case density.
+
+\section{Prior work}
+
+The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was first posed by \cite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\frac{\pi}{16} \approx 0.196349$.

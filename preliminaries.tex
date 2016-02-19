@@ -1,0 +1,20 @@
+\chapter{Preliminaries}
+
+\section{Circle instances}
+
+We start off with some definitions which make our life easier when talking about circle instances:
+
+\begin{definition}
+    For each $0 \le a$, an \emph{$a$-circle} is a circle with an area of $a$.
+\end{definition}
+
+\begin{definition}
+    A \emph{circle instance} is a multiset of non-negative real numbers, which define the circles' areas. Addition of circle instances is defined like on multisets.
+    For any circle instance $C$, $\mysum(C)$ is the combined area of the instance's circles and $\min(C)$ is the area of the smallest circle contained in the instance.
+\end{definition}
+
+For example, for the circle instance $C = \{3,2,1,4\}$, $\mysum(C) = 10$ and $\min(C) = 1$.
+
+\begin{definition}
+    $\C$ is the set of all circle instances. $\C(a)$ consist of exactly those circle instances $C$ with $\mysum(C) \le a$. Finally, $\C(a,b)$ consists of exactly those circle instances $C \in \C(a)$ with $\min(C) \ge b$.
+\end{definition}
