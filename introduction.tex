@@ -1,34 +1,91 @@
 \chapter{Introduction}
 
-\begin{figure}[htbp!]
-    \centering
-
-    \begin{tikzpicture}[scale=2.5]
-        \squareworstcase
-    \end{tikzpicture}
-
-    \caption{Worst-case instance for packing density?}
-    \label{fig:worst-case}
-\end{figure}
-
-Consider the circle packing shown in \Cref{fig:worst-case}. For these two circles, the surrounding square is the smallest one in which the circles can be packed. Originally, we considered the following problem: Does this instance constitute the worst case in terms of packing density, or is there a set of circles with the same combined area that cannot be packed into this square? Put differently, can all other sets of circles with the same combined area as these two
-(like the one in \Cref{fig:big-question})
-be packed into this specific square?
-We will give a constructive proof that this is indeed the case.
-
-\begin{figure}[htbp!]
-    \centering
-
-    \begin{tikzpicture}[scale=2.5]
-        \bigquestion
-    \end{tikzpicture}
-
-    \caption{Can these circles be packed?}
-    \label{fig:big-question}
-\end{figure}
+%\begin{figure}[htbp!]
+%    \centering
+%
+%    \begin{tikzpicture}[scale=2.5]
+%        \squareworstcase
+%    \end{tikzpicture}
+%
+%    \caption{Worst-case instance for packing density?}
+%    \label{fig:worst-case}
+%\end{figure}
+%
+%Consider the circle packing shown in \Cref{fig:worst-case}. For these two circles, the surrounding square is the smallest one in which the circles can be packed. Originally, we considered the following problem: Does this instance constitute the worst case in terms of packing density, or is there a set of circles with the same combined area that cannot be packed into this square? Put differently, can all other sets of circles with the same combined area as these two
+%(like the one in \Cref{fig:big-question})
+%be packed into this specific square?
+%We will give a constructive proof that this is indeed the case.
+%
+%\begin{figure}[htbp!]
+%    \centering
+%
+%    \begin{tikzpicture}[scale=2.5]
+%        \bigquestion
+%    \end{tikzpicture}
+%
+%    \caption{Can these circles be packed?}
+%    \label{fig:big-question}
+%\end{figure}
 
 %Furthermore, we will describe an algorithm which is able to pack circles into non-acute triangles with worst-case density.
 
-\section{Prior work}
+\section{Results}
 
-The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was first posed by \cite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\frac{\pi}{16} \approx 0.196349$.
+We give a constructive proof that all circle instances with a combined area of $a$ can be packed into all non-acute triangles with an incircle not larger than $a$.
+
+Furthermore, ...
+
+\section{Related work}
+
+\paragraph{History}
+
+\paragraph{Offline in squares}
+
+The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was posed by \cite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\frac{\pi}{16} \approx 0.196349$.
+
+\paragraph{Offline in strips}
+
+\paragraph{Online}
+
+?
+
+\paragraph{Hardness}
+
+The decision problem whether it is possible to pack a given set of circles into a rectangle or an equilateral triangle was shown to be NP-complete by \cite{DFL2010circle}.
+
+\paragraph{Packing squares into a rectangle}
+
+The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \cite{LTWYC1990packing} through a reduction from \textsc{3-PARTITION}.
+
+In 1967, \cite{MM1967some} proved a critical density of $\frac{1}{2}$ when packing squares into rectangles. They sort the squares by their size and place them into the rectangle in a shelf-like manner.
+
+%Online
+%Upper bound:
+%Lower bound:
+
+\paragraph{Approximations}
+
+\cite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
+
+\paragraph{Unsorted}
+
+\cite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
+
+\section{Applications}
+
+"obtaining a maximal coverage of radio towers in a geographical region" TODO rephrase \cite{SMCSCG2007new}.
+
+"coverage of a geo-
+graphical area with cell transmitters,
+storage of a cylindrical drums into containers or
+stocking them into an open area, packaging bottles or cans into the smallest box,
+planting trees in a given region as to maximize the forest density and the distance
+between the trees, and so forth"
+
+"Other applications one can find in the motor
+cycle industry, circular cutting, communication networks, facility location and
+dashboard layout"
+
+[ 8, 17-19]
+
+%Origami
