@@ -29,8 +29,44 @@
     \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \usepackage{chngcntr}
     \counterwithout{equation}{chapter}
-\usepackage[style=alphabetic]{biblatex}
+\usepackage{nicefrac}
+\usepackage[style=numeric-comp,maxbibnames=99,url=false]{biblatex}
     \addbibresource{../references/references.bib}
+
+    %% Link complete "Author (Year)", not just "(Year)"
+    %\DeclareFieldFormat{citehyperref}{%
+    %  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+    %  \bibhyperref{#1}}
+
+    %\DeclareFieldFormat{textcitehyperref}{%
+    %  \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+    %  \bibhyperref{%
+    %    #1%
+    %    \ifbool{cbx:parens}
+    %      {\bibcloseparen\global\boolfalse{cbx:parens}}
+    %      {}}}
+
+    %\savebibmacro{cite}
+    %\savebibmacro{textcite}
+
+    %\renewbibmacro*{cite}{%
+    %  \printtext[citehyperref]{%
+    %    \restorebibmacro{cite}%
+    %    \usebibmacro{cite}}}
+
+    %\renewbibmacro*{textcite}{%
+    %  \ifboolexpr{
+    %    ( not test {\iffieldundef{prenote}} and
+    %      test {\ifnumequal{\value{citecount}}{1}} )
+    %    or
+    %    ( not test {\iffieldundef{postnote}} and
+    %      test {\ifnumequal{\value{citecount}}{\value{citetotal}}} )
+    %  }
+    %    {\DeclareFieldAlias{textcitehyperref}{noformat}}
+    %    {}%
+    %  \printtext[textcitehyperref]{%
+    %    \restorebibmacro{textcite}%
+    %    \usebibmacro{textcite}}}
 
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\s}{\sqrt{2}}

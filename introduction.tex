@@ -37,55 +37,102 @@ Furthermore, ...
 
 \section{Related work}
 
+Packing objects into a container is a classic, intuitive problem...
+
+Most works concerned with circle packing follow one of the two following approaches:
+
+Either they model the packing problem as an optimization problem, and solve it using commercial nonlinear solvers.
+
+Or they apply heuristics.
+
+In this thesis, we are interested in approximation algorithms, which give certain performance guarantees on the obtained results.
+
 \paragraph{History}
 
-\paragraph{Offline in squares}
+The packing of equal circles in a square has received particular attention in the past.
 
-The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was posed by \cite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\frac{\pi}{16} \approx 0.196349$.
+\textcite{schaer1965densest} proofed the optimal solutions for $n = 7$ and $n = 8$, and \textcite{SM1965geometric} the one for $n = 9$.
+The optimal solution for $n = 10$ was not confirmed until 1990 \cite{DPW1990optimal}. In the same paper, optimal solutions for 11, 12 and 13 circles were also proven.
+See \textcite{WMP1994history} for an overview of the history of optimal solutions for $n \le 13$.
 
-\paragraph{Offline in strips}
+The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on \url{packomania.com} \cite{specht2015packomania}.
 
-\paragraph{Online}
+\paragraph{Equal circles in rectangles}
 
-?
+\paragraph{Unequal circles in squares}
+
+The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was posed by \textcite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\pi/16 \approx 0.196349$.
+
+
+\paragraph{Equal circles in circle}
+
+\textcite{lubachevsky1997curved} studied \emph{curved hexagonal packings} of equal circles in a circle, a pattern derived from known best packings of circles in hexagons. For large $n$, a curved hexagonal packing was found to be not optimal. Instead, good packings found by the authors seemed to have a curved hexagonal-packed core and an irregular pattern along the periphery.
+
+\paragraph{Unequal circles in circle}
+
+\textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity and then finds circles which are "most squeezed", and re-insert them randomly.
+
+\paragraph{Circles in strips}
 
 \paragraph{Hardness}
 
-The decision problem whether it is possible to pack a given set of circles into a rectangle or an equilateral triangle was shown to be NP-complete by \cite{DFL2010circle}.
+The decision problem whether it is possible to pack a given set of circles into a square or an equilateral triangle was shown to be NP-complete by \textcite{DFL2010circle}.
+
+\subsection{Packing squares}
+
+Approximation algorithms which pack squares are interesting in this context as we can directly use them for packing circles: We simply embed each circle with radius $r$ in a square of edge length $2r$.
+
+This means that if we are given an algorithm which can pack all square instances with a total area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a total area of $\frac{\pi}{4}a$.
 
 \paragraph{Packing squares into a rectangle}
 
-The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \cite{LTWYC1990packing} through a reduction from \textsc{3-PARTITION}.
+The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \textcite{LTWYC1990packing} through a reduction from \textsc{3-PARTITION}.
 
-In 1967, \cite{MM1967some} proved a critical density of $\frac{1}{2}$ when packing squares into rectangles. They sort the squares by their size and place them into the rectangle in a shelf-like manner.
+\textcite{MM1967some} developed an algorithm which can pack all square instances with a total area of $1/2$ into the unit square.
+%proved a critical density of $\nicefrac{1}{2}$ when packing squares into a square.
+They sort the squares by their size and place them into the square in a shelf-like manner, see fig TODO.
+They also proofed that $1/2$ is the critical density for packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed, see fig TODO.
+As by above remark, their algorithm can also be used to pack circles: It can pack all circle instances with a total area of $\frac{\pi}{8} \approx 0.39269908$ into the unit square.
+
+\textcite{KK1975optimal} showed that any square instance of total area 1 can be packed into a rectangle of dimensions $2/\sqrt{3}$ times $\sqrt{2}$, and that this is the smallest-area rectangle with that property. The packing density in this case is 0.612372435695. Applied to circles, this result means that all circle instances with a total area of 1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi}$ times $2\sqrt{2}/\sqrt{\pi}$.
+
+\textcite{hougardy2011packing} showed that for any set of squares with a total area of 1, there is some rectangle with an area $< 1.4$ in which the squares can be packed using a computer generated proof.
 
 %Online
 %Upper bound:
 %Lower bound:
 
-\paragraph{Approximations}
+\paragraph{Heuristics}
 
-\cite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
+\textcite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
 
 \paragraph{Unsorted}
 
-\cite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
+\textcite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
 
 \section{Applications}
 
-"obtaining a maximal coverage of radio towers in a geographical region" TODO rephrase \cite{SMCSCG2007new}.
+Running optical fibers through a tube or placing many differently-sized pipes through a smaller one \parencite{WHZX2002improved}
 
-"coverage of a geo-
-graphical area with cell transmitters,
-storage of a cylindrical drums into containers or
-stocking them into an open area, packaging bottles or cans into the smallest box,
-planting trees in a given region as to maximize the forest density and the distance
-between the trees, and so forth"
+For example, car manufacturers may want to drill circular holes into a car's body to route a number of sensor cables through that hole, but keep the hole as small as possible not to weaken the car's body \cite{SSSKK2004disk}.
 
-"Other applications one can find in the motor
-cycle industry, circular cutting, communication networks, facility location and
-dashboard layout"
+Placing radio towers for maximal coverage \parencite{SMCSCG2007new}.
 
-[ 8, 17-19]
+Cutting circular pieces from a material, minimizing waste, loading a container (like a vehicle or a parcel with cylindrical objects, minimizing the number of nodes in a geographical communication network or dispersing facilities so that the minimum distance between any two is maximized, the layout of control panels containing circular controls (like in airplanes) \parencite{CKP2008solving}
+
+Other applications stem from chemistry, where one can study dense packing of atoms in crystals or macromolecules \cite{WMP1994history}.
+% or info processing (sperical codes)
+%https://en.wikipedia.org/wiki/Quadrature_amplitude_modulation
+
+Cutting a given set of disks from a piece of material, while wasting as little as possible of it \cite{SMCSCG2007new}
+
+%storage of a cylindrical drums into containers or
+%stocking them into an open area, packaging bottles or cans into the smallest box,
+
+%"Other applications one can find in the motor
+%cycle industry, circular cutting, communication networks, facility location and
+%dashboard layout"
+%
+%[ 8, 17-19]
 
 %Origami
