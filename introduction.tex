@@ -51,8 +51,9 @@ In this thesis, we are interested in approximation algorithms, which give certai
 
 The packing of equal circles in a square has received particular attention in the past.
 
+The optimal packings of up to nine equal circles were already proven in 1965.
 \textcite{schaer1965densest} proofed the optimal solutions for $n = 7$ and $n = 8$, and \textcite{SM1965geometric} the one for $n = 9$.
-The optimal solution for $n = 10$ was not confirmed until 1990 \cite{DPW1990optimal}. In the same paper, optimal solutions for 11, 12 and 13 circles were also proven.
+The optimal solution for $n = 10$ was not confirmed until 1990 by \textcite{DPW1990optimal}. In the same paper, optimal solutions for 11, 12 and 13 circles were also proven.
 See \textcite{WMP1994history} for an overview of the history of optimal solutions for $n \le 13$.
 
 The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on \url{packomania.com} \cite{specht2015packomania}.
@@ -106,11 +107,17 @@ As by above remark, their algorithm can also be used to pack circles: It can pac
 
 \textcite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
 
+\textcite{ZYC2015packing} extend the GVS to allow packing into \emph{damaged squares}, squares with some smaller squares removed from it. They enhance the GVS by Simulated Annealing and get significantly better results in their experiments compared to GVS.
+
 \paragraph{Unsorted}
 
 \textcite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
 
 \section{Applications}
+
+Circle packing has all kinds of useful applications in engineering, science and everyday life.
+
+% categories: coverage, storage, packaging, tree exploitation, cutting industry
 
 Running optical fibers through a tube or placing many differently-sized pipes through a smaller one \parencite{WHZX2002improved}
 
@@ -124,15 +131,18 @@ Other applications stem from chemistry, where one can study dense packing of ato
 % or info processing (sperical codes)
 %https://en.wikipedia.org/wiki/Quadrature_amplitude_modulation
 
+Photo collage "Content-aware photo
+collage using circle packing"
+
 Cutting a given set of disks from a piece of material, while wasting as little as possible of it \cite{SMCSCG2007new}
+
+Foresting, where one wants to plant trees so that the forest will be as dense as possible, but the trees do not hinder each other's growth \cite{SMCSCG2007new}.
 
 %storage of a cylindrical drums into containers or
 %stocking them into an open area, packaging bottles or cans into the smallest box,
 
 %"Other applications one can find in the motor
-%cycle industry, circular cutting, communication networks, facility location and
+%cycle industry, communication networks, facility location and
 %dashboard layout"
-%
-%[ 8, 17-19]
 
-%Origami
+Another application includes the design of crease patterns for Origami, where one wants to find a sequence of folds of a square piece of paper, so that the result resembles a specific shape. This kind of Origami design was pioneered by citeTODO. Using circle packings, one can find crease patterns for arbitrary stars.
