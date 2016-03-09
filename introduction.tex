@@ -58,7 +58,9 @@ See \textcite{WMP1994history} for an overview of the history of optimal solution
 
 The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on \url{packomania.com} \cite{specht2015packomania}.
 
-\paragraph{Equal circles in rectangles}
+\paragraph{Global optimization}
+
+\textcite{GJLS2009solving} also model the problem of packing circles into a circle as a global nonlinear optimization problem and apply a method similar to Multistart, which they refer to as \emph{Monotonic Basin Hopping}.
 
 \paragraph{Unequal circles in squares}
 
@@ -73,11 +75,27 @@ The problem of finding the smallest square that suffices for packing any set of 
 
 \textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity and then finds circles which are "most squeezed", and re-insert them randomly.
 
+\textcite{BG2010new} note that, given the contacts of the circle objects to the containers boundary beforehand, the numer of constraints is reduced significantly. They learn this information from previously best known solutions in the literature and solve the now overdetermined linear system to get high-precision results.
+
 \paragraph{Circles in strips}
+
+\paragraph{Improvement steps}
+
+\textcitr{SY2004mathematical} formulate a method of transitioning from one local optimum to a better one when packing unequal circles into a strip, based on a reduced gradient method.
+
+\paragraph{Maximum packing densities}
+
+Thue's proof is generally considered incomplete, and was first fixed by L. F. Toth 1940 TODO. For a simple, short proof see \cite{CW2010simple}.
 
 \paragraph{Hardness}
 
-The decision problem whether it is possible to pack a given set of circles into a square or an equilateral triangle was shown to be NP-complete by \textcite{DFL2010circle}.
+Packing arbitrary objects into arbitrary containers can immediately shown to be NP-hard by reduction from \textsc{2-PARTITION}.
+
+But also for similar objects and arbitrary containers \textcite{FPT1981optimal} showed this problem to be NP-hard by a reduction from \textsc{3-SAT}. They constructed gadgets for variables and clauses and connected them with wires.
+
+The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \textcite{LTWYC1990packing} through a reduction from \textsc{3-PARTITION}.
+
+The decision problem whether it is possible to pack a given set of unequal circles into a square or an equilateral triangle was shown to be NP-complete by \textcite{DFL2010circle}.
 
 \subsection{Packing squares}
 
@@ -86,8 +104,6 @@ Approximation algorithms which pack squares are interesting in this context as w
 This means that if we are given an algorithm which can pack all square instances with a total area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a total area of $\frac{\pi}{4}a$.
 
 \paragraph{Packing squares into a rectangle}
-
-The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \textcite{LTWYC1990packing} through a reduction from \textsc{3-PARTITION}.
 
 \textcite{MM1967some} developed an algorithm which can pack all square instances with a total area of $1/2$ into the unit square.
 %proved a critical density of $\nicefrac{1}{2}$ when packing squares into a square.
@@ -105,13 +121,23 @@ As by above remark, their algorithm can also be used to pack circles: It can pac
 
 \paragraph{Heuristics}
 
+As one of the first to consider the packing of unequal circles into rectangles, \textcite{GGL1995packing} developed a set of heuristics, based on enumerating \emph{stable} solutions, where a circle is either on the ground or has two lower contacts. To get out of local optima, they apply a variety of approaches, like “shaking down” circles or apply genetic algorithms to improve the stable solutions.
+
+\textcite{HLLX2006new} apply a quasi-human heuristic, which places new circles in gaps of approximately the same size as the circle, and combine it with a self look-ahead strategy which evalutates how beneficial the coice of a certain placement for each circle is.
+
 \textcite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
 
 \textcite{ZYC2015packing} extend the GVS to allow packing into \emph{damaged squares}, squares with some smaller squares removed from it. They enhance the GVS by Simulated Annealing and get significantly better results in their experiments compared to GVS.
 
+\textcite{ZD2005effective} combine simulated annealing and tabu search to pack unequal circles into a circle.
+
+\textcite{GLNO1998dense} propose a \emph{billiard simulation}, in which the circles are physically simulated as hard disks, and apply some additional steps to tighten the found packings.
+
 \paragraph{Unsorted}
 
 \textcite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
+
+\textcite{HMS2016bounded} devised an asymptotic approximation algorithm, which can pack unequal circles into square bins in an online fashion with an asymptotic competitive ratio of at most 2.4394. They also gave a lower bound of 2.2920 for any online bounded space algorithm for that problem. The algorithm packs large circles according to the best known packings of equal circles and puts small circles into recursively subdivided hexagonal bins.
 
 \section{Applications}
 
@@ -145,4 +171,4 @@ Foresting, where one wants to plant trees so that the forest will be as dense as
 %cycle industry, communication networks, facility location and
 %dashboard layout"
 
-Another application includes the design of crease patterns for Origami, where one wants to find a sequence of folds of a square piece of paper, so that the result resembles a specific shape. This kind of Origami design was pioneered by citeTODO. Using circle packings, one can find crease patterns for arbitrary stars.
+Another application includes the design of crease patterns for Origami, where one wants to find a sequence of folds of a square piece of paper, so that the result resembles a specific shape. This kind of Origami design was pioneered by \cite{lang1996computational}. Using circle packings, one can find crease patterns for arbitrary stars.
