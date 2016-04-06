@@ -1,7 +1,5 @@
 \chapter{Introduction}
 
-\section{Problem Statement}
-
 \begin{figure}[htbp!]
     \centering
 
@@ -9,13 +7,12 @@
         \squareworstcase
     \end{tikzpicture}
 
-    \caption{Worst-case instance for packing density?}
+    \caption{Worst-case circle instance in terms of packing density?}
     \label{fig:worst-case}
 \end{figure}
 
-Consider the circle packing shown in \Cref{fig:worst-case}. For these two circles, the surrounding square is the smallest one in which the circles can be packed. Originally, we considered the following problem: Does this instance constitute the worst case in terms of packing density, or is there a set of circles with the same combined area that cannot be packed into this square? Put differently, can all other sets of circles with the same combined area as these two
-(like the one in \Cref{fig:big-question})
-be packed into this specific square?
+Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into a smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
+If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density.
 
 \begin{figure}[htbp!]
     \centering
@@ -30,11 +27,20 @@ be packed into this specific square?
 
 \section{Results}
 
-%We give a constructive proof that all circle instances with a combined area of $a$ can be packed into all non-acute triangles with an incircle not larger than $a$.
 
 We give a constructive proof that this is indeed the case.
 
 Furthermore, we describe an algorithm which is able to pack circles into non-acute triangles with worst-case density.
+
+More formally, this thesis builds up to the proofs of these main theorems:
+
+\begin{theorem}
+    Given a square of area $a$, all circle instances with a combined area of at most $\frac{\pi}{3+2\s} a$ can be packed into that square.
+\end{theorem}
+
+\begin{theorem}
+    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of at most $a$ can be packed into that triangle.
+\end{theorem}
 
 \section{Applications}
 
@@ -42,7 +48,7 @@ Circle packing is a natural, intuitive problem, wich has all kinds of applicatio
 
 \paragraph{Packaging}
 
-An obvious application is packaging: Loading a container with cylindrical objects, like bottles or cans in a parcel \parencite{CKP2008solving}, or loading rolls of paper into shipping containers \parencite{fraser1994integrated}.
+An obvious application is packaging: Given a set of cylindrical objects, like bottles or cans, one might want to determine the minimum-volume parcel which can pack all objects \parencite{CKP2008solving}. Or given a shipping container of fixed size, one might want to pack as many rolls of paper into it as possible \parencite{fraser1994integrated}.
 
 A similar application involves cylinder bundles:
 One might want to run optical fibers or through a tube or place multiple pipes with different diameters inside a larger one \parencite{WHZX2002improved}. As another example, car manufacturers might want to drill circular holes into a car's body to route a number of sensor cables through that hole, while keeping the hole as small as possible \cite{SSSKK2004disk}.
@@ -50,16 +56,15 @@ One might want to run optical fibers or through a tube or place multiple pipes w
 \paragraph{Cutting industry}
 
 Another area involves the cutting indsutry, where one might want to cut circular pieces from a material, minimizing waste \cite{SMCSCG2007new}.
-Related is the layout of control panels containing circular controls (like in airplanes) \parencite{CKP2008solving}.
+A related problem is the layout of control panels containing circular controls (like the controls in airplane cockpits, for example) \parencite{CKP2008solving}.
 
 \paragraph{Communication}
 
 One might want to minimize the number of nodes in a geographical communication network.
 
-In information processing, spherical codes are used to TODO
-%https://en.wikipedia.org/wiki/Quadrature_amplitude_modulation
+In the context of digital modulation schemes, \emph{quadrature amplitude modulation} is using circle packings to divide the two-dimensional phase-amplitude space into regions, which encode different binary patterns. Larger circles lead to increased noise tolerances \parencite{PWMD1992packing}.
 
-Placing radio towers for maximal coverage \parencite{SMCSCG2007new}.
+Network planners might want to place radio towers in a geographical region, mimimizing interference, but maximizing coverage \parencite{SMCSCG2007new}.
 
 \paragraph{Chemistry}
 
@@ -67,117 +72,14 @@ Other applications stem from chemistry, where one can study dense packing of ato
 
 \paragraph{Foresting}
 
-Foresting, where one wants to plant trees so that the forest will be as dense as possible, but the trees do not hinder each other's growth \cite{SMCSCG2007new}.
+In foresting, one might want to plant trees so that the grown forest will be as dense as possible, but the trees do not hinder each other's growth \cite{SMCSCG2007new}.
 
 \paragraph{Design}
 
-Another not so obvious application includes the design of crease patterns for Origami, where one wants to find a sequence of folds of a square piece of paper, so that the result resembles a specific shape. This kind of Origami design was pioneered by \cite{lang1996computational}. Using circle packings, one can find crease patterns for arbitrary stars.
+A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees when looked at from above involves a related packing problem called circle/river-packing. See Fig TODO for an example. This kind of Origami design was pioneered by \cite{lang1996computational}. Using circle packings only, one can find crease patterns for arbitrary stars.
 
 %Photo collage "Content-aware photo collage using circle packing"
 
 \paragraph{Other}
 
-or dispersing facilities so that the minimum distance between any two is maximized,
-
-\section{Related work}
-
-\subsection{Packing circles}
-
-Most works concerned with circle packings try to get as close to the optimal packings of given instances as possible. Optimal solutions are only known for small instances, so that the majority of authors either focus on heuristics or model circle packing as a global optimization problem.
-
-In this thesis, on the other hand, we are mainly interested in approximation algorithms, which give certain performance guarantees on the obtained results.
-
-\paragraph{Hardness}
-
-Packing arbitrary objects into arbitrary containers can immediately shown to be NP-hard by reduction from \textsc{2-PARTITION}.
-
-But also for similar objects and arbitrary containers \textcite{FPT1981optimal} showed this problem to be NP-hard by a reduction from \textsc{3-SAT}. They constructed gadgets for variables and clauses and connected them with wires.
-
-The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \textcite{LTWYC1990packing} through a reduction from \textsc{3-PARTITION}.
-
-The decision problem whether it is possible to pack a given set of unequal circles into a square or an equilateral triangle was shown to be NP-complete by \textcite{DFL2010circle}.
-
-\paragraph{Density bounds}
-
-The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\pi/\sqrt{12} \approx 0.90689968$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see \cite{CW2010simple}.
-
-For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket, or in another space filling manner, like the construction of \textcite{bourke2011random}.
-
-\paragraph{Optimal packings}
-
-The packing of equal circles in a square has received particular attention in the past.
-
-A problem which has been considered a lot is is what is the smallest square in which $n$ unit circles can be packed. Surprisingly, optimal results are only known for $n < 35$.
-%TODO: correct?
-The optimal packings of up to nine equal circles in a square were already proven in 1965: The cases for $n < 7$ are trivial TODOcite,
-\textcite{schaer1965densest} proofed the optimal solutions for $n = 7$ and $n = 8$, and \textcite{SM1965geometric} the one for $n = 9$.
-The optimal solution for $n = 10$ was not confirmed until 1990 by \textcite{DPW1990optimal}. In the same paper, optimal solutions for 11, 12 and 13 circles were also proven.
-See \textcite{WMP1994history} for an overview of the history of optimal solutions for $n \le 13$.
-The smallest number of equal circles for whose optimal packing in a square is currently not known is TODO.
-
-\paragraph{Approximation algorithms}
-
-The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was posed by \textcite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\pi/16 \approx 0.196349$.
-
-\textcite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
-
-\textcite{HMS2016bounded} devised an asymptotic approximation algorithm, which can pack unequal circles into square bins in an online fashion with an asymptotic competitive ratio of at most 2.4394. They also gave a lower bound of 2.2920 for any online bounded space algorithm for that problem. The algorithm packs large circles according to the best known packings of equal circles and puts small circles into recursively subdivided hexagonal bins.
-
-\paragraph{Heuristics}
-
-Other authors have considered quasi-human or quasi-physical heuristics for circle packing problems.
-
-As one of the first to consider the packing of unequal circles into rectangles, \textcite{GGL1995packing} developed a set of heuristics, based on enumerating \emph{stable} solutions, where a circle is either on the ground or has two lower contacts. To get out of local optima, they apply a variety of approaches, like “shaking down” circles or apply genetic algorithms to improve the stable solutions.
-
-\textcite{lubachevsky1997curved} studied \emph{curved hexagonal packings} of equal circles in a circle, a pattern derived from known best packings of circles in hexagons. For large $n$, a curved hexagonal packing was found to be not optimal. Instead, good packings found by the authors seemed to have a curved hexagonally-packed area in the center and an irregular pattern along the periphery.
-
-\textcite{GLNO1998dense} propose a \emph{billiard simulation}, in which the circles are physically simulated as hard disks, and apply some additional steps to tighten the found packings.
-
-\textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity and then finds circles which are "most squeezed", and re-insert them randomly.
-
-\textcite{ZD2005effective} combine simulated annealing and tabu search to pack unequal circles into a circle.
-
-\textcite{HLLX2006new} apply a quasi-human heuristic, which places new circles in gaps of approximately the same size as the circle, and combine it with a self look-ahead strategy which evalutates how beneficial the coice of a certain placement for each circle is.
-
-\textcite{LB2013packing} apply a metaheuristic called \emph{formulation space search}, which alternates between two different heuristics, to avoid getting stuck in local minima. After that, they perform an improvement phase, which swaps circles.
-
-\textcite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
-
-\textcite{ZYC2015packing} extend the GVS to allow packing into \emph{damaged squares}, squares with some smaller squares removed from it. They enhance the GVS by Simulated Annealing and get significantly better results in their experiments compared to GVS.
-
-\textcite{FMC2015evolutionary} solve the problem using Genetic Algorithms and other evolutionary approaches. As the evolved solutions are not always valid, they evalutate different repair strategies, like repulsion-based or Delauny-based methods.
-
-\textcite{HHY2015action} start with a random configuration of unequal circles in a square, simulate them using a quasi-Newton method to reach a minimum energy state, and perform swapping steps based \emph{action spaces}, unoccupid rectangles, to get out of locally optimal solutions. Finally, they do a postprocessing step to increase the result's precision.
-
-\paragraph{Global optimization methods}
-
-If $n$ is too large to determine optimal packings, one can ask for lower bounds for the density of optimal packings, that is, the smallest \emph{known} containers in which the circles can be packed.
-
-A much-explored idea is to model the packing problem as a set of (nonlinear) inequalities and solve the system using commercial solvers. A considerable amout of work has been put into finding new records, mostly for equal circles, but also for test instances consisting of unequal circles. The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on \url{packomania.com} \cite{specht2015packomania}.
-
-The works related to this idea are too numerous to be covered here in their entierty, but we will present some of the more important attempts in roughly chronological order. As described, these approaches do not give any performance guarantees, but give lower bounds on the optimal packing of single instances. Most of the works lead to improvements of the best known packings in the literature.
-
-\textcite{SY2004mathematical} formulate a method of transitioning from one local optimum to a better one when packing unequal circles into a strip, based on a reduced gradient method.
-
-\textcite{ALS2008disk} model the problem of packing circles into a circle as a global nonlinear optimization problem and apply a stochastic search method similar to Multistart, which they refer to as \emph{Monotonic Basin Hopping}, and which is inspired by molecular conformationn problems. They also adapted this algorithm to pack circles into circular containers \cite{GJLS2009solving}.
-
-\textcite{BG2010new} note that, given the contacts of the circle objects to the containers boundary beforehand, the numer of constraints is reduced significantly. They learn this information from previously best known solutions in the literature and solve the now overdetermined linear system to get high-precision results.
-
-\paragraph{Surveys}
-
-\textcite{SMC2005global} give an overview of global optimization methods for packing equal circles in a square.
-
-\subsection{Packing squares}
-
-Approximation algorithms which pack squares are interesting to us as we can directly use them for packing circles: We embed each circle with radius $r$ in a square of edge length $2r$ and pack the resulting squares.
-This means that if we are given an algorithm which can pack all square instances with a total area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a total area of $\frac{\pi}{4}a \approx 0.7853981$. Thus, square packing algorithms provide us with lower density bounds for the optimal circle packings.
-
-\textcite{MM1967some} developed an algorithm which can pack all square instances with a total area of $1/2$ into the unit square.
-They sort the squares by their size and place them into the square in a shelf-like manner, see fig TODO.
-They also proofed that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed, see fig TODO.
-As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a total area of $\pi/8 \approx 0.39269908$ into the unit square.
-
-\textcite{KK1975optimal} showed that any square instance of total area 1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.15470053 \times 1.4142135$, and that this is the smallest-area rectangle with that property. The packing density in this case is 0.6123724. Applied to circles, this result means that all circle instances with a total area of 1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi}$ times $2\sqrt{2}/\sqrt{\pi}$.
-
-\textcite{hougardy2011packing} showed that for any set of squares with a total area of 1, there is some rectangle with an area $< 1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a total area of 1, there is some rectangle with an area $< 28\pi/5 \approx 1.7825353$ in which the circles can be packed.
-
+In Operations Research, one might want to disperse facilities so that the minimum distance between any two is maximized.

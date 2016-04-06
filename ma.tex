@@ -1,6 +1,6 @@
 \documentclass[%
     a4paper,              % DIN A4
-    style=screen,          % print: enables twoside, print colors, and BCOR=15mm
+    style=print,          % print: enables twoside, print colors, and BCOR=15mm
     bibliography=totoc,   % bibliography gets unnumbered entry
     nexus,                % corporate design font
     lnum,                 % use "Versalziffern" instead of "Mediaevalziffern"
@@ -14,6 +14,7 @@
     colorlinks, linkcolor={medium-blue},
     citecolor={medium-blue}, urlcolor={medium-blue}
 }
+
 
 \newcommand\defaulta{30}
 \newcommand\defaultb{40}
@@ -38,12 +39,13 @@ Jan-Marc\,Reinhardt,\,M.\,Sc.}
 
 \begin{document}
 
-%\input{frontmatter.tex}
+\input{frontmatter.tex}
 \input{introduction.tex}
-%\input{preliminaries.tex}
-%\input{general.tex}
-%\input{shapes.tex}
-%\input{conclusions.tex}
+\input{related.tex}
+\input{preliminaries.tex}
+\input{general.tex}
+\input{shapes.tex}
+\input{conclusions.tex}
 \printbibliography
 
 \end{document}
