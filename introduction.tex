@@ -11,8 +11,8 @@
     \label{fig:worst-case}
 \end{figure}
 
-Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into a smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
-If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density.
+Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into any smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
+If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density. In this thesis, we give a constructive proof that this is indeed the case.
 
 \begin{figure}[htbp!]
     \centering
@@ -25,30 +25,29 @@ If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical 
     \label{fig:big-question}
 \end{figure}
 
-\section{Results}
-
-
-We give a constructive proof that this is indeed the case.
-
-Furthermore, we describe an algorithm which is able to pack circles into non-acute triangles with worst-case density.
-
-More formally, this thesis builds up to the proofs of these main theorems:
-
-\begin{theorem}
-    Given a square of area $a$, all circle instances with a combined area of at most $\frac{\pi}{3+2\s} a$ can be packed into that square.
-\end{theorem}
-
-\begin{theorem}
-    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of at most $a$ can be packed into that triangle.
-\end{theorem}
+%\section{Results}
+%
+%Furthermore, we describe an algorithm which is able to pack circles into non-acute triangles with worst-case density.
+%
+%More formally, this thesis builds up to the proofs of these main theorems:
+%
+%\begin{theorem}
+%    Given a square of area $a$, all circle instances with a combined area of at most $\frac{\pi}{3+2\s} a$ can be packed into that square.
+%\end{theorem}
+%
+%\begin{theorem}
+%    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of at most $a$ can be packed into that triangle.
+%\end{theorem}
 
 \section{Applications}
 
-Circle packing is a natural, intuitive problem, wich has all kinds of applications in engineering, science, and everyday life.
+Circle packing is a natural, intuitive problem, wich has numerous applications in engineering, science, and everyday life.
 
 \paragraph{Packaging}
 
-An obvious application is packaging: Given a set of cylindrical objects, like bottles or cans, one might want to determine the minimum-volume parcel which can pack all objects \parencite{CKP2008solving}. Or given a shipping container of fixed size, one might want to pack as many rolls of paper into it as possible \parencite{fraser1994integrated}.
+An obvious application is packaging: Given a set of cylindrical objects, like bottles or cans, one might want to determine the minimum-volume parcel which can pack all objects \parencite{CKP2008solving}. Or, given a shipping container of fixed size, one might want to pack as many rolls of paper into it as possible \parencite{fraser1994integrated}.
+
+\paragraph{Bundling}
 
 A similar application involves cylinder bundles:
 One might want to run optical fibers or through a tube or place multiple pipes with different diameters inside a larger one \parencite{WHZX2002improved}. As another example, car manufacturers might want to drill circular holes into a car's body to route a number of sensor cables through that hole, while keeping the hole as small as possible \cite{SSSKK2004disk}.
@@ -60,7 +59,7 @@ A related problem is the layout of control panels containing circular controls (
 
 \paragraph{Communication}
 
-One might want to minimize the number of nodes in a geographical communication network.
+One might want to minimize the number of nodes in a geographical communication network. TODOcite
 
 In the context of digital modulation schemes, \emph{quadrature amplitude modulation} is using circle packings to divide the two-dimensional phase-amplitude space into regions, which encode different binary patterns. Larger circles lead to increased noise tolerances \parencite{PWMD1992packing}.
 
@@ -76,10 +75,10 @@ In foresting, one might want to plant trees so that the grown forest will be as 
 
 \paragraph{Design}
 
-A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees when looked at from above involves a related packing problem called circle/river-packing. See Fig TODO for an example. This kind of Origami design was pioneered by \cite{lang1996computational}. Using circle packings only, one can find crease patterns for arbitrary stars.
+A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees when looked at from above involves a related packing problem called circle/river-packing. See Fig TODO for an example. This kind of Origami design was pioneered by Robert J. Lang \cite{lang1996computational}. Using circle packings, one can find crease patterns for folding arbitrary stars.
 
 %Photo collage "Content-aware photo collage using circle packing"
 
 \paragraph{Other}
 
-In Operations Research, one might want to disperse facilities so that the minimum distance between any two is maximized.
+In Operations Research, one might want to disperse facilities so that the minimum distance between any two is maximized TODOcite.
