@@ -1,4 +1,4 @@
-\chapter{Hats}
+\section{Hats}
 
 We turn to specific classes of container shapes now. For each shape, we are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with total area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of total area $a'$ which \emph{cannot} be packed. Second, that all instances of total area $a$ can be packed.
 
@@ -318,8 +318,6 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
     So, by induction, we can pack each $C \in \C(a,b)$ into the $(a,b)$-hat.
 \end{proof}
 
-\chapter{Triangles}
-
 \section{Non-acute triangles}
 
 %\begin{theorem}
@@ -348,7 +346,7 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
 %    Each $A \in \C(a)$ can be packed into an obtuse triangle with an incircle of area $a$.
 %\end{theorem}
 %
-%\chapter{Squares}
+%\section{Squares}
 %
 %\begin{figure}[htbp!]
 %    \centering
@@ -384,9 +382,103 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
 %We are now ready to prove our main theorem:
 %
 
-\section{Equilateral triangles}
+\section{Isosceles right triangles}
 
-\chapter{Squares}
+If the container is a isosceles right triangle, one can generalize the split packing method a bit to be able to pack different objects than circles. Specifically, we can adapt the method so that it also packs regular octagons worst-case optimally, and so that it packs squares worst-case optimally when it is allowed to rotate them while packing.
+
+For this generalization, we utilize a new shape, which we call \emph{gem}:
+
+\begin{definition}
+    For each $0 \le b \le a$, an \emph{$(a,b)$-gem} is a isosceles right triangle with an incircle of area $a$, whose acute corners are cut of in the following way: The cuts each have an angle of 135 degrees with the triangle's boundary, and they also meet at an angle of 135 degrees (see Fig TODO). The length between the point where the cut meets the triangle's boundary and the triangle's original corner is
+
+    $$\frac{(2+\s)(2\sqrt{\s-1}-1)}{\sqrt{(\s-1)\pi}}\sqrt{b} \approx 0.859549008 \sqrt{b}$$
+\end{definition}
+
+\begin{figure}[htbp!]
+    \centering
+
+    \begin{tikzpicture}[scale=3]
+        \gemsimple{0.5}
+    \end{tikzpicture}
+
+    \caption{An $(a,b)$-gem.}
+    \label{fig:hat}
+\end{figure}
+
+We also introduce a nickname for the special case where $a=b$:
+
+\begin{definition}
+    We call an $(a,a)$-gem an \emph{$a$-ruby}.
+\end{definition}
+
+\begin{figure}[htbp!]
+    \centering
+
+    \begin{tikzpicture}[scale=3]
+        \rubysimple
+    \end{tikzpicture}
+
+    \caption{An $a$-ruby.}
+    \label{fig:hat}
+\end{figure}
+
+\begin{definition}
+    A \emph{ruby instance} $R$ is defined excactly as a circle instance, except that the real numbers define the areas of the rubies' incircles.
+\end{definition}
+
+\begin{theorem}
+    Consider an $(a,0)$-gem and its associated split key $F = (1,1)$.
+    For all $(F,0)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    \begin{itemize}
+        \item A $(a_1,b_1)$-gem and
+        \item a $(a_2,b_2)$-gem.
+    \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    Place the gems' tips at the bottom of the container gem and push them as far to the left/to the right as possible like in Figure TODO.
+\end{proof}
+
+\begin{figure}[htbp!]
+    \centering
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.5}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.49}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.45}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.4}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.333}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.1715}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0.1}{0}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}[scale=2]
+        \gemsingem{0}{0}
+    \end{tikzpicture}
+
+    \caption{Gem-in-gem packings for different values of $a_1$ and $a_2$.}
+    \label{fig:hatsinhat}
+\end{figure}
+
+\section{Squares}
 
 \begin{lemma}
     The twincircles of a square with area $a$
@@ -548,7 +640,7 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
 \end{theorem}
 
 \begin{proof}
-    When packing a circle instance $C \in \C(a)$ into a square, the smallest possible square container also has area $a$. Indeed, one can construct an instance $C$ which can be packed into a square of area $a+\vareps$ by constructing an Apollonian gasket or another asymptotically space-filling circle configuration.
+    When packing a circle instance $C \in \C(a)$ into a square, the smallest possible square container also has area $a$. Indeed, one can construct an instance $C$ which can be packed into a square of area $a+\varepsilon$ by constructing an Apollonian gasket or another asymptotically space-filling circle configuration.
 
     On the other hand, by \Cref{th:square}, Splitpack packs $C$ into a square of area $\frac{3+2\s}{\pi}a \approx 1.85524597a$.
 \end{proof}
