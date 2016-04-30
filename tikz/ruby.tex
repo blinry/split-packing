@@ -1,0 +1,32 @@
+\gemshape{1}{1}
+
+\draw[dashed] (midcenter) circle(\r) node {$a$};
+
+\gemshape{1}{1}
+
+\pgfmathsetmacro{\rr}{(1+sqrt(2))/2*\r}
+\pgfmathsetmacro{\rrshift}{(1+sqrt(2))/2*\r-\r}
+
+\begin{scope}[shift={(0,\rrshift)}]
+    \draw[dashed] (0:\rr)
+               -- (90:\rr)
+               -- (180:\rr)
+               -- (270:\rr)
+               -- cycle;
+    \draw (0,0) node {$a$};
+\end{scope}
+
+\gemshape{1}{1}
+
+\pgfmathsetmacro{\rr}{1.08239*\r}
+\coordinate (midcenter) at (0,0);
+\draw[dashed] (22.5:\rr)
+           -- (67.5:\rr)
+           -- (112.5:\rr)
+           -- (157.5:\rr)
+           -- (202.5:\rr)
+           -- (247.5:\rr)
+           -- (292.5:\rr)
+           -- (337.5:\rr)
+           -- cycle;
+\draw (midcenter) node {$a$};

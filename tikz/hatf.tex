@@ -1,0 +1,32 @@
+\pgfmathsetmacro{\a}{(\defaulta)}
+\pgfmathsetmacro{\b}{(\defaultb)}
+\pgfmathsetmacro{\round}{(\defaultr)}
+\pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+\pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
+
+\hatshape{1}{\round}{\a}{\b}
+
+\pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\g))/pi)/tan(\b/2)}
+\begin{scope}[shift={(\pgfmathresult,0)}]
+    \pgfmathparse{sqrt(1/pi)-sqrt(\g/pi)}
+    \begin{scope}[shift={(0,-\pgfmathresult)}]
+        \pgfmathsetmacro{\hata}{\g}
+        \hatshape[dashed]{\hata}{0}{90}{\b}
+        \pgfmathsetmacro{\r}{sqrt(\g/pi)}
+        \draw (midcenter) circle(\r) node {$f_2$};
+    \end{scope}
+\end{scope}
+
+\def\comparg{\f}
+\if\comparg1\else
+    \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((\f))/pi)/tan(\a/2)}
+    \begin{scope}[shift={(-\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(1/pi)-sqrt((\f)/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \pgfmathsetmacro{\hata}{\f}
+            \hatshape[dashed]{\hata}{0}{\a}{90}
+            \pgfmathsetmacro{\r}{sqrt((\f)/pi)}
+            \draw (midcenter) circle(\r) node {$f_1$};
+        \end{scope}
+    \end{scope}
+\fi

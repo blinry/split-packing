@@ -1,0 +1,32 @@
+\pgfmathsetmacro{\a}{(\defaulta)}
+\pgfmathsetmacro{\b}{(\defaultb)}
+\pgfmathsetmacro{\x}{1}
+\pgfmathsetmacro{\round}{0}
+\pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+\pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
+
+\hatshape{1}{\round}{\a}{\b}
+
+\pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+\begin{scope}[shift={(\pgfmathresult,0)}]
+    \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+    \begin{scope}[shift={(0,-\pgfmathresult)}]
+        \pgfmathsetmacro{\hata}{\x}
+        \hatshape{\hata}{0}{90}{\b}
+        \draw[dashed] (midcenter) circle(\r) node {$a$};
+        \draw[bracket] ([shift={(11pt,11pt)}]top) -- node[sloped,above] {$d\sqrt{a}$} ([shift={(11pt,11pt)}]right);
+        %\coordinate (thetop) at (top);
+        \hatshape{\hata}{0}{90}{\b}
+    \end{scope}
+\end{scope}
+
+\pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt((\g)/pi)/tan(\b/2)}
+\begin{scope}[shift={(\pgfmathresult,0)}]
+    \pgfmathparse{sqrt(1/pi)-sqrt((\g)/pi)}
+    \begin{scope}[shift={(0,-\pgfmathresult)}]
+        \hatshape{\g}{0}{90}{\b}
+        \draw[dashed] (midcenter) circle(\r) node {$f_i$};
+        \draw[bracket] ([shift={(6pt,6pt)}]top) -- node[sloped,above] {$e\sqrt{a}$} ([shift={(6pt,6pt)}]right);
+        %\draw[bracket] ([shift={(6pt,6pt)}]thetop) -- node[sloped,above] {$x$} ([shift={(6pt,6pt)}]top);
+    \end{scope}
+\end{scope}

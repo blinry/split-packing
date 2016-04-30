@@ -1,0 +1,9 @@
+\draw (0,0) rectangle (\B,\B);
+\newcommand\circrad{0.398942}
+\coordinate (c1) at (\circrad,\circrad);
+\coordinate (c2) at (\B-\circrad,\B-\circrad);
+\coordinate (c) at (\B/2,\B/2);
+\draw[dashed] (c1) circle (\circrad);
+\draw[dashed] (c2) circle (\circrad);
+\draw[tight] (c1) edge[above] node {$r$} +(180:\circrad) -- node[above left] {$r$} ++(45:\circrad) -- node[above left] {$r$} ++(45:\circrad) -- node[above] {$r$} ++(0:\circrad);
+\draw (c1) -- node[below] {$\frac{r}{\s}$} (c1 -| c) -- (c) -- (c2 |- c) -- (c2);

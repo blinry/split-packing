@@ -1,0 +1,9 @@
+\pgfmathsetmacro{\a}{(\defaulta)}
+\pgfmathsetmacro{\b}{(\defaultb)}
+\pgfmathsetmacro{\round}{(\defaultr)}
+\hatshape{1}{\round}{\a}{\b}
+
+\draw[dashed] (rightcenter) circle(\s) node {$b$};
+\draw[dashed] (leftcenter) circle(\s) node {$b$};
+\draw[dashed] (topcenter) circle(\s) node {$b$};
+\draw[dashed] (midcenter) circle(\r) node {$a$};

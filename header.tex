@@ -1,8 +1,8 @@
 %\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage{float}
-\usepackage{pgfplots}
+%\usepackage{float}
+%\usepackage{pgfplots}
 %\usepackage{microtype}
 \usepackage{xcolor}
     \definecolor{medium-blue}{rgb}{0,0,0.5}
@@ -17,13 +17,24 @@
     \newtheorem{definition}{Definition}
     \newtheorem{lemma}{Lemma}
 \usepackage{amsfonts}
-\usepackage{todonotes}
+%\usepackage{todonotes}
 \usepackage{tikz}
     \input{tikz.tex}
     \usetikzlibrary{calc}
     \usetikzlibrary{arrows}
+    \usetikzlibrary{decorations.pathreplacing}
     %\usetikzlibrary{external}
     %\tikzexternalize[prefix=tikz/]
+    \newcommand\fig[3][3]{%
+        \begin{figure}%
+            %\tikzsetnextfilename{#1}%
+            \begin{tikzpicture}[scale=#1]%
+                \input{tikz/#2.tex}%
+            \end{tikzpicture}%
+            \label{fig:#2}%
+            \caption{#3}%
+        \end{figure}%
+    }
 \usepackage{graphicx}
     \graphicspath{{images/}}
 \usepackage{algorithm}
@@ -32,7 +43,7 @@
     \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \usepackage{chngcntr}
     \counterwithout{equation}{chapter}
-\usepackage{nicefrac}
+%\usepackage{nicefrac}
 \usepackage[style=numeric-comp,maxbibnames=99,url=false]{biblatex}
     \addbibresource{../references/references.bib}
 

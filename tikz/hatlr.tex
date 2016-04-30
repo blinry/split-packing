@@ -1,0 +1,26 @@
+\pgfmathsetmacro{\aa}{(\defaulta)}
+\pgfmathsetmacro{\bb}{(\defaultb)}
+\pgfmathsetmacro{\a}{39}
+\pgfmathsetmacro{\b}{51}
+
+\hatshape{1}{0}{\a}{\b}
+\draw (midcenter) circle(\r);
+\draw[draw=none] (left) -- node[sloped,above] {$x$} (top);
+\draw[draw=none] (top) -- node[sloped,above] {$y$} (right);
+
+\coordinate (lc) at ($(midcenter)-(\r,0)$);
+\coordinate (rc) at ($(midcenter)+(\r,0)$);
+\coordinate (l) at ($(midcenter)+(-\r,-\r)$);
+\coordinate (r) at ($(midcenter)+(\r,-\r)$);
+
+\draw[dashed] (lc) -- (l);
+\draw[dashed] (rc) -- (r);
+
+\draw[bracket] ([yshift=-2pt]right) -- node[below] {$r$} ([yshift=-2pt]l);
+\draw[bracket] ([yshift=-9pt]r) -- node[below] {$l$} ([yshift=-9pt]left);
+\draw[bracket] ([yshift=-16pt]right) -- node[below] {$1$} ([yshift=-16pt]left);
+
+\begin{scope}[scale=0.76,shift={(0,-0.178)}]
+    \hatshape[dotted]{1}{0}{\aa}{\bb}
+    \draw[dotted] (midcenter) circle(\r);
+\end{scope}
