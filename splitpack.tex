@@ -38,7 +38,7 @@ Jan-Marc\,Reinhardt,\,M.\,Sc.}
 \vspace*{1em}
 \noindent
 This thesis has been performed independently with the support of my supervisors.
-To the best of the author's knowledge, this thesis contains no material previously
+To the best of my knowledge, this thesis contains no material previously
 published or written by another person except where due reference is made in the text.
 
 \par
@@ -58,6 +58,20 @@ Very abstract indeed.
 \section*{Acknowledgments}
 
 I would like to thank the following people for their support in the creation of this thesis:
+
+Christian
+
+Jan-Marc
+
+Sándor
+
+Heike
+
+Wolfgang
+
+Dominik
+
+Marco
 
 \section*{Colophon}
 
@@ -79,36 +93,38 @@ This document was created using \LaTeXe\ by Leslie Lamport and contributors, and
 
 \chapter{Introduction}
 
-short packing intro
+When friends and family ask about what I am working on, more often than not, it seems hard to answer without going deep into the basics of computer science. This thesis, on the other hand, deals with a problem that is so intuitive that even a 10-second summary covers it pretty well:
 
-moon + moser square result
+\begin{quote}
+    “You're given a square, and some circles. How large can their total area get so that you can always pack them into the square?”
+\end{quote}
 
-This thesis: Same question for circles. Origami motivation.
+It seems like there should be an easy answer. Already in 1967, Moon and Moser published a similar result: Given a square container, you can pack a set of smaller squares into it, if their total area is not more than half of the container's area, by sorting them by size and then placing them in the container in a shelf-like manner. Their result goes even further: This factor of one half is the \emph{largest possible factor} you could hope for, because two squares with area $1/4 + \varepsilon$ can no longer be packed without overlapping. In that sense, two quarter squares represent a worst case...
 
-%\begin{figure}[htbp!]
-%    \centering
-%
-%    \begin{tikzpicture}[scale=2.5]
-%        \squareworstcase
-%    \end{tikzpicture}
-%
-%    \caption{Worst-case circle instance in terms of packing density?}
-%    \label{fig:worst-case}
-%\end{figure}
-%
+In this thesis, we ask the same question for packing circles into various containers.
+
+Our original motivation comes from an unexpected direction: Origami design.
+
+\begin{figure}
+    \begin{tikzpicture}[scale=2.5]
+        \squareworstcase
+    \end{tikzpicture}
+
+    \caption{Worst-case circle instance in terms of packing density?}
+    \label{fig:worst-case}
+\end{figure}
+
 %Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into any smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
 %If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density. In this thesis, we give a constructive proof that this is indeed the case.
-%
-%\begin{figure}[htbp!]
-%    \centering
-%
-%    \begin{tikzpicture}[scale=2.5]
-%        \bigquestion
-%    \end{tikzpicture}
-%
-%    \caption{Can these circles be packed?}
-%    \label{fig:big-question}
-%\end{figure}
+
+\begin{figure}
+    \begin{tikzpicture}[scale=2.5]
+        \bigquestion
+    \end{tikzpicture}
+
+    \caption{Can these circles be packed?}
+    \label{fig:big-question}
+\end{figure}
 
 \section{Problem statement}
 
@@ -528,7 +544,7 @@ As this theorem is important for the whole thesis, let us rephrase it: \Cref{th:
 
 The general \textsc{Splitpack} algorithm, then, reads as follows:
 
-\begin{algorithm}[htbp!]
+\begin{algorithm}
     \caption{\textsc{Splitpack}$(s,C)$}
     \begin{algorithmic}
         \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$
@@ -589,9 +605,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \newcommand\defaultr{0.2}
 \newcommand\defaultx{0.6}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=3]
         \hatsimple{\defaulta}{\defaultb}{\defaultr}
     \end{tikzpicture}
@@ -604,9 +618,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
     A hat's \emph{associated split key} equals the tuple of the areas of the two circles incribed in the hat's two sides when splitting the underlying triangle orthogonally to its base through its tip, see \Cref{fig:hatf}.
 \end{definition}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=3]
         \hatf{\defaulta}{\defaultb}{\defaultr}
     \end{tikzpicture}
@@ -634,9 +646,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 %%    \end{itemize}
 %%\end{lemma}
 %%
-%%\begin{figure}[htbp!]
-%%    \centering
-%%
+%%\begin{figure}
 %%    \begin{tikzpicture}[scale=4]
 %%        \hatconstruction
 %%    \end{tikzpicture}
@@ -658,9 +668,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 \begin{proof}
     Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles towards the container's matching angles and push them as far to the left/right as possible. Figure \Cref{fig:hatsinhat} shows examples how this packing looks like for different values of $a_1$ and $a_2$.
 
-    \begin{figure}[htbp!]
-        \centering
-
+    \begin{figure}
         \begin{tikzpicture}[scale=2]
             \hatsinhat{\defaulta}{\defaultb}{0}{0}
         \end{tikzpicture}
@@ -707,9 +715,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 
             We first normalize the container hat's width to 1 and make an observation about the partial widths $l$ and $r$ in \Cref{fig:hatlr}: If the top angle is a right angle, the partial widths have the same lengths as the triangle's two cathetus $x$ and $y$ (TODO is it clear why?), so by Pythagoras, $l^2 + r^2 = 1$. If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant), both $l$ and $r$ shrink, so for each hat, $l^2 + r^2 \le 1$, or $r \le \sqrt{1-l^2}$.
 
-            \begin{figure}[htbp!]
-                \centering
-
+            \begin{figure}
                 \begin{tikzpicture}[scale=3]
                     \hatlr{\defaulta}{\defaultb}{39}{51}
                 \end{tikzpicture}
@@ -724,9 +730,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
                 lf + rg \le w
             \end{equation}
 
-            \begin{figure}[htbp!]
-                \centering
-
+            \begin{figure}
                 \begin{tikzpicture}[scale=3]
                     \hatsoverlap{\defaulta}{\defaultb}{\defaultx}{0}
                 \end{tikzpicture}
@@ -760,9 +764,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
             %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hatpokef}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
             We are also interested in the ratio between the square root of the area of the incircle of a triangle similar to the container triangle and the length of its right side. We call this ratio $e$. See \Cref{fig:hatpokef} for an illustration of $d$ and $e$.
 
-            \begin{figure}[htbp!]
-                \centering
-
+            \begin{figure}
                 \begin{tikzpicture}[scale=3]
                     \hatpokef{\defaulta}{\defaultb}{\defaultx}{0}
                 \end{tikzpicture}
@@ -778,9 +780,7 @@ A useful family of shapes, which can be packed into each other quite well, are r
 
             In \Cref{fig:hatpoke}, we display the situation when packing a hat into (w.l.o.g.) the right side of the container. $f_i$ is the relevant factor from the split key, $a_i$ is the hat's incircle and $y$ represents the hat's rounding.
 
-            \begin{figure}[htbp!]
-                \centering
-
+            \begin{figure}
                 \begin{tikzpicture}[scale=3]
                     \hatpoke{\defaulta}{\defaultb}{\defaultx}{0}
                 \end{tikzpicture}
@@ -865,9 +865,7 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
     \Cref{th:hatsinhat} tells us that this theorem is true for $b = 0$. Now, the container's corners can be rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But all of the two hat's corners are also rounded to (at least) the same radius, so they will never overlap the container, see \Cref{fig:rounding-hats}.
 \end{proof}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=2]
         \hatsinhat{\defaulta}{\defaultb}{\defaultx}{0}
     \end{tikzpicture}
@@ -935,9 +933,7 @@ Packing circles into an isosceles triangle
 %
 %\section{Squares}
 %
-%\begin{figure}[htbp!]
-%    \centering
-%
+%\begin{figure}
 %    \begin{tikzpicture}[scale=2]
 %        \hatsinsquare{0.5}
 %    \end{tikzpicture}
@@ -995,9 +991,7 @@ For this generalization, we utilize a new shape, which we call \emph{gem}:
     $$\frac{(2+\s)(2\sqrt{\s-1}-1)}{\sqrt{(\s-1)\pi}}\sqrt{b} \approx 0.859549008 \sqrt{b}$$
 \end{definition}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=3]
         \gemsimple{0.5}
     \end{tikzpicture}
@@ -1012,9 +1006,7 @@ We also introduce a nickname for the special case where $a=b$:
     We call an $(a,a)$-gem an \emph{$a$-ruby}.
 \end{definition}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=3]
         \rubysimple
     \end{tikzpicture}
@@ -1064,8 +1056,7 @@ An $a$-ruby contains the following shapes, all of which touch all sides of the t
     \end{itemize}
 \end{proof}
 
-\begin{table}[htbp!]
-    \centering
+\begin{table}
     \caption{Gem-in-gem packings for different values of $a_1$ and $a_2$.}
     \label{tab:gemsingem}
 
@@ -1154,9 +1145,7 @@ Packing rubies into a IRT
     $$2\pi r^2 = 2\pi\frac{a}{4 + \frac{8}{\s}+\frac{4}{2}} = \frac{\pi}{3+2\s}a$$
 \end{proof}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=3]
         \squareworstcaseconstruction
     \end{tikzpicture}
@@ -1182,9 +1171,7 @@ Packing rubies into a IRT
     \end{itemize}
 \end{lemma}
 
-\begin{figure}[htbp!]
-    \centering
-
+\begin{figure}
     \begin{tikzpicture}[scale=2]
         \hatsinsquare{0.5}
     \end{tikzpicture}
@@ -1275,8 +1262,7 @@ Packing rubies into a IRT
 %    See \Cref{fig:example} for a complete example packing.
 %\end{proof}
 %
-%\begin{figure}[htbp!]
-%    \centering
+%\begin{figure}
 %    \includegraphics[width=0.5\textwidth]{square_example.png}
 %    \caption{Packing of an example instance.}
 %    \label{fig:example}

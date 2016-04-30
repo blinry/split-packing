@@ -1,6 +1,6 @@
 default:
 	latexmk splitpack
 view:
-	evince splitpack.pdf &
+	evince splitpack.pdf &> /dev/null &
 clean:
 	latexmk -c splitpack

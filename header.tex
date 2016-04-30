@@ -75,3 +75,13 @@
 \newcommand{\s}{\sqrt{2}}
 \DeclareMathOperator{\mysum}{sum}
 \DeclareMathOperator*{\argmin}{arg\,min}
+
+\makeatletter
+
+% center the contents of floatstuff automatically
+\g@addto@macro\@floatboxreset\centering
+
+% make htbp! the placement for floatstuff
+\def\fps@figure{htbp!}
+
+\makeatother
