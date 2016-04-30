@@ -1,3 +1,5 @@
+\chapter{Triangular containers}
+
 \section{Hats}
 
 We turn to specific classes of container shapes now. For each shape, we are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with total area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of total area $a'$ which \emph{cannot} be packed. Second, that all instances of total area $a$ can be packed.
@@ -336,6 +338,8 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
     The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
 \end{proof}
 
+\section{Isosceles triangles}
+
 %\begin{theorem}
 %    Each $A \in \C(a)$ can be packed into an isosceles triangle with a largest angle $\gamma$ between $\frac{\pi}{2}$ and $\frac{\pi}{3}$ and an area of $a\frac{1+\frac{1}{\sin(\gamma)}}{\pi}$.
 %\end{theorem}
@@ -382,9 +386,15 @@ In this proof, the container was a $(a,0)$-hat, which is essentially a non-round
 %We are now ready to prove our main theorem:
 %
 
+\section{The problem with acute triangles}
+
+\chapter{Square containers}
+
 \section{Isosceles right triangles}
 
 If the container is a isosceles right triangle, one can generalize the split packing method a bit to be able to pack different objects than circles. Specifically, we can adapt the method so that it also packs regular octagons worst-case optimally, and so that it packs squares worst-case optimally when it is allowed to rotate them while packing.
+
+\subsection{Gems and rubys}
 
 For this generalization, we utilize a new shape, which we call \emph{gem}:
 
@@ -417,66 +427,112 @@ We also introduce a nickname for the special case where $a=b$:
     \begin{tikzpicture}[scale=3]
         \rubysimple
     \end{tikzpicture}
+    \begin{tikzpicture}[scale=3]
+        \rubysimplesquare
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=3]
+        \rubysimpleoctagon
+    \end{tikzpicture}
 
-    \caption{An $a$-ruby.}
+    \caption{An $a$-ruby and its contained circle, square and hexagon.}
     \label{fig:hat}
 \end{figure}
+
+An $a$-ruby contains the following shapes, all of which touch all sides of the triangle which the ruby is based on:
+
+\begin{itemize}
+    \item A circle of area $a$
+    \item A square of area $\frac{3+2\s}{2\pi}a \approx 0.927622987a$
+    \item A regular octagon of area $\frac{8\s-8}{\pi}a \approx 1.054786175a$
+\end{itemize}
 
 \begin{definition}
     A \emph{ruby instance} $R$ is defined excactly as a circle instance, except that the real numbers define the areas of the rubies' incircles.
 \end{definition}
 
 \begin{theorem}
-    Consider an $(a,0)$-gem and its associated split key $F = (1,1)$.
-    For all $(F,0)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
-    \begin{itemize}
-        \item A $(a_1,b_1)$-gem and
-        \item a $(a_2,b_2)$-gem.
-    \end{itemize}
+    %Consider an $(a,0)$-gem and its associated split key $F = (1,1)$.
+    %For all $(F,0)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    %\begin{itemize}
+    %    \item A $(a_1,b_1)$-gem and
+    %    \item a $(a_2,b_2)$-gem.
+    %\end{itemize}
+    Consider an $(a_1, b_1)$-gem and an $(a_2, b_2)$-gem. The two gems can be packed into an $(a,0)$-gem, if they are $((1,1),0)$-rounded and if $a_1 + a_2 \le a$ and if wlog $a_1 \le 2 a_2$.
 \end{theorem}
 
 \begin{proof}
     Place the gems' tips at the bottom of the container gem and push them as far to the left/to the right as possible like in Figure TODO.
+
+    This placement constitutes a valid packing if (1) the gems do not overlap each other and (2) the gems fit into the gem individually.
+
+    \begin{itemize}
+        \item[(1)]
+            The two gems don't overlap each other if their incircles don't overlap. We proved in \Cref{th:hatsinhat} that this does not happen.
+        \item[(2)]
+
+    \end{itemize}
 \end{proof}
 
-\begin{figure}[htbp!]
+\begin{table}[htbp!]
     \centering
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.5}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.49}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.45}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.4}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.333}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.1715}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0.1}{0}
-    \end{tikzpicture}
-
-    \begin{tikzpicture}[scale=2]
-        \gemsingem{0}{0}
-    \end{tikzpicture}
-
     \caption{Gem-in-gem packings for different values of $a_1$ and $a_2$.}
-    \label{fig:hatsinhat}
-\end{figure}
+    \label{tab:gemsingem}
+
+    \begin{tabular}{cp{10cm}}
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0.5}{0}
+        \end{tikzpicture}
+        & The two gems are placed so that their tips touch the container's base and point towards each other. For this table, assume wlog $a_1 \ge a_2$.\\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0.334}{0}
+        \end{tikzpicture}
+        & They are then pushed as far to the left/to the right as possible.\\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0.333}{0}
+        \end{tikzpicture}
+        & As soon as $a_1 > 2 a_2$, we know from REF that $C_1$ will be one single ruby. We no longer need to place a gem container, but we can place the ruby directly.\\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0.1715}{0}
+        \end{tikzpicture}
+        & When $a_1 = xxx a_2$, the ruby touches the container's right leg.\\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0.1714}{0}
+        \end{tikzpicture}
+        & If the ruby gets larger than that, it has to be rotated so that its tip points up.\\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0.1}{0}
+        \end{tikzpicture}
+        & \\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \gemsingem{0}{0}
+        \end{tikzpicture}
+        & \\
+    \end{tabular}
+\end{table}
+
+\begin{theorem}
+    Any ruby instance $R \in \C(a)$ can be packed into a isosceles right triangle with an incircle of area $a$.
+\end{theorem}
 
 \section{Squares}
 
@@ -628,11 +684,14 @@ We also introduce a nickname for the special case where $a=b$:
 %\end{figure}
 
 \begin{theorem}\label{th:square}
-    A square with an area of $a$ is a $\C(\frac{\pi}{3+2\s}a)$-shape.
+    Any ruby instance with a total area of $a$ can be packed into a square with an area of $xxx a$.
+    %A square with an area of $a$ is a $\C(\frac{\pi}{3+2\s}a)$-shape.
 \end{theorem}
 
 \begin{proof}
-    By \Cref{th:hatsinsquare} and the Split Packing Theorem.
+    %By \Cref{th:hatsinsquare} and the Split Packing Theorem.
+    If the ruby instance $R$ consists of a single ruby, it can be packed into the square, as its diagonal size is smaller than the square's side length TODO.
+    Otherwise, \textsc{Split}$(R, (1,1))$ decomposes $R$ into two subinstances $R_1$ and $R_2$ which can be packed into two $(1,1)$-rounded gems, which, by Lemma TODO can be packed into the square.
 \end{proof}
 
 \begin{theorem}

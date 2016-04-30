@@ -1,5 +1,5 @@
 default:
-	latexmk -pdf ma
+	latexmk ma
 view:
 	evince ma.pdf &
 clean:

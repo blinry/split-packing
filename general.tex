@@ -1,37 +1,55 @@
 \chapter{Split Packing}
 
+The packing algorithm proposed in this thesis is based on two core ideas.
+
+The first idea is an divide-and-conquer approach. We recursively split the set of input circles into subsets. This results in a top-down approach: At each level, the instance is split into two subsets, which are then packed into smaller containers individually, before they are combined again.
+
+The second idea is to perform this splitting using an algorithm which resembles greedy scheduling. For each shape, the packing algorithm has a targeted ratio for the total circle area in the resulting subsets, and the splitting algorithm is designed to make sure the actual subsets get close to that ratio. If the resulting subsets deviate from this target ratio, we can make additional statements about the properties of the subinstances.
+
+By combining these ideas, we can construct a method which roughly works like the following: We split the circle instance into two subinstances, and then construct two smaller containers which satisfy two conditions: First, the two containers have to fit into the larger container, and second, one needs to be able to pack one of the two parts into them, respectively.
+
 \section{Greedy splitting}
 
-The core idea of the proposed packing algorithms is to recursively split the set of input circles into groups. The method which performs this splitting resembles a greedy scheduling algorithm. It is going to be important for the packing algorithm that the ratios of the groups' sums is close to certain factors.
-
-The algorithm, \textsc{Split}, takes two parameters: The first is an arbitrary circle instance $C$. The second is a tuple of two positive factors, which determines which percentages of $C$'s sum should go into the respective groups. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$, and if we wanted to split $C$ in two groups with a ratio of 1:3, we we could use $(1,3)$. We call this tuple the \emph{split key}:
+The method which performs this splitting resembles a greedy scheduling algorithm, which is why we call it \emph{greedy splitting}. The algorithm, \textsc{Split}, takes two inputs: The first is an arbitrary circle instance $C$. The second is a tuple of two positive factors, which determines which ratios of $C$'s combined area sum should go into the respective groups. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$, and if we wanted to split make one group three times as large as the other, we could use $(1,3)$. We call this tuple the \emph{split key}:
 
 \begin{definition}
     A \emph{split key} is a tuple of two positive real numbers.
 \end{definition}
 
-In each step, \textsc{Split} adds the largest remaining circle of the input instance to the “emptiest” group---the group where the ratio between the current sum and the associated factor of the split key is the smallest. The scenario which is easiest to imagine is when the split key actually describes the desired total area of that group, and \textsc{Split} puts the next circle into the group which has the smallest “filling level”.
+\textsc{Split} works like this: It starts with two empty “buckets”, and then in each step adds the largest remaining circle of the input instance to the “more empty” bucket---the bucket where the ratio between the sum of its current content and the associated factor of the split key is smaller.
+%The scenario which is easiest to imagine is when the split key actually describes the desired total area of that group, and \textsc{Split} puts the next circle into the group which has the smallest “filling level”.
 
-\begin{algorithm}[htbp!]
+\begin{algorithm}[H]
     \caption{\textsc{Split}$(C,F)$}
     \begin{algorithmic}
         \Require A circle instance $C$ and a split key $F = (f_1, f_2)$
         \Ensure Circle instances $C_1, C_2$
         \State $C_1 \gets \emptyset$
         \State $C_2 \gets \emptyset$
-        \State Sort $C$ descending by size
+        \State Sort $C$ descending by size.
         \ForAll{$c \in C$}
-            \State $j = \argmin_{i} \frac{\mysum(C_i)}{f_i}$\Comment{Find the index of the emptiest instance}
+            \State $j = \argmin_{i} \frac{\mysum(C_i)}{f_i}$\Comment{Find the index of the emptiest instance.}
             \State $C_j \gets C_j \cup \{c\}$
         \EndFor
     \end{algorithmic}
 \end{algorithm}
 
-Of course, it will not always be possible to achieve these desired ratios exactly (for example if the input instance consists of few very large elements which cannot be distributed in the specified ratios), but we can derive an interesting property from the resulting subinstances if the resulting group's sizes derive from the split key:
+Although the greedy splitting aims to produce subinstances with area ratios as specified by the split key, of course it will not always be possible to achieve these ratios exactly. If, for example, the input instance consists of few very large circles, it might not be possible to distributed them in the specified ratios.
+But if the resulting group's sizes derive from the split key, we can derive an interesting property from the resulting subinstances 
 
 \begin{lemma}\label{th:split-property}
     For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ decomposes $C$ into two circle instances $C_1$ and $C_2$. Set $a_i \coloneqq \mysum(C_i)$ and wlog assume $\frac{a_2}{f_2} \le \frac{a_1}{f_1}$.
     Then $\min(C_1) \ge a_1 - f_1\frac{a_2}{f_2}$.
+
+    %For any circle instance $C \in \C(a,b)$ and any split key $F = (f_1, f_2)$,
+    %\textsc{Split}$(C,(f_1,f_2))$ decomposes any circle instance $C \in \C(a,b)$ into two circle instances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$ with
+
+    %\begin{itemize}
+    %    \item $C_1 + C_2 = C$
+    %    \item $b_1 \ge a_1 - $
+    %\end{itemize}
+    %. Set $a_i \coloneqq \mysum(C_i)$ and wlog assume $\frac{a_2}{f_2} \le \frac{a_1}{f_1}$.
+    %Then $\min(C_1) \ge a_1 - f_1\frac{a_2}{f_2}$.
 \end{lemma}
 
 \begin{proof}
@@ -41,11 +59,12 @@ Of course, it will not always be possible to achieve these desired ratios exactl
 \end{proof}
 
 \begin{lemma}
-    For any circle instance $C$ and any split key $F = (f_1, f_2)$, if \textsc{Split}$(C,F)$ produces two circle instances $C_1$ and $C_2$ with $\mysum(C_1) > 2 f_1 \frac{\mysum(C_2)}{f_2}$, then $|C_1| = 1$.
+    For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ produces two circle instances $C_1$ and $C_2$. Set $a_i \coloneqq \mysum(C_i)$.
+    If $a_1 > 2 f_1 \frac{a_2}{f_2}$, then $|C_1| = 1$ and $\min(C_1) = a_1$.
 \end{lemma}
 
 \begin{proof}
-    The condition is equivalent to $\mysum(C_1) - f_1 \frac{\mysum(C_2)}{f_2} > \frac{\mysum(C_1)}{2}$, or $\min(C_1) > \frac{\mysum(C_1)}{2}$, which means that the minimum size of the circles in $C_1$ is more than half of its total sum. The only possible instance which satisfies this constraint is a single circle with area $\mysum(C_1$).
+    The condition is equivalent to $a_1 - f_1 \frac{a_2}{f_2} > \frac{a_1}{2}$, or $\min(C_1) > \frac{a_1}{2}$, which means that the minimum size of the circles in $C_1$ is more than half of its total sum. The only possible instance which satisfies this constraint is a single circle with area $a_1$.
 \end{proof}
 
 %Here is a definition that makes it easier to talk about 
@@ -57,25 +76,37 @@ To make it easier to talk about the properties of the groups output by \textsc{S
 %\end{definition}
 
 \begin{definition}\label{def:rounded}
-    For any split key $F = (f_1, f_2)$ and any $b \ge 0$ we say that $n$ tuples $(a_1, b_1)$, $(a_2, b_2)$ are \emph{$(F,b)$-rounded} if each $b_i = \max\{b,a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\}$.
+    For any $0 \le b \le a$ and any split key $F = (f_1, f_2)$, we say that the tuples $(a_1, b_1)$, $(a_2, b_2)$ are \emph{$(a,b,F)$-conjugated} if
+
+    \begin{itemize}
+        \item $a_1 + a_2 = a$,
+        \item $b_1 = \begin{cases}
+                a_1 & \text{if}\ a_1 > 2 f_1 \frac{a_2}{f_2}\\
+                \max\{b,a_1 - f_1 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\} & \text{else}
+            \end{cases}$, and
+        \item $b_2 = \begin{cases}
+                a_2 & \text{if}\ a_2 > 2 f_2 \frac{a_1}{f_1}\\
+                \max\{b,a_2 - f_2 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\} & \text{else}
+            \end{cases}$.
+    \end{itemize}
 \end{definition}
 
 We can now associate this property with \textsc{Split} in the following theorem:
 
 \begin{theorem}\label{th:split-sets}
-    For any $C \in \C(a,b)$, and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ produces $n$ subinstances $C_1 \in \C(a_1, b_1), C_2 \in \C(a_2, b_2)$, so that $C_1 + C_2 + C_n = C$ and the instance sets' parameters are $(F,b)$-rounded.
+    For any $C \in \C(a,b)$, and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ produces two subinstances $C_1 \in \C(a_1, b_1), C_2 \in \C(a_2, b_2)$, so that $C_1 + C_2 = C$ and $(a_1, b_1)$ and $(a_2, b_2)$ are $(a,b,F)$-rounded.
 \end{theorem}
 
 \begin{proof}
     That the subinstances add up to the original instance is obvious from the algorithm.
-    For the roundedness, as $\min(C) \ge b$, the subinstances must have the same property. Additionally, by \Cref{th:split-property}, $C_i \in \C(a_i, a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$. Thus, the subinstances satisfy \Cref{def:rounded}.
+    For the conjugatedness, as $\min(C) \ge b$, the subinstances must have the same property. Additionally, by \Cref{th:split-property}, $C_i \in \C(a_i, a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$. Thus, the subinstances satisfy \Cref{def:rounded}.
 \end{proof}
 
 %What is means for shapes to be $(F,b)$-rounded is that we lift some requirements on which instances they need to be able to pack. We combine two lower bounds for the minimum size of the instances: First, the shapes never need to be able to pack any instances containing circles smaller than $b$. Second, they reflect the \textsc{Split}-algorithm's minimum element sizes stated in \Cref{th:split-property}. If a subinstance $C_i$ returned by \textsc{Split} can not possibly contain any circles smaller than a certain size, it makes sense to also relax the requirements for the shapes in which these subinstances will be packed: It suffices if they can pack those instances where the circles have this minimum size. Whichever of the two circle sizes requirements is largest, determines the “minimum size” of the rounded shape.
 
 %Put differently, to have $F$-rounded shapes of the correct totals is a sufficient condition to be able to pack resulting subinstances of a \textsc{Split} operation into them. This is expressed in the following lemma:
 
-\section{Shapes, Rounding, and Split Packing}
+\section{Split Packing}
 
 %We will now make some general observations about shapes which are suitable to pack certain classes of circle instances. Most of the proofs appearing in later chapters, while tailored to specific kinds of shapes (triangles, squares), will use these quite universal theorems.
 We will now turn to general shapes. It is often interesting to state that a shape can pack certain classes of circle instances. For this, we define the term \emph{$\mathcal{C}$-shape}:
@@ -141,25 +172,26 @@ The general \textsc{Splitpack} algorithm, then, reads as follows:
     \begin{algorithmic}
         \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$
         \Ensure A packing of $C$ into $s$
-        \State Determine split key $F$ for $s$
+        \State Determine split key $F$ for shape $s$
         \State $(C_1, C_2) \gets \textsc{Split}(C,F)$
-        \State $(s_1, s_2) \gets$ any $(F,b)$-rounded shapes with $\mysum(s_i) = \mysum(C_i)$
-        \State Pack these shapes into $s$
-        \ForAll{$C_i \in (C_1, C_2)$}
+        %\State $(s_1, s_2) \gets$ any $(F,b)$-rounded shapes with $\mysum(s_i) = \mysum(C_i)$
+        \ForAll{$i \in \{1,2\}$}
+            \State $a_i \gets \mysum(C_i)$
+            \State $b_i \gets$ minimum guarantee for $C_i$
+            \State Determine a $\C(a_i, b_i)$-shape $s_i$
             \State \Call{Splitpack}{$s_i, C_i$}
         \EndFor
+        \State Pack $s_1$, $s_2$, and their contents into $s$
     \end{algorithmic}
 \end{algorithm}
 
-%One needs the following elements to use \textsc{Splitpack} for a shape:
-%
-%\begin{enumerate}
-%    \item A strategy to determine the split factor $F$
-%    \item A strategy to determine $n$ $(F,b)$-rounded shapes of matching sums for each decomposition of the area $a$
-%    \item A strategy to pack these shapes into $s$
-%\end{enumerate}
-%
-%To proof that the shape is indeed a $\C(a,b)$-shape, one needs to show that these three strategies always work.
+One needs the following elements to use \textsc{Splitpack} for a shape:
+
+\begin{enumerate}
+    \item A strategy to determine the split factor $F$
+    \item A strategy to determine $n$ $(F,b)$-rounded shapes of matching sums for each decomposition of the area $a$
+    \item A strategy to pack these shapes into $s$
+\end{enumerate}
 
 %\section{Normalization}
 
