@@ -1,6 +1,6 @@
 default:
-	latexmk ma
+	latexmk splitpack
 view:
-	evince ma.pdf &
+	evince splitpack.pdf &
 clean:
-	latexmk -c ma
+	latexmk -c splitpack
