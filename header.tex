@@ -1,7 +1,7 @@
 %\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-%\usepackage{float}
+\usepackage{float}
 %\usepackage{pgfplots}
 %\usepackage{microtype}
 \usepackage{xcolor}
@@ -19,7 +19,6 @@
 \usepackage{amsfonts}
 %\usepackage{todonotes}
 \usepackage{tikz}
-    \input{tikz.tex}
     \usetikzlibrary{calc}
     \usetikzlibrary{arrows}
     \usetikzlibrary{decorations.pathreplacing}
@@ -31,8 +30,8 @@
             \begin{tikzpicture}[scale=#1]%
                 \input{tikz/#2.tex}%
             \end{tikzpicture}%
-            \label{fig:#2}%
             \caption{#3}%
+            \label{fig:#2}%
         \end{figure}%
     }
 \usepackage{graphicx}
@@ -44,7 +43,9 @@
 \usepackage{chngcntr}
     \counterwithout{equation}{chapter}
 %\usepackage{nicefrac}
-\usepackage[style=numeric-comp,maxbibnames=99,url=false]{biblatex}
+\usepackage{csquotes}
+\usepackage{scrhack}
+\usepackage[backend=biber,style=numeric-comp,maxbibnames=99,url=false]{biblatex}
     \addbibresource{../references/references.bib}
 
     %% Link complete "Author (Year)", not just "(Year)"
@@ -96,3 +97,240 @@
 \def\fps@figure{htbp!}
 
 \makeatother
+
+%%%%%%%%%%%% TikZ %%%%%%%%%%%%%%%
+
+\newcommand{\B}{1.36207}
+
+\tikzset{tight/.style={inner sep=1pt}}
+\tikzset{bracket/.style={inner sep=10pt,draw=gray,decorate,decoration={brace,amplitude=5pt}}}
+\tikzset{filled/.style={fill=black!30!white}}
+\tikzset{filled2/.style={fill=black!15!white}}
+
+%\newcommand\hatshape[3][]{
+%    \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
+%    \pgfmathsetmacro{\s}{sqrt((#3)/pi)}
+%
+%    \coordinate (top) at (0,{(\r/(sqrt(2)-1)});
+%    \coordinate (right) at ({(\r/(sqrt(2)-1)},0);
+%    \coordinate (left) at ({(-\r/(sqrt(2)-1)},0);
+%
+%    \coordinate (leftcenter) at ($({-(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+%    \coordinate (leftbottom) at ($(leftcenter)+(-90:\s)$);
+%    \coordinate (lefttop) at ($(leftcenter)+(-225:\s)$);
+%
+%    \coordinate (rightcenter) at ($({(\r-\s)/(sqrt(2)-1)},0)+(0,\s)$);
+%    \coordinate (rightbottom) at ($(rightcenter)+(-90:\s)$);
+%    \coordinate (righttop) at ($(rightcenter)+(45:\s)$);
+%
+%    \coordinate (midcenter) at (0,\r);
+%
+%    \draw[#1] (rightbottom) arc (-90:45:\s) -- (top) -- (lefttop) arc (-225:-90:\s) -- cycle;
+%}
+
+\newcommand\hatshape[5][]{
+    \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
+    \pgfmathsetmacro{\s}{sqrt((#3)/pi)}
+    \pgfmathsetmacro{\a}{(#4)}
+    \pgfmathsetmacro{\b}{(#5)}
+
+    \coordinate (top) at ({cos((90+(\a-\b)/2))*(\r/cos((\a+\b)/2))},{sin((90+(\a-\b)/2))*(\r/cos((\a+\b)/2)});
+    \coordinate (left) at ({-\r/tan(\a/2)},-\r);
+    \coordinate (right) at ({\r/tan(\b/2)},-\r);
+
+    \coordinate (leftcenter) at ($(left)+({\s/tan(\a/2)},\s)$);
+    \coordinate (leftbottom) at ($(leftcenter)+(-90:\s)$);
+    \coordinate (lefttop) at ($(leftcenter)+({-270+\a}:\s)$);
+
+    \coordinate (rightcenter) at ($(right)+({-\s/tan(\b/2)},\s)$);
+    \coordinate (rightbottom) at ($(rightcenter)+(-90:\s)$);
+    \coordinate (righttop) at ($(rightcenter)+({90-\b}:\s)$);
+
+    \coordinate (topcenter) at ($(top)-({cos((90+(\a-\b)/2))*(\s/cos((\a+\b)/2))},{sin((90+(\a-\b)/2))*(\s/cos((\a+\b)/2)})$);
+    \coordinate (topleft) at ($(topcenter)+({-270+\a}:\s)$);
+    \coordinate (topright) at ($(topcenter)+({90-\b}:\s)$);
+
+    \coordinate (midcenter) at (0,0);
+
+    %\draw[#1] (right) -- (top) -- (left) -- cycle;
+    \draw[#1] (rightbottom) arc (-90:{90-\b}:\s) -- (topright) arc ({90-\b}:{90+\a}:\s) -- (lefttop) arc ({-270+\a}:-90:\s) -- cycle;
+}
+\newcommand\gemshape[3][]{
+    \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
+    \pgfmathsetmacro{\s}{sqrt((#3)/pi)}
+    \pgfmathsetmacro{\l}{0.85955*sqrt(#3)}
+    \pgfmathsetmacro{\ll}{0.7654*\l}
+    \pgfmathsetmacro{\a}{45}
+    \pgfmathsetmacro{\b}{45}
+
+    \coordinate (top) at ({cos((90+(\a-\b)/2))*(\r/cos((\a+\b)/2))},{sin((90+(\a-\b)/2))*(\r/cos((\a+\b)/2)});
+    \coordinate (left) at ({-\r/tan(\a/2)},-\r);
+    \coordinate (right) at ({\r/tan(\b/2)},-\r);
+
+    \coordinate (leftcenter) at ($(left)+({\s/tan(\a/2)},\s)$);
+    \coordinate (lefttop) at ($(left)+(45:\l)$);
+    \coordinate (leftmid) at ($(left)+(22.5:\ll)$);
+    \coordinate (leftbottom) at ($(left)+(0:\l)$);
+
+    \coordinate (rightcenter) at ($(right)+({-\s/tan(\b/2)},\s)$);
+    \coordinate (righttop) at ($(right)+(135:\l)$);
+    \coordinate (rightmid) at ($(right)+(157.5:\ll)$);
+    \coordinate (rightbottom) at ($(right)+(180:\l)$);
+
+    %\coordinate (topcenter) at ($(top)-({cos((90+(\a-\b)/2))*(\s/cos((\a+\b)/2))},{sin((90+(\a-\b)/2))*(\s/cos((\a+\b)/2)})$);
+    %\coordinate (topleft) at ($(topcenter)+({-270+\a}:\s)$);
+    %\coordinate (topright) at ($(topcenter)+({90-\b}:\s)$);
+
+    \coordinate (midcenter) at (0,0);
+
+    \draw[#1] (top) -- (righttop) -- (rightmid) -- (rightbottom) -- (leftbottom) -- (leftmid) -- (lefttop) -- cycle;
+    %\draw[#1] (rightbottom) arc (-90:{90-\b}:\s) -- (top) arc ({-270+\a}:-90:\s) -- cycle;
+}
+
+\newcommand\hatsinsquare[1]{
+    \draw (0,0) rectangle (\B,\B);
+
+    \pgfmathparse{\B-sqrt((1-(#1))/pi)}
+    \begin{scope}[shift={(\pgfmathresult,\pgfmathresult)}]
+        \begin{scope}[rotate=-45]
+            \pgfmathsetmacro{\hata}{1-(#1)}
+            \pgfmathsetmacro{\hatb}{1-2*(#1)}
+            \hatshape[filled2]{\hata}{\hatb}{45}{45}
+            \node at (midcenter) {\hata};
+        \end{scope}
+    \end{scope}
+
+    \def\comparg{#1}
+    \if\comparg0\else
+        \pgfmathparse{(sqrt((#1)/pi)}
+        \begin{scope}[shift={(\pgfmathresult,\pgfmathresult)}]
+            \begin{scope}[rotate=-225]
+                \hatshape[filled2]{#1}{0}{45}{45}
+                \node at (midcenter) {#1};
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
+% alpha, beta, incircle-area of right hat, rounding
+\newcommand\hatsinhat[4]{
+    \pgfmathsetmacro{\a}{(#1)}
+    \pgfmathsetmacro{\b}{(#2)}
+    \pgfmathsetmacro{\x}{(#3)}
+    \pgfmathsetmacro{\round}{(#4)}
+    \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+    \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
+
+    \hatshape{1}{\round}{\a}{\b}
+
+    \def\comparg{\x}
+    \if\comparg0\else
+        \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+        \begin{scope}[shift={(\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)}]
+                \pgfmathsetmacro{\hata}{\x}
+                \pgfmathsetmacro{\hatb}{max(\round,\x-\g*(1-\x)/(\f)))}
+                \hatshape[filled2]{\hata}{\hatb}{90}{\b}
+                \node at (midcenter) {\hata};
+            \end{scope}
+        \end{scope}
+    \fi
+
+    \def\comparg{\x}
+    \if\comparg1\else
+        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
+        \begin{scope}[shift={(-\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt((1-\x)/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)}]
+                \pgfmathsetmacro{\hata}{1-\x}
+                \pgfmathsetmacro{\hatb}{\round}
+                \pgfmathsetmacro{\hatb}{max(\round,(1-\x)-\f*(\x)/(\g)))}
+                \hatshape[filled2]{\hata}{\hatb}{\a}{90}
+                \node at (midcenter) {\hata};
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
+% incircle-area of right hat, rounding
+\newcommand\gemsingem[2]{
+    \pgfmathsetmacro{\a}{45}
+    \pgfmathsetmacro{\b}{45}
+    \pgfmathsetmacro{\x}{(#1)}
+    \pgfmathsetmacro{\round}{(#2)}
+    \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
+    \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
+
+    \gemshape{1}{\round}
+
+    \def\comparg{\x}
+    \if\comparg0\else
+        \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+        \begin{scope}[shift={(\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)},rotate=135]
+                \pgfmathsetmacro{\hata}{\x}
+                \pgfmathsetmacro{\hatb}{max(\round,\x-\g*(1-\x)/(\f)))}
+                \gemshape[filled2]{\hata}{\hatb}
+                \node at (midcenter) {\hata};
+            \end{scope}
+        \end{scope}
+    \fi
+
+    \def\comparg{\x}
+    \if\comparg1\else
+        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
+        \begin{scope}[shift={(-\pgfmathresult,0)}]
+            \pgfmathparse{sqrt(1/pi)-sqrt((1-\x)/pi)}
+            \begin{scope}[shift={(0,-\pgfmathresult)}]
+                \pgfmathparse{\x < 0.1715 ? 0 : -135}
+                \begin{scope}[rotate=\pgfmathresult]
+                    \pgfmathsetmacro{\hata}{1-\x}
+                    \pgfmathsetmacro{\hatb}{\round}
+                    \pgfmathsetmacro{\hatb}{\x < 1/3 ? (1-\x) : max(\round,(1-\x)-\f*(\x)/(\g))}
+                    \pgfmathsetmacro{\fillstyle}{\x < 1/3 ? "filled" : "filled2"}
+                    \gemshape[\fillstyle]{\hata}{\hatb}
+                    \node at (midcenter) {\hata};
+                \end{scope}
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
+\newcommand\hatconstruction{
+    \hatshape[draw=none]{1}{0.3}
+
+    \draw[dashed] (rightcenter) circle(\s);
+    \draw[dashed] (leftcenter) circle(\s);
+    \draw[dashed] (midcenter) circle(\r);
+    \draw[dashed] (right) -- (top) -- (left) -- cycle;
+
+    \draw[tight] (rightcenter) -- node[below left] {$s$} ++(-45:\s) -- node[below right] {$s$} ++(45:\s) coordinate (rightright) {} -- node[right] {$s$} ++(-90:\s) -- node[above] {$s$} (right);
+    \draw[thick,orange] (rightright) -- node[sloped,above] {$s\sqrt{2}$} (right);
+
+    \draw[tight] (leftcenter) -- node[above] {$s$} ++(180:\s) -- node[left] {$s$} ++(-90:\s) coordinate (leftleft) {} -- node[below left] {$s$} ++(135:\s) -- node[below right] {$s$} (left);
+    \draw[thick,orange] (leftleft) -- node[below] {$s\sqrt{2}$} (left);
+
+    \draw[thick,left,blue] (0,0) -- node {$r$} (midcenter) -- node {$r\sqrt{2}$} (top);
+    \draw (midcenter) -- node[below right] {$r$} +(45:\r) -- node[above right] {$r$} (top);
+    \draw[thick,red] (left) -- node[sloped,above] {$(r+r\sqrt{2})\sqrt{2}$} (top);
+
+    \coordinate (leftofleft) at ($(left)+(180:5pt)$);
+    \coordinate (belowleft) at ($(left)-(90:5pt)$);
+    \coordinate (farbelowleft) at ($(left)-(90:10pt)$);
+    \coordinate (abovetop) at ($(top)+(45:5pt)$);
+    \coordinate (farabovetop) at ($(top)+(45:10pt)$);
+    \coordinate (faraboveright) at ($(right)+(45:10pt)$);
+    \coordinate (aboverightright) at ($(rightright)+(45:5pt)$);
+    \coordinate (leftend) at ($(leftleft)-(90:5pt)$);
+    \coordinate (rightend) at ($(rightright)-(90:5pt)$);
+    \coordinate (totheright) at ($(rightcenter)+(0:\s)$);
+    \coordinate (rightend) at ($(totheright)-(90:5pt)$);
+
+    \draw[bracket] (leftofleft) -- node[left] {$h(a)$} (leftofleft |- top);
+    \draw[bracket] (rightend |- belowleft) -- node[below] {$w(a,b)$} (leftend |- belowleft);
+    \draw[bracket] (rightend |- farbelowleft) -- node[below] {$w'(a,b)$} (left |- farbelowleft);
+    \draw[bracket] (abovetop) -- node[above,sloped] {$d(a,b)$} (aboverightright);
+    \draw[bracket] (farabovetop) -- node[above,sloped] {$d'(a)$} (faraboveright);
+}

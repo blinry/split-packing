@@ -13,7 +13,7 @@
         \pgfmathsetmacro{\hata}{\g}
         \hatshape[dashed]{\hata}{0}{90}{\b}
         \pgfmathsetmacro{\r}{sqrt(\g/pi)}
-        \draw (midcenter) circle(\r) node {$f_2$};
+        \draw[dashed] (midcenter) circle(\r) node {$f_2$};
     \end{scope}
 \end{scope}
 
@@ -26,7 +26,7 @@
             \pgfmathsetmacro{\hata}{\f}
             \hatshape[dashed]{\hata}{0}{\a}{90}
             \pgfmathsetmacro{\r}{sqrt((\f)/pi)}
-            \draw (midcenter) circle(\r) node {$f_1$};
+            \draw[dashed] (midcenter) circle(\r) node {$f_1$};
         \end{scope}
     \end{scope}
 \fi
