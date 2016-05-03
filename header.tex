@@ -85,17 +85,18 @@
 
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\s}{\sqrt{2}}
+\newcommand{\wlofg}{without loss of generality}
 \DeclareMathOperator{\mysum}{sum}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \makeatletter
+    % center the contents of floatstuff automatically
+    \g@addto@macro\@floatboxreset\centering
 
-% center the contents of floatstuff automatically
-\g@addto@macro\@floatboxreset\centering
-
-% make htbp! the placement for floatstuff
-\def\fps@figure{htbp!}
-
+    % set default placement for floatstuff
+    \def\fps@figure{H}
+    \def\fps@table{H}
+    \def\fps@algorithmic{H}
 \makeatother
 
 %%%%%%%%%%%% TikZ %%%%%%%%%%%%%%%
@@ -106,6 +107,7 @@
 \tikzset{bracket/.style={inner sep=10pt,draw=gray,decorate,decoration={brace,amplitude=5pt}}}
 \tikzset{filled/.style={fill=black!30!white}}
 \tikzset{filled2/.style={fill=black!15!white}}
+\tikzset{cover/.style={fill=black!30!white,fill opacity=0.5,draw=none}}
 
 %\newcommand\hatshape[3][]{
 %    \pgfmathsetmacro{\r}{sqrt((#2)/pi)}
@@ -298,39 +300,3 @@
     \fi
 }
 
-\newcommand\hatconstruction{
-    \hatshape[draw=none]{1}{0.3}
-
-    \draw[dashed] (rightcenter) circle(\s);
-    \draw[dashed] (leftcenter) circle(\s);
-    \draw[dashed] (midcenter) circle(\r);
-    \draw[dashed] (right) -- (top) -- (left) -- cycle;
-
-    \draw[tight] (rightcenter) -- node[below left] {$s$} ++(-45:\s) -- node[below right] {$s$} ++(45:\s) coordinate (rightright) {} -- node[right] {$s$} ++(-90:\s) -- node[above] {$s$} (right);
-    \draw[thick,orange] (rightright) -- node[sloped,above] {$s\sqrt{2}$} (right);
-
-    \draw[tight] (leftcenter) -- node[above] {$s$} ++(180:\s) -- node[left] {$s$} ++(-90:\s) coordinate (leftleft) {} -- node[below left] {$s$} ++(135:\s) -- node[below right] {$s$} (left);
-    \draw[thick,orange] (leftleft) -- node[below] {$s\sqrt{2}$} (left);
-
-    \draw[thick,left,blue] (0,0) -- node {$r$} (midcenter) -- node {$r\sqrt{2}$} (top);
-    \draw (midcenter) -- node[below right] {$r$} +(45:\r) -- node[above right] {$r$} (top);
-    \draw[thick,red] (left) -- node[sloped,above] {$(r+r\sqrt{2})\sqrt{2}$} (top);
-
-    \coordinate (leftofleft) at ($(left)+(180:5pt)$);
-    \coordinate (belowleft) at ($(left)-(90:5pt)$);
-    \coordinate (farbelowleft) at ($(left)-(90:10pt)$);
-    \coordinate (abovetop) at ($(top)+(45:5pt)$);
-    \coordinate (farabovetop) at ($(top)+(45:10pt)$);
-    \coordinate (faraboveright) at ($(right)+(45:10pt)$);
-    \coordinate (aboverightright) at ($(rightright)+(45:5pt)$);
-    \coordinate (leftend) at ($(leftleft)-(90:5pt)$);
-    \coordinate (rightend) at ($(rightright)-(90:5pt)$);
-    \coordinate (totheright) at ($(rightcenter)+(0:\s)$);
-    \coordinate (rightend) at ($(totheright)-(90:5pt)$);
-
-    \draw[bracket] (leftofleft) -- node[left] {$h(a)$} (leftofleft |- top);
-    \draw[bracket] (rightend |- belowleft) -- node[below] {$w(a,b)$} (leftend |- belowleft);
-    \draw[bracket] (rightend |- farbelowleft) -- node[below] {$w'(a,b)$} (left |- farbelowleft);
-    \draw[bracket] (abovetop) -- node[above,sloped] {$d(a,b)$} (aboverightright);
-    \draw[bracket] (farabovetop) -- node[above,sloped] {$d'(a)$} (faraboveright);
-}
