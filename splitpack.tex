@@ -59,19 +59,23 @@ Very abstract indeed.
 
 I would like to thank the following people for their support in the creation of this thesis:
 
-Christian
+Christian, for always taking the time for me
 
-Jan-Marc
+Jan-Marc, 
 
-Sándor
+Sándor, for suggesting the problem to me, 
+
+All participants of the 31th Bellairs Winter Workshop on Computational Geometry, I draw much inspiration from every one of you!
 
 Heike
 
-Wolfgang
+Wolfgang, for your love and unconditional support in uncountable ways
 
-Dominik
+Dominik, 
 
-Marco
+Marco, for and for spending late hours with me pondering over covering problems.
+
+The Pinky crew, Leslie, Moritz, Torsten, Jakob,
 
 \section*{Colophon}
 
@@ -87,26 +91,72 @@ This document was created using \LaTeXe\ by Leslie Lamport and contributors, and
 
 \chapter{Introduction}
 
-When friends and family ask about what I am working on, more often than not, it seems hard to answer without going deep into the basics of computer science. This thesis, on the other hand, deals with a problem that is so intuitive that even a 10-second summary covers it pretty well:
+Say you are given a number of circles. Can you decide whether these circles can be packed into the unit square without overlapping each other or the square? This is known as the circle packing problem, and it is known to be NP-hard \cite{DFL2010circle}, which means there is (assuming $P \ne NP$) no deterministic polynomial-time algorithm which can decide that.
 
-\begin{quote}
-    “You're given a square, and some circles. How large can their total area get so that you can always pack them into the square?”
-\end{quote}
+\fig[2.5]{big-question}{Can these circles be packed into the square?}
 
-It seems like there should be an easy answer. Already in 1967, Moon and Moser published a similar result: Given a square container, you can pack a set of smaller squares into it, if their total area is not more than half of the container's area, by sorting them by size and then placing them in the container in a shelf-like manner. Their result goes even further: This factor of one half is the \emph{largest possible factor} you could hope for. Consider the packing in \Cref{fig:squares-worst}: If the squares were only slightly larger, they could no longer be packed without overlapping. In that sense, the instance consisting of two quarter squares represent a worst case instance.
+%For hard decision problems, it is often interesting to look for necessary and sufficient conditions.
+Surely, there are necessary conditions for a packing to exist. For example, if the circles' combined area exceeds the area of the square, we can be certain that they can not be packed.
+On the other hand, an upper bound on the circles' combined area could also serve as a sufficient condition. We might be able to say: If the circles' combined area does not exceed some number $a$, then they can always be packed.
+
+In fact, we could not only ask for \emph{some} $a$, but for the largest one. This is the problem which motivated this thesis.
+
+\begin{problem}\label{prb:1}
+    What is the largest $a$ so that all sets of circles with a combined area of $a$ can be packed into the unit square?
+\end{problem}
+
+Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf} for an example packing. But at the same time $1/2$ is the \emph{largest upper bound} you could hope for. Consider the packing in \Cref{fig:squares-worst}, consisting of two quarter-squares: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
+
+%Already in 1967, \textcite{MM1967some} gave such a sufficient condition for packing square objects: They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf} for an example packing. 
 
 \fig{squares-worst}{Worst case for packing squares into a square.}
 
-In this thesis, we ask the same question for packing circles into various containers.
-
-Our original motivation comes from an unexpected direction: Origami design.
+The equivalent problem for packing circles has since been open.
+Let us call the largest upper bound $a^*$. When \textcite{DFL2010circle} posed \Cref{prb:1} in 2010, they already suggested that $a^*$ might be limited by the instance shown in \Cref{square-worst}. Again, it is easy to argue that if these two circles were only a little larger, we could no longer pack them into the unit square without overlap. This means that their combined area represents an upper bound for $a^*$. 
 
 \fig{square-worst}{Worst-case circle instance in terms of packing density?}
 
+In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:square-worst} into the unit square.
+
+%It is easy to argue that these two circles cannot be packed into any smaller square, which means that the unit square is their \emph{optimal packing}
+%proposed a candidate for such a worst-case instance in terms of optimal packing denstiy: Two equally sized circles. Their optimal packing is depicted in \Cref{square-worst}.%, and has a packing density of ~0.53\%.
+
+%How can we find $a^*$? It seems worthwhile to look for circle instances whose optimal packing is exactly the unit square.
+
+%The circles' combined area then serves as an upper bound for $a$. When increasing the circles' areas only by $\varepsilon$, they can no longer be packed.
+
+%Many instances with this property will have a much smaller \emph{optimal} packing, meaning that they can also be packed into a square smaller than the square.
+%But in order to find the largest factor $a$, it might help to .
+
+%at circle instances with an exceptionally bad 
+
+%In packing problems, one often calls the ratio between the objects' combined area and the area of the container the \emph{packing density}.
+%This largest $a$, then represents something which we call the \emph{cricital packing density} for packing circles into a square: All circle instances with at most this packing density can be packed, and for all larger packing densities, one can find a circle instance which cannot be packed.
+
+%To find this critical density, it might help to look at circle instances with an exceptionally bad \emph{optimal} packing density. We know that there needs to be at least one circle instance whose optimal packing density is exactly $a$: If all circle instances had a better optimal packing density, we could raise $a$...
+
+%How to find this critical density? For 
+
+
+
+%The equivalent problem for packing circles has since been open.
+%When \textcite{DFL2010circle} posed \Cref{prb:1} in 2010, they already made 
+
+%proposed a candidate for such a worst-case instance in terms of optimal packing denstiy: Two equally sized circles. Their optimal packing is depicted in \Cref{square-worst}.%, and has a packing density of ~0.53\%.
+
+
+
+%When friends and family ask what this thesis is about
+%ask about what I am working on, more often than not, it seems hard to answer without going deep into the basics of computer science. This thesis, on the other hand, deals with a problem that is so intuitive that even a 10-second summary covers it pretty well:
+%
+
+
+%In this thesis, we ask the same question for packing circles into various containers.
+
+%Our original motivation comes from an unexpected direction: Origami design.
+
 %Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into any smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
 %If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density. In this thesis, we give a constructive proof that this is indeed the case.
-
-\fig{big-question}{Can these circles be packed?}
 
 \section{Problem statement}
 
@@ -162,18 +212,18 @@ The decision problem whether it is possible to pack a given set of squares into 
 
 \subsection{Approximations}
 
-If we are given an algorithm which can pack all square instances with a total area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a total area of $\frac{\pi}{4}a \approx 0.7854a$ into that shape. Thus, square packing approximation algorithms provide us with lower density bounds for optimal circle packings.
+If we are given an algorithm which can pack all square instances with a combined area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a combined area of $\frac{\pi}{4}a \approx 0.7854a$ into that shape. Thus, square packing approximation algorithms provide us with lower density bounds for optimal circle packings.
 
-\textcite{MM1967some} developed an algorithm which can pack all square instances with a total area of $1/2$ into the unit square.
+\textcite{MM1967some} developed an algorithm which can pack all square instances with a combined area of $1/2$ into the unit square.
 They sort the squares by their size and place them into the square in a shelf-like manner, see fig TODO.
 They also proofed that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed, see fig TODO.
-As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a total area of $\pi/8 \approx 0.3927$ into the unit square.
+As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a combined area of $\pi/8 \approx 0.3927$ into the unit square.
 
 but not directly for circles: 5 x 1/5
 
-\textcite{KK1975optimal} showed that any square instance of total area 1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is $\approx 0.6124$. Applied to circles, this result means that all circle instances with a total area of 1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi} \times 2\sqrt{2}/\sqrt{\pi}$.
+\textcite{KK1975optimal} showed that any square instance of combined area 1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is $\approx 0.6124$. Applied to circles, this result means that all circle instances with a combined area of 1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi} \times 2\sqrt{2}/\sqrt{\pi}$.
 
-\textcite{hougardy2011packing} showed that for any set of squares with a total area of 1, there is some rectangle with an area $< 1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a total area of 1, there is some rectangle with an area $< 28\pi/5 \approx 1.7825$ in which the circles can be packed.
+\textcite{hougardy2011packing} showed that for any set of squares with a combined area of 1, there is some rectangle with an area $< 1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a combined area of 1, there is some rectangle with an area $< 28\pi/5 \approx 1.7825$ in which the circles can be packed.
 
 \section{Packing circles}
 
@@ -251,7 +301,7 @@ Furthermore, \textcite{LR2002packing} proved the known solutions for up to $n=35
 
 \subsection{Approximations}
 
-The problem of finding the smallest square that suffices for packing any set of circles of total area 1 was posed by \textcite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\pi/16 \approx 0.1963$.
+The problem of finding the smallest square that suffices for packing any set of circles of combined area 1 was posed by \textcite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\pi/16 \approx 0.1963$.
 
 \textcite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
 
@@ -376,7 +426,7 @@ The method which performs this splitting resembles a greedy scheduling algorithm
 \end{definition}
 
 \textsc{Split} works like this: It starts with two empty “buckets”, and then in each step adds the largest remaining circle of the input instance to the “more empty” bucket---the bucket where the ratio between the sum of its current content and the associated factor of the split key is smaller.
-%The scenario which is easiest to imagine is when the split key actually describes the desired total area of that group, and \textsc{Split} puts the next circle into the group which has the smallest “filling level”.
+%The scenario which is easiest to imagine is when the split key actually describes the desired combined area of that group, and \textsc{Split} puts the next circle into the group which has the smallest “filling level”.
 
 \begin{algorithm}
     \caption{\textsc{Split}$(C,F)$}
@@ -570,7 +620,7 @@ Diagram for triangles
 
 \chapter{Packing circles}
 
-We turn to specific classes of container shapes now. For each shape, we are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with total area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of total area $a'$ which \emph{cannot} be packed. Second, that all instances of total area $a$ can be packed.
+We turn to specific classes of container shapes now. For each shape, we are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with combined area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of combined area $a'$ which \emph{cannot} be packed. Second, that all instances of combined area $a$ can be packed.
 
 The respective worst-case instances for all container classes are depicted in Fig TODO.
 
@@ -1181,7 +1231,7 @@ Packing rubies into a IRT
 %\end{figure}
 
 \begin{theorem}\label{th:square}
-    Any ruby instance with a total area of $a$ can be packed into a square with an area of $xxx a$.
+    Any ruby instance with a combined area of $a$ can be packed into a square with an area of $xxx a$.
     %A square with an area of $a$ is a $\C(\frac{\pi}{3+2\s}a)$-shape.
 \end{theorem}
 
@@ -1229,7 +1279,7 @@ Also, the problem of packing worst-case optimally into \textbf{acute triangles} 
 
 Instead of packing circular, square, and octagonal objects, \textbf{more object types} could be considered, like ovals, rectangles, or even more general convex objects. For these modified problems, again, it seems non-obvious what the worst-case packings would look like.
 
-For long rectangles (and long containers in general), in \Cref{sec:rectangles} we discussed that the maximally packable area is limited by the relatively small height, making the problem rather trivial. It would be a more interesting problem if we require a \textbf{maximum object size}: What is the larest $a$ so that all circle instances with a total area of at most $a$, each of which have a diameter \emph{not larger than a rectangle's smaller side}, can be packed into that rectangle?
+For long rectangles (and long containers in general), in \Cref{sec:rectangles} we discussed that the maximally packable area is limited by the relatively small height, making the problem rather trivial. It would be a more interesting problem if we require a \textbf{maximum object size}: What is the larest $a$ so that all circle instances with a combined area of at most $a$, each of which have a diameter \emph{not larger than a rectangle's smaller side}, can be packed into that rectangle?
 
 The Split Packing method as described in this thesis is a strictly offline approach, as the greedy splitting requires sorting the complete input instance, and then proceeds in a top-down fashion. It would be interesting to study to which extent the obtained results could be replicated in an \textbf{online situation}. The best algorithm that packs squares into a square in an online fashion is currently by \textcite{brubach2014improved} and gives a density guarantee of $\frac{2}{5}$. As mentioned in \Cref{sec:related-squares}, we can directly use this algorithm to pack circles into a square in an online situation with a density of $\frac{\pi}{10} \approx 0.3142$. It would be particularly interesting to see whether some form of online Split Packing would give better results.
 
@@ -1248,7 +1298,7 @@ It seems like a natural extension to apply Split Packing to \textbf{three-dimens
     \caption{Left: Assumed worst case for packing spheres into a cube. Right: Two quarter-spheres do not fit in a half.}\label{fig:cube-half}
 \end{figure}
 
-Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that total area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypothenuse is sufficient, see \Cref{fig:cover}. It would now be neccessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and we did not find an argument fot that, yet.
+Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that combined area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypothenuse is sufficient, see \Cref{fig:cover}. It would now be neccessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and we did not find an argument fot that, yet.
 
 \fig[1.5]{cover}{A isoscles right triangle can always be covered by two circles with a combined area of its excircle.}
 
