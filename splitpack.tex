@@ -158,14 +158,6 @@ In this thesis, we will give a constructive proof that you can indeed pack all c
 %Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into any smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
 %If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density. In this thesis, we give a constructive proof that this is indeed the case.
 
-\section{Problem statement}
-
-circles into square
-
-circles into triangle
-
-other shapes intro sq/tri
-
 \section{Results}
 
 List possible packings
@@ -192,38 +184,47 @@ overview
 
 \chapter{Related work}
 
-Packing problems have received a lot of attention in the past. The related work can roughly be categorized according to their objective when approaching a packing problems: Some authors strive for optimal solutions, some apply heuristics and optimization methods in order to attain “good” solutions, and some design approximation algorithms, which make performance guarantees about the obtained solutions, in the best case resulting in a constant approximation factor.
+The literature on packing can roughly be categorized into three areas, depending on the authors' objective:
 
-A packing problem usually consists of three components: The type of objects that are to be packed (for example, squares or circles, which can be different-sized or being restricted to be of equal size), the type of the container (for example, a square, a triangle, a general polygon), and the restrictions which are placed on the movement of the objects (they could be allowed to rotate, or restricted to translations only). In this literature review, as well as in the rest of this thesis, we always restrict the movement of the objects to translations.
+Some authors strive to obtain the \textbf{optimal solutions} for packing problems. As almost all interesting packing problems are NP-hard, this becomes incredibly computationally expensive for more than a few objects.
+So, another approach is to apply \textbf{heuristics} in order to obtain “good” solutions. These solutions are often close-to-optimal, but might degenerate for certain instances and thus make no guarantees about the actual quality of the packings.
+Finally, some authors design \textbf{approximation algorithms}, which do make performance guarantees about the obtained solutions. In the best case, the approximated solutions are only a constant factor away from the optimal ones.
+
+A packing problem usually consists of three components: The type of objects that are to be packed (for example, squares or circles, which can be of different sizes or be restricted to be of equal size), the type of the container (for example, a square, a triangle, a general polygon), and the restrictions which are placed on the movement of the objects (they could be allowed to rotate, or restricted to translations only). In this literature review, as well as in the rest of this thesis, we always restrict the movement of the objects to translations.
 
 Packing arbitraryly-shaped objects into arbitrary containers can immediately shown to be NP-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $n$. The decision problem whether it is possible to pack these objects into the container without rotation is a reduction from \textsc{Partition}.
 
+We restrict ourselves to offline approaches.
+
 \section{Packing squares}\label{sec:related-squares}
 
-We start by briefly reviewing related work which deals with packing squares into various containers.
-Algorithms which pack squares are interesting in the context of this thesis as we can directly use them for packing circles: We embed each circle with radius $r$ in a square of edge length $2r$ and pack the resulting squares to receive a packing of the original circle instance.
+We start by briefly reviewing related work on packing squares into various containers.
+Algorithms which pack squares are interesting to us in the context of this thesis as we can directly use them for packing circles: We replace each circle of radius $r$ with a square of edge length $2r$ and pack the resulting squares to receive a packing of the original circle instance. In a sense, square-packing approximation algorithms provide us with lower bounds on what more specialized circle-packing approximation algorithms should be able to accomplish.
 
 \subsection{Hardness}
 
-Packing problems remain hard for equally-sized squares and arbitrary containers: \textcite{FPT1981optimal} showed it to be NP-hard to pack equal squares into arbitrary polygons with holes by a reduction from \textsc{3-SAT}. They construct gadgets for variables and clauses and connected them with wires. In Fig TODO, such a construction is depicted.
+We get a seemingly simple packing problem by restricting the container as well as the objects to be (not necessarily equal) squares.
+Even tough, decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \textcite{LTWYC1990packing} through a reduction from \textsc{3-Partition}.
 
-One can get a seemingly “simple” packing problem by restricting the container as well as the objects to (not necessarily equal) squares.
-The decision problem whether it is possible to pack a given set of squares into a square container was shown to be strongly NP-complete by \textcite{LTWYC1990packing} through a reduction from \textsc{3-Partition}.
+For another variant, we could restrict the square objects to be equally sized, but allow the container to be arbitrary.
+In this case, too, the decision problem remains hard:
+\textcite{FPT1981optimal} showed it to be NP-hard to pack equal squares into arbitrary polygons with holes by a reduction from \textsc{3-SAT}. They construct gadgets for variables and clauses and connect them with wires.% In Fig TODO, such a construction is depicted.
 
-\subsection{Approximations}
+\subsection{Approximation algorithms}
 
-If we are given an algorithm which can pack all square instances with a combined area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a combined area of $\frac{\pi}{4}a \approx 0.7854a$ into that shape. Thus, square packing approximation algorithms provide us with lower density bounds for optimal circle packings.
+As mentioned in the introduction of this chapter, we can directly use approximation algorithms for packing squares to obtain approximation algorithms for packing circles.
+If we are given an algorithm which can pack all square instances with a combined area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a combined area of $\frac{\pi}{4}a \approx 0.7854a$ into that shape. 
 
 \textcite{MM1967some} developed an algorithm which can pack all square instances with a combined area of $1/2$ into the unit square.
-They sort the squares by their size and place them into the square in a shelf-like manner, see fig TODO.
-They also proofed that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed, see fig TODO.
+They sort the squares by their size and place them into the square in a shelf-like manner.%, see fig TODO.
+They also proofed that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed.%, see fig TODO.
 As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a combined area of $\pi/8 \approx 0.3927$ into the unit square.
 
-but not directly for circles: 5 x 1/5
+%TODO but not directly for circles: 5 x 1/5
 
-\textcite{KK1975optimal} showed that any square instance of combined area 1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is $\approx 0.6124$. Applied to circles, this result means that all circle instances with a combined area of 1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi} \times 2\sqrt{2}/\sqrt{\pi}$.
+\textcite{KK1975optimal} showed that any square instance with a combined area of~1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is approximately $0.6124$. Applied to circles, this result means that all circle instances with a combined area of~1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi} \times 2\sqrt{2}/\sqrt{\pi} \approx 1.3030 \times 1.5958$, with a packing density of approximately $0.4810$.
 
-\textcite{hougardy2011packing} showed that for any set of squares with a combined area of 1, there is some rectangle with an area $< 1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a combined area of 1, there is some rectangle with an area $< 28\pi/5 \approx 1.7825$ in which the circles can be packed.
+\textcite{hougardy2011packing} recently showed that for any set of squares with a combined area of~1, there is some rectangle with an area of less than $1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a combined area of~1, there is some rectangle with an area of less than $28\pi/5 \approx 1.7825$ in which the circles can be packed.
 
 \section{Packing circles}
 
@@ -233,7 +234,7 @@ Most works concerned with circle packings try to get as close to the optimal pac
 
 bla
 
-\subsection{Applications}
+\subsection{Application algorithms}
 
 Circle packing is a natural, intuitive problem, that has numerous applications in engineering, science, and everyday life.
 
@@ -388,7 +389,26 @@ By combining these ideas, we can construct a method which roughly works like the
 
 \section{Definitions}
 
-We start off with some definitions which make our life easier when talking about circle instances:
+In this subsection, we introduce a few basic notions, mostly to simplify some of the later proofs.
+
+\begin{definition}
+    For the purpose of this thesis, a \emph{shape} is either an open circle or an open polygon (“open” meaning that the shape's boundary is not part of the shape).
+\end{definition}
+
+What it means to be able to pack objects in a container is defined as one would intuituively expect:
+
+\begin{definition}
+    A \emph{packing} of a set of shapes $S$ in another shape $c$ is an assignment of a translation, a rotation and a reflection to each shape so that
+
+    \begin{itemize}
+        \item the pairwise intersections of all shapes in $S$ are empty and
+        \item all shapes in $S$ are a subset of $c$.
+    \end{itemize}
+
+    We call $S$ the \emph{objects} and $c$ the \emph{container}.
+\end{definition}
+
+We continue with some definitions which make it easier to talk about classes of circle instances:
 
 \begin{definition}
     For each $0 \le a$, an \emph{$a$-circle} is a circle with an area of $a$.
@@ -396,26 +416,28 @@ We start off with some definitions which make our life easier when talking about
 
 \begin{definition}
     A \emph{circle instance} is a multiset of non-negative real numbers, which define the circles' areas. Addition of circle instances is defined like on multisets.
-    For any circle instance $C$, $\mysum(C)$ is the combined area of the instance's circles and $\min(C)$ is the area of the smallest circle contained in the instance.
+    For any circle instance~$C$, $\mysum(C)$ is the combined area of the instance's circles and $\min(C)$ is the area of the smallest circle contained in the instance.
 \end{definition}
 
-For example, for the circle instance $C = \{3,2,1,4\}$, $\mysum(C) = 10$ and $\min(C) = 1$.
+For example, for the circle instance $C = \{1,1,2,3\}$, $\mysum(C) = 7$ and $\min(C) = 1$.
 
 \begin{definition}
     $\C$ is the set of all circle instances. $\C(a)$ consist of exactly those circle instances $C$ with $\mysum(C) \le a$. Finally, $\C(a,b)$ consists of exactly those circle instances $C \in \C(a)$ with $\min(C) \ge b$.
 \end{definition}
+
+Let us give another example for the last definition, as it is crucial for the rest of this thesis: For any circle instance $C$ contained in $\C(1,1/8)$, the combined area of $C$'s circles is at most~1, and at the same time, each of $C$'s circles is at least an eigth-circle.
+
+Finally, we introduce two definitions which come in handy when discussing worst-case instances:
 
 \begin{definition}
     A shape's \emph{incircle} is the largest circle that can be packed into the shape.
 \end{definition}
 
 \begin{definition}
-    A shape's \emph{twincircles} are the maximum-area circle instance consisting of exactly two equal circles that can be packed into the shape. The shape's \emph{twincircle area} is their combined area.
+    A shape's \emph{twincircles} is the maximum-area circle instance consisting of two equal circles that can be packed into the shape, see \Cref{fig:twincircles} for an example.% The shape's \emph{twincircle area} is their combined area.
 \end{definition}
 
-\begin{definition}
-    A \emph{packing} of a circle instance $C$ into a shape $s$ is...
-\end{definition}
+\fig{twincircles}{The twincircles of an equilateral triangle.}
 
 \section{Greedy splitting}
 
