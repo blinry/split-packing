@@ -118,6 +118,8 @@ Let us call the largest upper bound $a^*$. When \textcite{DFL2010circle} posed \
 
 In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:square-worst} into the unit square.
 
+why is it hard?
+
 %It is easy to argue that these two circles cannot be packed into any smaller square, which means that the unit square is their \emph{optimal packing}
 %proposed a candidate for such a worst-case instance in terms of optimal packing denstiy: Two equally sized circles. Their optimal packing is depicted in \Cref{square-worst}.%, and has a packing density of ~0.53\%.
 
@@ -372,20 +374,35 @@ Another much-explored idea is to model the packing problem as a set of (nonlinea
 
 \chapter{Split Packing}
 
-When looking for approaches to pack circles into a square container, we tried many things which did not work. For example, attempting to do a shelf-packing based approach fails for five equally sized circles, see TODO. At one point, we decided to restrict the input instance to only allow circles which would have areas equal to a negative power of two of the total available area. This would only leave half-, quarter-, eight-, sixteenth-circles, and so on. We were surprised to find that these kinds of instances were easy to pack! The easiest way to imagine how that works is like the following: Imagine you start with your total circle area combined to one large circle. It's easy to check that this one can be packed, simply by placing it in the middle of the square. Now you are allowed to “split” the circle into halves, leaving you with the worst-case instance discussed earlier. Each circle now is the incircle of a isosceles right triangle. The area of the circle and the area of its surrounding triangle are in a certain ratio to one another. This ratio is constant, so if you split any circle in half again, you are able to pack the two resulting circles in two smaller triangles, each of which has half the area of the former triangle. This process can be repeated as often as neccessary, until you arrive at the desired circle instance.
+While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:square-worst}.%proposed by \textcite{DFL2010circle}.
 
-\fig[3]{easy}{Splitting in half is easy.}
+%We attempted quite a few strategies to pack this area which did not work. For example, a shelf-packing based approach inspired by Moon \& Moser's algorithm for packing squares does not work for five equal circles, see TODO.
 
+At one point, we tried restricting the input instance with the hope that this would make the problem easier. We decided to only allow circles which would have areas equal to a negative power of two of the total available area. This would only allow half-, quarter-, eight-, sixteenth-circles, and so on, in terms of the total area. We were surprised to find that these instances were easy to pack!
 
-If you drop the restriction, and allow arbitrary circle areas, you will run into problems. What if we want to split a circle, but we do not want to split it exactly in half? We would have to shift our cut to the side, which would result in another (smaller-than-half) triangle and a quadrilateral which resembles our triangles, but one corner is now “cut off”. We need an argument why this quadrilateral shape suffices to pack all possible circles in which we could want to split the larger circle at this point.
+Imagine starting with the total area $a$ combined into one large circle. It's easy to check that this circle can be packed, simply by placing it in the middle of the square, see the top left of \Cref{fig:easy}. Now, you are allowed to “split” the circle into two half-circles, resulting in the worst-case instance discussed in the introduction. If we also cut the square into halves along the circles' tangent, both circles now are incircles of isosceles right triangles.
+%The area of the circle and the area of its surrounding triangle are in a certain ratio to one another. This ratio is constant, so
+If you now split any circle in half again, you can also divide its surrounding isosceles right triangle into two smaller ones with half the area, and again the resulting circles are the triangles' incircles.
+%you can pack the two resulting circles in two smaller triangles, each of which has half the area of the former triangle. Luckily, these two smaller triangles exactly fit into the larger one, meaning that the two new circles fit into, it as well.
+This results in a recursive structure, and the splitting can be repeated as often as neccessary, until you arrive at the desired circle instance. This divide-and-conquer approach to recursively split the set of input circles into subsets is the first key idea of the Split Packing algorithm.
 
-The packing algorithm proposed in this thesis is based on two core ideas.
+\fig[3]{easy}{Splitting circles in half is easy.}
 
-The first idea is an divide-and-conquer approach. We recursively split the set of input circles into subsets. This results in a top-down approach: At each level, the instance is split into two subsets, which are then packed into smaller containers individually, before they are combined again.
+If we now try to drop the restrictions on the circles, and allow arbitrary instances again, we run into a problem: What if we need to split a circle, but we do not want to split it in half, but make one of the resulting circles larger than the other? We would have to shift our cut to the side, like in the bottom-right of \Cref{fig:easy}. We have to subdivide the triangle into another (smaller-than-half) triangle and a quadrilateral. For the small triangle, we can start another recursion, but it is unclear why we can continue with the recursion for the quadrilateral. Its shape resembles our triangles, but the lower corner is “cut off”. We would need an argument why these “degenerated triangles” do not break our packing strategy.
+%why this quadrilateral shape suffices to pack all possible circles in which we could want to split the larger circle at this point.
 
-The second idea is to perform this splitting using an algorithm which resembles greedy scheduling. For each shape, the packing algorithm has a targeted ratio for the total circle area in the resulting subsets, and the splitting algorithm is designed to make sure the actual subsets get close to that ratio. If the resulting subsets deviate from this target ratio, we can make additional statements about the properties of the subinstances.
+This is where the second key idea of the Split Packing algorithm comes into play.
+When performing the top-level split, we could already decide which circles of the input instance should go above respectively below the cut-line. With the power-of-two instances, it did not matter at all \emph{how} we split the circle set in half, as we could always split it into equally-sized halves.
 
-By combining these ideas, we can construct a method which roughly works like the following: We split the circle instance into two subinstances, and then construct two smaller containers which satisfy two conditions: First, the two containers have to fit into the larger container, and second, one needs to be able to pack one of the two parts into them, respectively.
+For general circle instances, we need to proceed more carefully: We are going perform the splitting using an algorithm which resembles greedy scheduling. This will make sure our resulting subgroups are \emph{close} to equal in terms of total area. But if the groups' areas deviate from the targeted 1:1 ratio, we can make additional statements about the minimum circle size in the larger group, which will make the “cut-off corners” irrelevant.
+
+In this chapter, we will detail this process. As we will see, this idea also generalizes to other container types and object shapes.
+
+%The packing algorithm proposed in this thesis is based on two core ideas.
+
+%The first idea is an divide-and-conquer approach. We recursively split the set of input circles into subsets. This results in a top-down approach: At each level, the instance is split into two subsets, which are then packed into smaller containers individually, before they are combined again.
+
+%By combining these ideas, we can construct a method which roughly works like the following: We split the circle instance into two subinstances, and then construct two smaller containers which satisfy two conditions: First, the two containers have to fit into the larger container, and second, one needs to be able to pack one of the two parts into them, respectively.
 
 \section{Definitions}
 
