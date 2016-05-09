@@ -6,6 +6,10 @@
 %\usepackage{microtype}
 \usepackage{xcolor}
     \definecolor{medium-blue}{rgb}{0,0,0.5}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+    \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -37,10 +41,6 @@
     }
 \usepackage{graphicx}
     \graphicspath{{images/}}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
-    \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \usepackage{chngcntr}
     \counterwithout{equation}{chapter}
 %\usepackage{nicefrac}
@@ -97,7 +97,7 @@
     % set default placement for floatstuff
     \def\fps@figure{H}
     \def\fps@table{H}
-    \def\fps@algorithmic{H}
+    \def\fps@algorithm{H}
 \makeatother
 
 %%%%%%%%%%%% TikZ %%%%%%%%%%%%%%%

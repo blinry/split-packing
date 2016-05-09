@@ -412,7 +412,7 @@ In this subsection, we introduce a few basic notions, mostly to simplify some of
     For the purpose of this thesis, a \emph{shape} is either an open circle or an open polygon (“open” meaning that the shape's boundary is not part of the shape).
 \end{definition}
 
-What it means to be able to pack objects in a container is defined as one would intuituively expect:
+What it means to be able to pack objects in a container is defined as one would intuitively expect:
 
 \begin{definition}
     A \emph{packing} of a set of shapes $S$ in another shape $c$ is an assignment of a translation, a rotation and a reflection to each shape so that
@@ -458,17 +458,21 @@ Finally, we introduce two definitions which come in handy when discussing worst-
 
 \section{Greedy splitting}
 
-The method which performs this splitting resembles a greedy scheduling algorithm, which is why we call it \emph{greedy splitting}. The algorithm, \textsc{Split}, takes two inputs: The first is an arbitrary circle instance $C$. The second is a tuple of two positive factors, which determines which ratios of $C$'s combined area sum should go into the respective groups. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$, and if we wanted to split make one group three times as large as the other, we could use $(1,3)$. We call this tuple the \emph{split key}:
+The method which we use to split the circle instances in half resembles a greedy scheduling algorithm, which is why we call the process \emph{greedy splitting}. The algorithm takes two inputs: The first is an arbitrary circle instance $C$, which is to be split into two groups.
+
+The second is a tuple of two positive factors, which determines the targeted ratio of the resulting groups' total areas. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$. The tuple $(\frac 1 2,\frac 1 2)$ would give the same result.
+For asymmetric containers, we might want to target a different ratio. For example, if we wanted to make one group three times as large as the other, we could use the tuple $(1,3)$. We call these tuples \emph{split keys}:
 
 \begin{definition}
     A \emph{split key} is a tuple of two positive real numbers.
 \end{definition}
 
-\textsc{Split} works like this: It starts with two empty “buckets”, and then in each step adds the largest remaining circle of the input instance to the “more empty” bucket---the bucket where the ratio between the sum of its current content and the associated factor of the split key is smaller.
-%The scenario which is easiest to imagine is when the split key actually describes the desired combined area of that group, and \textsc{Split} puts the next circle into the group which has the smallest “filling level”.
+\textsc{Split} (\Cref{alg:split}) works like this: It starts with two empty “buckets”, and then in each step adds the largest remaining circle of the input instance to the “more empty” bucket---the bucket where the ratio between the sum of its current content and the associated factor of the split key is smaller.
+In the simplest case, the split key will actually describe the desired combined area of the two groups, and \textsc{Split} puts the next circle into the group which has the smaller “relative filling level”.
 
 \begin{algorithm}
     \caption{\textsc{Split}$(C,F)$}
+    \label{alg:split}
     \begin{algorithmic}
         \Require A circle instance $C$ and a split key $F = (f_1, f_2)$
         \Ensure Circle instances $C_1, C_2$
@@ -476,18 +480,22 @@ The method which performs this splitting resembles a greedy scheduling algorithm
         \State $C_2 \gets \emptyset$
         \State Sort $C$ descending by size.
         \ForAll{$c \in C$}
-            \State $j = \argmin_{i} \frac{\mysum(C_i)}{f_i}$\Comment{Find the index of the emptiest instance.}
+            \State $j = \argmin_{i} \frac{\mysum(C_i)}{f_i}$\Comment{Find the index of the more empty bucket.}
             \State $C_j \gets C_j \cup \{c\}$
         \EndFor
     \end{algorithmic}
 \end{algorithm}
 
-Although the greedy splitting aims to produce subinstances with area ratios as specified by the split key, of course it will not always be possible to achieve these ratios exactly. If, for example, the input instance consists of few very large circles, it might not be possible to distributed them in the specified ratios.
-But if the resulting group's sizes derive from the split key, we can derive an interesting property from the resulting subinstances 
+Although the greedy splitting aims to produce subinstances with area ratios as specified by the split key, of course it will not always be possible to achieve these ratios exactly. If, for example, the input instance consists of few very large circles, it might not be possible to distribute them in the specified ratios.
 
-\begin{lemma}\label{th:split-property}
-    For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ decomposes $C$ into two circle instances $C_1$ and $C_2$. Set $a_i \coloneqq \mysum(C_i)$ and assume (\wlofg) $\frac{a_2}{f_2} \le \frac{a_1}{f_1}$.
-    Then $\min(C_1) \ge a_1 - f_1\frac{a_2}{f_2}$.
+On the other hand, if the resulting groups' area ratio does deviate from the split key, we gain additional information about the group which has more area than specified in the split key: The more this group exceeds its targeted area, the larger the minimum size of its elements will be.
+
+\begin{lemma}\label{th:min1}
+    %For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ decomposes $C$ into two circle instances $C_1$ and $C_2$. Set $a_i \coloneqq \mysum(C_i)$ and assume (\wlofg) $\frac{a_2}{f_2} \le \frac{a_1}{f_1}$.
+    %Then $\min(C_1) \ge a_1 - f_1\frac{a_2}{f_2}$.
+
+    For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ always produces two circle instances $C_1$ and $C_2$ with
+    $$\min(C_i) \ge \mysum(C_i) - f_i\min\left\{\frac{\mysum(C_1)}{f_1},\frac{\mysum(C_2)}{f_2}\right\}.$$
 
     %For any circle instance $C \in \C(a,b)$ and any split key $F = (f_1, f_2)$,
     %\textsc{Split}$(C,(f_1,f_2))$ decomposes any circle instance $C \in \C(a,b)$ into two circle instances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$ with
@@ -501,53 +509,78 @@ But if the resulting group's sizes derive from the split key, we can derive an i
 \end{lemma}
 
 \begin{proof}
-    For the minimum size, assume for contradicion that $C_i$ contained an element smaller than $a_i - f_i r$. All elements which were put into $C_i$ after that have to be at least as small, as the elements were inserted by descending size. So the last element put into $C_i$ (let us call it $c$) would be smaller than $a_i - f_i r$, as well.
-    But this means that $\frac{a_i - c}{f_i} > \frac{a_i - (a_i - f_i r)}{f_i} = r$, meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than $r$. But $r$ is the smallest relative filling level by the time the algorithm ends, so at the time when $c$ is inserted, the group's filling level would have been at least as small.
-    This is a contradiction to the algorithm's greedy nature, as \textsc{Split} would not have but $c$ into the (fuller) group $C_i$ in this situation.
+    Set $r := \min\left\{\frac{\mysum(C_1)}{f_1},\frac{\mysum(C_2)}{f_2}\right\}$. This value describes the smallest “relative filling level” by the time the algorithm ends.
+
+    Now assume for contradicion $C_i$ contained an element smaller than $\mysum(C_i) - f_i r$. As the elements were inserted by descending size, all elements which were put into $C_i$ after that element would have to be at least as small. So the last element put into $C_i$ (let us call it~$c$) would be smaller than $\mysum(C_i) - f_i r$, as well.
+
+    But this means that $\frac{\mysum(C_i) - c}{f_i} > \frac{\mysum(C_i) - (\mysum(C_i) - f_i r)}{f_i} = r$, meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than~$r$.
+    Recall that $r$ is the smallest filling level of any group by the time the algorithm ends, meaning that at the time when $c$ is inserted, $C_i$'s filling level is already larger than the filling level of the other group.
+    %the group's filling level would have been at least as small.
+    This is a contradiction, as the greedy algorithm would choose to put $c$ not into $C_i$, but into the other group with the smaller filling level in this case.
+    %not have put $c$ into $C_i$, but into the other group with the smaller relative filling level.
+    %This is a contradiction to the algorithm's greedy nature, as \textsc{Split} would not have but $c$ into the (fuller) group $C_i$ in this situation.
+    %For the minimum size, assume for contradicion that $C_i$ contained an element smaller than $a_i - f_i r$. All elements which were put into $C_i$ after that have to be at least as small, as the elements were inserted by descending size. So the last element put into $C_i$ (let us call it $c$) would be smaller than $a_i - f_i r$, as well.
+    %But this means that $\frac{a_i - c}{f_i} > \frac{a_i - (a_i - f_i r)}{f_i} = r$, meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than $r$. But $r$ is the smallest relative filling level by the time the algorithm ends, so at the time when $c$ is inserted, the group's filling level would have been at least as small.
+    %This is a contradiction to the algorithm's greedy nature, as \textsc{Split} would not have but $c$ into the (fuller) group $C_i$ in this situation.
 \end{proof}
 
-\begin{lemma}
-    For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ produces two circle instances $C_1$ and $C_2$. Set $a_i \coloneqq \mysum(C_i)$.
-    If $a_1 > 2 f_1 \frac{a_2}{f_2}$, then $|C_1| = 1$ and $\min(C_1) = a_1$.
+We can go even further: If one group's relative filling level becomes twice as large as the other one's, the group must consist of a single circle:
+
+\begin{lemma}\label{th:min2}
+    %For any circle instance $C$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ produces two circle instances $C_1$ and $C_2$. Set $a_i \coloneqq \mysum(C_i)$.
+    %If $a_1 > 2 f_1 \frac{a_2}{f_2}$, then $|C_1| = 1$ and $\min(C_1) = a_1$.
+    For any $C_1$ and $C_2$ produced by \textsc{Split}$(C,(f_1,f_2))$:
+
+    $$\mysum(C_i) > 2f_i\min\left\{\frac{\mysum(C_1)}{f_1},\frac{\mysum(C_2)}{f_2}\right\} \Rightarrow \min(C_i) = \mysum(C_i)$$
 \end{lemma}
 
 \begin{proof}
-    The condition is equivalent to $a_1 - f_1 \frac{a_2}{f_2} > \frac{a_1}{2}$, or $\min(C_1) > \frac{a_1}{2}$, which means that the minimum size of the circles in $C_1$ is more than half of its total sum. The only possible instance which satisfies this constraint is a single circle with area $a_1$.
+    The condition is equivalent to $\mysum(C_i) - f_i\min\left\{\frac{\mysum(C_1)}{f_1},\frac{\mysum(C_2)}{f_2}\right\} > \frac{\mysum(C_i)}{2}$. So by \Cref{th:min1}, $\min(C_i) > \frac{\mysum(C_i)}{2}$, which means that the minimum size of the circles in $C_i$ is already more than half of its total sum. The only possible instance which satisfies this constraint is a single circle with area $a_i$.
 \end{proof}
 
 %Here is a definition that makes it easier to talk about 
 %The next definition looks a bit weird, but makes it easier to talk about multiple shapes:
-To make it easier to talk about the properties of the groups output by \textsc{Split}, we introduce the notion of \emph{$(F,b)$-roundedness}:
+We are now going to define a term which encapsulates all mentioned properties of the circle instances output by \textsc{Split}. These properties depend on the used split key, and also on the total area $a$ and the minimum circle size $b$ of the circle instance, which is why it has three parameters. We say that instances produced by \textsc{Split} are \emph{$(a,b,F)$-conjugated}:
 
 %\begin{definition}\label{def:rounded}
 %    For any split key $F$ of length $n$, we say that a tuple of $n$ shapes is \emph{$(F,b)$-rounded}, if the $i$-th shape is a $\C(a_i, \min\{b,a_i - f_i r\})$-shape, with $r = \max\{\frac{a_i}{f_i}|i \in 1,2,\dots,n\}$.
 %\end{definition}
 
-\begin{definition}\label{def:rounded}
+\begin{definition}\label{def:conjugated}
     For any $0 \le b \le a$ and any split key $F = (f_1, f_2)$, we say that the tuples $(a_1, b_1)$, $(a_2, b_2)$ are \emph{$(a,b,F)$-conjugated} if
 
     \begin{itemize}
         \item $a_1 + a_2 = a$,
-        \item $b_1 = \begin{cases}
-                a_1 & \text{if}\ a_1 > 2 f_1 \frac{a_2}{f_2}\\
-                \max\{b,a_1 - f_1 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\} & \text{else}
-            \end{cases}$, and
-        \item $b_2 = \begin{cases}
-                a_2 & \text{if}\ a_2 > 2 f_2 \frac{a_1}{f_1}\\
-                \max\{b,a_2 - f_2 \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\} & \text{else}
-            \end{cases}$.
+        \item $b_i \ge b$,
+        \item $b_i \ge a_i - f_i \min\left\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\right\}$, and
+        \item $a_i > 2 f_i\min\left\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\right\} \Rightarrow b_i = a_i$.
     \end{itemize}
+    %\begin{itemize}
+    %    \item $a_1 + a_2 = a$ and
+    %    \item $b_i = \begin{cases}
+    %            \max\{b,a_i\} & \text{if}\ a_i > 2 f_i\min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\}\\
+    %            \max\{b,a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\}\} & \text{else}
+    %        \end{cases}$.
+    %\end{itemize}
+\end{definition}
+
+\begin{definition}
+    Two circle instances $C_1$ and $C_2$ are $(a,b,F)$-conjugated if there are any $(a,b,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$ so that $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$.
 \end{definition}
 
 We can now associate this property with \textsc{Split} in the following theorem:
 
 \begin{theorem}\label{th:split-sets}
-    For any $C \in \C(a,b)$, and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ produces two subinstances $C_1 \in \C(a_1, b_1), C_2 \in \C(a_2, b_2)$, so that $C_1 + C_2 = C$ and $(a_1, b_1)$ and $(a_2, b_2)$ are $(a,b,F)$-rounded.
+    For any $C \in \C(a,b)$ and any split key $F = (f_1, f_2)$, \textsc{Split}$(C,F)$ always produces two $(a,b,F)$-conjugated subinstances.
+   % produces two subinstances $C_1 \in \C(a_1, b_1), C_2 \in \C(a_2, b_2)$, so that $C_1 + C_2 = C$ and $(a_1, b_1)$ and $(a_2, b_2)$ are $(a,b,F)$-rounded.
 \end{theorem}
 
 \begin{proof}
-    That the subinstances add up to the original instance is obvious from the algorithm.
-    For the conjugatedness, as $\min(C) \ge b$, the subinstances must have the same property. Additionally, by \Cref{th:split-property}, $C_i \in \C(a_i, a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$. Thus, the subinstances satisfy \Cref{def:rounded}.
+    That the subinstances' total areas add up to $a$ follows directly from the algorithm.
+    %As $\min(C) \ge b$, the subinstances must have the same property.
+    As the minimum size of all circles in $C$ is $b$, this must also be true for the subinstances, so $\min(C_i) \ge b$.
+    The other two minimum-size properties follow from \Cref{th:min1} and \Cref{th:min2}.
+   % Additionally, by \Cref{th:split-property}, $C_i \in \C(a_i, a_i - f_i \min\{\frac{a_1}{f_1}, \frac{a_2}{f_2}\})$. Thus, the subinstances satisfy \Cref{def:rounded}.
 \end{proof}
 
 %What is means for shapes to be $(F,b)$-rounded is that we lift some requirements on which instances they need to be able to pack. We combine two lower bounds for the minimum size of the instances: First, the shapes never need to be able to pack any instances containing circles smaller than $b$. Second, they reflect the \textsc{Split}-algorithm's minimum element sizes stated in \Cref{th:split-property}. If a subinstance $C_i$ returned by \textsc{Split} can not possibly contain any circles smaller than a certain size, it makes sense to also relax the requirements for the shapes in which these subinstances will be packed: It suffices if they can pack those instances where the circles have this minimum size. Whichever of the two circle sizes requirements is largest, determines the “minimum size” of the rounded shape.
@@ -571,7 +604,7 @@ For convenience, we define the \emph{sum} of a $\C(a)$-shape:
     For a $\C(a)$-shape, we call $a$ the shape's \emph{sum}.
 \end{definition}
 
-We also extend our roundedness definition to shapes:
+We also extend our definition of conjugatedness to shapes:
 
 \begin{definition}
     We say that $n$ shapes are $(F,b)$-rounded if they are a $\C(a_1, b_1)$-shape and a $\C(a_2, b_2)$-shape and their parameter tuples are $(F,b)$-rounded.
@@ -599,19 +632,36 @@ We also extend our roundedness definition to shapes:
 
 With these preparations, we can now state our central \emph{split packing} theorem:
 
-\begin{theorem}[Split Packing]\label{th:splitpack}
-    For a given shape $s$, and for any $0 \le b < a$, if there is a split key $F$ of length $n$, so that for all tuples $(a_1, a_2)$ with $a_1 + a_2 \le a$
-    one can find $n$ $(F,b)$-rounded shapes of matching sums,
-    and these shapes can be packed into $s$, then $s$ is a $\C(a,b)$-shape.
+\begin{theorem}[Split Packing]\label{th:splitpacking}
+    %For a given shape $s$, and for any $0 \le b < a$, if there is a split key $F$, so that for all tuples $(a_1, a_2)$ with $a_1 + a_2 \le a$
+    %one can find $n$ $(a,b,F)$-conjugated shapes of matching sums,
+    %and these shapes can be packed into $s$, then $s$ is a $\C(a,b)$-shape.
+
+    %For any shape $s$, and for any $0 \le b < a$, if there is a split key $F$, so that 
+    %for all $(a,b,F)$-conjugated pairs of tuples $(a_1, b_1)$ and $(a_2, b_2)$ one can find a $\C(a_1, b_1)$-shape and a $\C(a_2, b_2)$-shape which can be packed into $s$,
+    %%then all circle instances with a total area of at most $a$ and a minimum circle size of $b$ can be packed into $s$.
+    %then $s$ is a $\C(a,b)$-shape.
+
+    A shape $s$ is a $\C(a,b)$-shape if
+
+    \begin{enumerate}
+        \item it can pack an $a$-circle, and
+        \item there is a split key $F$, so that for all $(a,b,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$ one can find a $\C(a_1, b_1)$-shape and a $\C(a_2, b_2)$-shape which can be packed into $s$.
+    \end{enumerate}
+
+    %then all circle instances with a total area of at most $a$ and a minimum circle size of $b$ can be packed into $s$.
 \end{theorem}
 
 \begin{proof}
-    Consider an arbitrary $C \in \C(a,b)$. Regardless of which groups \textsc{Split} produces, we know from \Cref{th:split-sets} that they always are elements of $(F,b)$-rounded circle instance sets.
-    As we can find $(F,b)$-rounded shapes with matching sums, the $i$-th group can be packed into the $i$-th shape.
-    As these shapes also fit into $s$, we know that we can pack $C$ into $s$.
+    Consider an arbitrary $C \in \C(a,b)$.
+    If it consists of a single circle, we can pack it into $s$ as by the theorem's hypothesis.
+
+    Otherwise, use \textsc{Split}$(C,F)$ to produce two smaller subinstances $C_1$ and $C_2$. We know from \Cref{th:conjugated} that those those subinstances will always be $(a,b,F)$-conjugated. So if we can indeed find two shapes which pack these subinstances, and if we can pack these two shapes into $s$, then we can pack the original circle instance $C$ into $s$.
+
+    %As these shapes also fit into $s$, we know that we can pack $C$ into $s$.
 \end{proof}
 
-As this theorem is important for the whole thesis, let us rephrase it: \Cref{th:splitpack} describes what is sufficient to proof that a shape is a $\C(a,b)$-shape: Find a shape-specific split key $F$ and show that for all possible decompositions of the area $a$ (which is going to be perfomed by \textsc{Split}), that one can find $(F,b)$-rounded shapes of matching sums that fit into the original shape.
+As this theorem is important for the whole thesis, let us rephrase it: \Cref{th:splitpacking} describes what is sufficient to proof that a shape is a $\C(a,b)$-shape: Find a shape-specific split key $F$ and show that for all possible decompositions of the area $a$ (which is going to be perfomed by \textsc{Split}), that one can find $(F,b)$-rounded shapes of matching sums that fit into the original shape.
 
 The general \textsc{Splitpack} algorithm, then, reads as follows:
 
