@@ -1,12 +1,7 @@
-\documentclass[a4paper,style=print,bibliography=totoc,nexus,lnum,extramargin]{tubsbook}
+\documentclass[a4paper,style=print,bibliography=totoc,nexus,lnum,extramargin,hyperref]{tubsbook}
 
 \input{header.tex}
 \usepackage[english]{babel}
-
-\hypersetup{
-    colorlinks, linkcolor={medium-blue},
-    citecolor={medium-blue}, urlcolor={medium-blue}
-}
 
 %\titlehead{
 %    \begin{center}
@@ -15,7 +10,7 @@
 %}
 
 \subject{Master's Thesis}
-\title{Algorithms \\for Circle Packing}
+\title{Critical Densities for Packing Circles into Squares and Triangles}
 \author{\sffamily\LARGE Sebastian Morr}
 \date{\large June 2, 2016}
 \publishers{\textbf{Institute of Operating Systems and Computer Networks\\Prof.\,Dr.\,Sándor\,Fekete}\\
@@ -59,6 +54,8 @@ Very abstract indeed.
 
 I would like to thank the following people for their support in the creation of this thesis:
 
+Christiane, your lecture in 2014 started it all
+
 Christian, for always taking the time for me
 
 Jan-Marc, 
@@ -76,6 +73,8 @@ Dominik,
 Marco, for and for spending late hours with me pondering over covering problems.
 
 The Pinky crew, Leslie, Moritz, Torsten, Jakob,
+
+Enrico
 
 \section*{Colophon}
 
@@ -585,7 +584,7 @@ We can now associate this property with \textsc{Split} in the following theorem:
 
 As described, one way to think about conjugatedness is that it gives guarantees for the minimum sizes of the “larger” produced subinstance.
 
-(TODO: graph of sum(C_i) vs min(C_i))
+(TODO: graph of sum(Ci) vs min(Ci))
 
 %What is means for shapes to be $(F,b)$-rounded is that we lift some requirements on which instances they need to be able to pack. We combine two lower bounds for the minimum size of the instances: First, the shapes never need to be able to pack any instances containing circles smaller than $b$. Second, they reflect the \textsc{Split}-algorithm's minimum element sizes stated in \Cref{th:split-property}. If a subinstance $C_i$ returned by \textsc{Split} can not possibly contain any circles smaller than a certain size, it makes sense to also relax the requirements for the shapes in which these subinstances will be packed: It suffices if they can pack those instances where the circles have this minimum size. Whichever of the two circle sizes requirements is largest, determines the “minimum size” of the rounded shape.
 
