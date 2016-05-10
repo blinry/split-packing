@@ -226,17 +226,15 @@ overview
 
 \chapter{Related work}
 
-The literature on packing can roughly be categorized into three areas, depending on the authors' objective:
+The literature on packing can roughly be divided into three categories, depending on the authors' objective:
 
-Some authors strive to obtain the \textbf{optimal solutions} for packing problems. As almost all interesting packing problems are NP-hard, this becomes incredibly computationally expensive for more than a few objects.
-So, another approach is to apply \textbf{heuristics} in order to obtain “good” solutions. These solutions are often close-to-optimal, but might degenerate for certain instances and thus make no guarantees about the actual quality of the packings.
-Finally, some authors design \textbf{approximation algorithms}, which do make performance guarantees about the obtained solutions. In the best case, the approximated solutions are only a constant factor away from the optimal ones.
+Some authors strive to obtain the \textbf{optimal solutions} to packing problems. As almost all interesting packing problems are NP-hard, this becomes incredibly computationally expensive for more than a few objects.
+So, another approach is to design \textbf{heuristics} in order to obtain “good” solutions. These solutions are often close-to-optimal, but might degenerate for certain instances and thus make no guarantees about the actual quality of the produced packings.
+Finally, some authors develop \textbf{approximation algorithms}, which do make performance guarantees about the obtained solutions. In the best case, these algorithms produce solutions which are only a constant factor away from the optimal ones.
 
-A packing problem usually consists of three components: The type of objects that are to be packed (for example, squares or circles, which can be of different sizes or be restricted to be of equal size), the type of the container (for example, a square, a triangle, a general polygon), and the restrictions which are placed on the movement of the objects (they could be allowed to rotate, or restricted to translations only). In this literature review, as well as in the rest of this thesis, we always restrict the movement of the objects to translations.
+A packing problem usually consists of three components: The first component is the type of objects that are to be packed. For example, these can be square or circular objects, and they can be allowed to have different sizes or be restricted to be of equal size. The second component is the type of the container, for example, a square, a triangle, a general polygon. Thirdly, one can define restrictions on the movement of the objects: The objects could be allowed to rotate, or be restricted to translations only. For the purpose of this literature review, we always restrict the movement of the objects to translations only. There are also online variants of packing problems, where the object instance is not known beforehand, but in this, we restrict ourselves to offline approaches.
 
-Packing arbitraryly-shaped objects into arbitrary containers can immediately shown to be NP-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $n$. The decision problem whether it is possible to pack these objects into the container without rotation is a reduction from \textsc{Partition}.
-
-We restrict ourselves to offline approaches.
+In general, packing arbitraryly-shaped objects into arbitrary containers can immediately shown to be NP-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $n$. The decision problem whether it is possible to pack these objects into the container without rotation is a reduction from \textsc{Partition}.
 
 \section{Packing squares}\label{sec:related-squares}
 
@@ -280,7 +278,7 @@ The decision problem whether it is possible to pack a given set of unequal circl
 
 \subsection{Density bounds}
 
-The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\pi/\sqrt{12} \approx 0.9069$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see \cite{CW2010simple}.
+The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\pi/\sqrt{12} \approx 0.9069$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see the paper of \textcite{CW2010simple}.
 
 For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket, or in another asymptotically space filling manner, like in the construction of \textcite{bourke2011random}.
 
