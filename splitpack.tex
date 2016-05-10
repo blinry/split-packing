@@ -868,27 +868,27 @@ This observation motivates a family of shapes which resemble triangles whose cor
 
     %$$\frac{x}{d} = \frac{d-d\sqrt{f_i})}{d} = 1 - \sqrt{f_i}$$
 
-    In \Cref{fig:hat-poke}, we display the situation when packing a hat into (\wlofg) the right side of the container. $f_i$ is the relevant factor from the split key, $a_i$ is the hat's incircle and $y$ represents the hat's rounding.
+    In \Cref{fig:hat-poke}, we display the situation when packing a hat into (\wlofg) the right side of the container. $f_i$ is the relevant factor from the split key, $a_i$ is the hat's incircle and $b_i$ represents the hat's rounding.
 
     \fig{hat-poke}{Various measurements when packing a rounded hat.}
 
     The hat is placed in such a way that it will never overlap the bottom or the right side of the containing triangle, so it is sufficient to show that it does not overlap the left side.
-    We can tell from \Cref{fig:hat-poke} that this does not happen if the width of the hat's triangle ($d\sqrt{a_i}$), minus the width of the $(y,0)$-triangle similar to the containers right side ($d\sqrt{y}$), plus the length of the right side of the $(y,0)$-triangle similar to the container ($e\sqrt{y}$) is at most the length of the container triangle's right side ($d\sqrt{f_i}$):
+    We can tell from \Cref{fig:hat-poke} that this does not happen if the width of the hat's triangle ($d\sqrt{a_i}$), minus the width of the $(b_i,0)$-triangle similar to the containers right side ($d\sqrt{b_i}$), plus the length of the right side of the $(b_i,0)$-triangle similar to the container ($e\sqrt{b_i}$) is at most the length of the container triangle's right side ($d\sqrt{f_i}$):
 
     \begin{equation*}
-        d\sqrt{a_i} - d\sqrt{y} + e\sqrt{y} \le d\sqrt{f_i}\\
+        d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}\\
     \end{equation*}
 
     As observed above, $e = d\sqrt{\frac{f_i}{a}}$ (recall that we normalized $a$ to 1):
 
     \begin{equation*}
-        d\sqrt{a_i} - d\sqrt{y} + d\sqrt{f_i}\sqrt{y} \le d\sqrt{f_i}\\
+        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i}\sqrt{b_i} \le d\sqrt{f_i}\\
     \end{equation*}
 
-    We can divide by $d$ and factor out $\sqrt{y}$ to get:
+    We can divide by $d$ and factor out $\sqrt{b_i}$ to get:
 
     \begin{equation}\label{eq:tripoke}
-        \sqrt{a_i} - (1-\sqrt{f_i})\sqrt{y} \le \sqrt{f_i}
+        \sqrt{a_i} - (1-\sqrt{f_i})\sqrt{b_i} \le \sqrt{f_i}
     \end{equation}
 
     Let $j$ be the index of the other hat to be packed.
@@ -896,9 +896,9 @@ This observation motivates a family of shapes which resemble triangles whose cor
 
     Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group $i$.
 
-    So by \Cref{th:split-properties}, our hat it is rounded by at least
+    So by \Cref{th:split-properties}, our hat it is rounded by
 
-    $$y = a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$$
+    $$b_i \ge a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$$
 
     Insert that into \Cref{eq:tripoke}, and also substitute $f_i = b^2$ and $a_i-f_i = c^2$ to get
 
