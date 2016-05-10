@@ -179,6 +179,47 @@ Significance
 %    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of at most $a$ can be packed into that triangle.
 %\end{theorem}
 
+\subsection{Applications}
+
+Circle packing is a natural, intuitive problem, that has numerous applications in engineering, science, and everyday life.
+
+\paragraph{Packaging}
+
+An obvious application is packaging: Given a set of cylindrical objects (like bottles or cans), one might want to determine the minimum-volume parcel in which all objects can be packed \parencite{CKP2008solving}. Or, given a shipping container of fixed size, one might want to pack as many rolls of paper into it as possible \parencite{fraser1994integrated}.
+
+\paragraph{Bundling}
+
+A similar application involves cylinder bundles:
+One might want to run a number of optical fibers through a tube, or place multiple pipes with different diameters inside of a larger one \parencite{WHZX2002improved}. As another example, a car manufacturer might want to drill circular holes into a car's body and route a number of sensor cables through that hole, while keeping the hole as small as possible \cite{SSSKK2004disk}.
+
+\paragraph{Cutting industry}
+
+Circle packing is applicable in the cutting indsutry, where one might want to cut circular pieces from a material, minimizing waste \cite{SMCSCG2007new}.
+A related problem is the layout of control panels containing circular controls (like in airplane cockpits, for example), which should be placed space-efficiently \parencite{CKP2008solving}.
+
+\paragraph{Communication}
+
+In the context of digital modulation schemes, \emph{quadrature amplitude modulation} is using circle packings to divide the two-dimensional phase-amplitude space into regions, which encode different binary patterns. Larger circles lead to increased noise tolerances \parencite{PWMD1992packing}.
+Network planners might want to place radio towers in a geographical region, mimimizing interference, but maximizing coverage \parencite{SMCSCG2007new}.
+
+\paragraph{Chemistry}
+
+Other applications stem from chemistry, where one can study dense packings of atoms in crystals or macromolecules \cite{WMP1994history}.
+
+\paragraph{Foresting}
+
+In foresting, one might want to plant trees so that the grown forest will be as dense as possible, but the trees do not hinder each other's growth \cite{SMCSCG2007new}.
+
+\paragraph{Design}
+
+A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees involves a packing problem called circle/river-packing. See \Cref{fig:origami} on \cpageref{fig:origami} for an example. This kind of Origami design was pioneered by Robert J. Lang \cite{lang1996computational}. Using circle packings (without “rivers”), one can design crease patterns for folding arbitrary stars.
+
+%Photo collage "Content-aware photo collage using circle packing"
+
+%\paragraph{Other}
+
+%In Operations Research, one might want to disperse facilities so that the minimum distance between any two is maximized TODOcite.
+
 \section{Organization}
 
 overview
@@ -229,109 +270,73 @@ As by above remark, this algorithm can be used to pack circles: It can pack all 
 
 \section{Packing circles}
 
-Most works concerned with circle packings try to get as close to the optimal packings of given instances as possible. Optimal solutions are only known for small instances, so that the majority of authors either focus on heuristics or model circle packing as a global optimization problem.
+There is a large body of work regarding the packing of circles into various containers. Most authors have considered the packing of equal circles into squares, see \textcite{SMCSCG2007new} for an overview of numerous heuristics and optimization methods. \textcite{HM2009literature} survey the literature on packing unequal circles into squares, rectangles, circles and other shapes, as well as on packing spheres into three-dimensional containers.
 
-\subsection{History}
-
-bla
-
-\subsection{Application algorithms}
-
-Circle packing is a natural, intuitive problem, that has numerous applications in engineering, science, and everyday life.
-
-\paragraph{Packaging}
-
-An obvious application is packaging: Given a set of cylindrical objects (like bottles or cans), one might want to determine the minimum-volume parcel in which all objects can be packed \parencite{CKP2008solving}. Or, given a shipping container of fixed size, one might want to pack as many rolls of paper into it as possible \parencite{fraser1994integrated}.
-
-\paragraph{Bundling}
-
-A similar application involves cylinder bundles:
-One might want to run a number of optical fibers through a tube, or place multiple pipes with different diameters inside of a larger one \parencite{WHZX2002improved}. As another example, a car manufacturer might want to drill circular holes into a car's body and route a number of sensor cables through that hole, while keeping the hole as small as possible \cite{SSSKK2004disk}.
-
-\paragraph{Cutting industry}
-
-Circle packing is applicable in the cutting indsutry, where one might want to cut circular pieces from a material, minimizing waste \cite{SMCSCG2007new}.
-A related problem is the layout of control panels containing circular controls (like in airplane cockpits, for example), which should be placed space-efficiently \parencite{CKP2008solving}.
-
-\paragraph{Communication}
-
-In the context of digital modulation schemes, \emph{quadrature amplitude modulation} is using circle packings to divide the two-dimensional phase-amplitude space into regions, which encode different binary patterns. Larger circles lead to increased noise tolerances \parencite{PWMD1992packing}.
-Network planners might want to place radio towers in a geographical region, mimimizing interference, but maximizing coverage \parencite{SMCSCG2007new}.
-
-\paragraph{Chemistry}
-
-Other applications stem from chemistry, where one can study dense packings of atoms in crystals or macromolecules \cite{WMP1994history}.
-
-\paragraph{Foresting}
-
-In foresting, one might want to plant trees so that the grown forest will be as dense as possible, but the trees do not hinder each other's growth \cite{SMCSCG2007new}.
-
-\paragraph{Design}
-
-A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees involves a packing problem called circle/river-packing. See \Cref{fig:origami} on \cpageref{fig:origami} for an example. This kind of Origami design was pioneered by Robert J. Lang \cite{lang1996computational}. Using circle packings (without “rivers”), one can design crease patterns for folding arbitrary stars.
-
-%Photo collage "Content-aware photo collage using circle packing"
-
-%\paragraph{Other}
-
-%In Operations Research, one might want to disperse facilities so that the minimum distance between any two is maximized TODOcite.
+%Most authors try to get as close to the optimal packings of given instances as possible. Optimal solutions are only known for small instances, so that the majority of authors either focus on heuristics or model circle packing as a global optimization problem.
 
 \subsection{Hardness}
 
-The problem we are concerned with in this thesis is packing (unequal) circles into simple containers, like squares and triangles. The decision problem whether it is possible to pack a given set of unequal circles into a square or an equilateral triangle was shown to be NP-complete by \textcite{DFL2010circle}, also by a reduction from \textsc{3-Partition}. They build a circle instance which first forces some symmetrical free “pockets” in the resulting circle packing. The instance's remaining circles can be packed into these pockets exactly if the related \textsc{3-Partition} problem can be solved.
+The decision problem whether it is possible to pack a given set of unequal circles into a given square, a rectangle, or an equilateral triangle was shown to be NP-complete by \textcite{DFL2010circle}, by a reduction from \textsc{3-Partition}: They build a circle instance which first forces some symmetrical free “pockets” in the resulting circle packing. The instance's remaining circles can then be packed into these pockets exactly if the related \textsc{3-Partition} instance has a solution.
 
 \subsection{Density bounds}
 
 The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\pi/\sqrt{12} \approx 0.9069$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see \cite{CW2010simple}.
 
-For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket, or in another space filling manner, like the construction of \textcite{bourke2011random}.
+For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket, or in another asymptotically space filling manner, like in the construction of \textcite{bourke2011random}.
+
+(TODO: figures of both)
 
 \subsection{Optimal packings}
 
-The packing of equal circles in a square has received particular attention in the past.
+A problem which has been considered a lot is the following: What is the smallest square in which $n$ unit circles can be packed?
+Surprisingly, optimal results are only known for $n < 35$.
 
-A problem which has been considered a lot is is what is the smallest square in which $n$ unit circles can be packed. Surprisingly, optimal results are only known for $n < 35$.
-%TODO: correct?
-The optimal packings of up to nine equal circles in a square were already proven in 1965: The cases for $n < 7$ are trivial TODOcite,
-\textcite{schaer1965densest} proofed the optimal solutions for $n = 7$ and $n = 8$, and \textcite{SM1965geometric} the one for $n = 9$.
-The optimal solution for $n = 10$ was not confirmed until 1990 by \textcite{DPW1990optimal}. In the same paper, optimal solutions for 11, 12 and 13 circles were also proven.
+The optimal packings of up to nine equal circles in a square were already known in 1965: The cases for $n \le 6$ are trivial,
+\textcite{schaer1965densest} proved the optimal solutions for $n = 7$ and $n = 8$, and \textcite{SM1965geometric} the one for $n = 9$.
+
+(TODO: figure of up to n=9?)
+
+The optimal solution for $n = 10$ was confirmed only in 1990, by \textcite{DPW1990optimal}. In the same paper, they also prove the optimal solutions for 11, 12 and 13 circles.
 See \textcite{WMP1994history} for an overview of the history of optimal solutions for $n \le 13$.
-The smallest number of equal circles for whose optimal packing in a square is currently not known is TODO.
-\textcite{NO1998more} provide computer-aided optimality proofs for $n \le 27$. Their algorithm, which subdivides the square into square or rectangular tiles, is based on the procedure by \textcite{PWMD1992packing}.
+%The smallest number of equal circles for whose optimal packing in a square is currently not known is TODO.
+
+Some years later, \textcite{NO1998more} provided computer-aided optimality proofs for $n \le 27$. Their algorithm is based on a procedure by \textcite{PWMD1992packing}.
 \textcite{MC2005new} give computer-aided proofs for $n=28,29,30$ within very tight tolerance values.
-Furthermore, \textcite{LR2002packing} proved the known solutions for up to $n=35$ to be optimal within very small tolerance values.
+Finally, \textcite{LR2002packing} proved solutions for up to $n=35$ to be optimal also within very small tolerance values.
 
-\subsection{Approximations}
+\subsection{Approximation algorithms}
 
-The problem of finding the smallest square that suffices for packing any set of circles of combined area 1 was posed by \textcite{DFL2010circle}. They described a quadtree-based approximation scheme which could guarantee a packing density of $\pi/16 \approx 0.1963$.
+%The problem of finding the smallest square that suffices for packing any set of circles of combined area 1 was posed by .
+When \textcite{DFL2010circle} posed \Cref{prb:1}, they also described a straightforward quadtree-based approximation algorithm which can guarantee a packing density of $\pi/16 \approx 0.1963$ when packing circles into a square.
 
-\textcite{MPSSW2014polynomial} devised a general polynomial-time approximation schemes for packing circle-like objects into containers, which first packs a constant number of large objects, and then fills up the unused space with the small objects.
+\textcite{MPSSW2014polynomial} devised asymptotic polynomial-time approximation schemes for packing unequal circles into the smallest number of unit bins and for packing circles into a strip of unit width and of minimum height. They first pack “large” circles by solving a semi-algebraic system, then cut the remaining free space into sub-bins, and pack the smaller circles into these bins by starting the same algorithm recursively.
 
-\textcite{HMS2016bounded} devised an asymptotic approximation algorithm, which can pack unequal circles into square bins in an online fashion with an asymptotic competitive ratio of at most 2.4394. They also gave a lower bound of 2.2920 for any online bounded space algorithm for that problem. The algorithm packs large circles according to the best known packings of equal circles and puts small circles into recursively subdivided hexagonal bins.
+Recently, \textcite{HMS2016bounded} developed an asymptotic approximation algorithm for the online version of the circle bin packing problem.
+Their algorithm also differentiates between large and small circles: They pack large circles according to the best known packings of equal circles, while small circles are placed in recursively subdivided hexagonal bins. This approach has an asymptotic competitive ratio of at most 2.4394. They also give a lower bound of 2.2920 for any bounded space algorithm for that problem.
 
 \subsection{Heuristics}
 
-If $n$ is too large to determine optimal packings, one can ask for lower bounds for the density of optimal packings, that is, the smallest \emph{known} containers in which the circles can be packed.
+For instances which contain too many circles to determine optimal packings, one can ask for lower bounds for the density of optimal packings, that is, the smallest \emph{known} containers in which the circles can be packed.
 Many authors employ heuristics to produce good solutions for circle packing problems.
-A considerable amout of work has been put into finding new records, mostly for equal circles, but also for test instances consisting of unequal circles. The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on \url{packomania.com} \cite{specht2015packomania}.
+A considerable amout of work has been put into finding new records, mostly for equal circles. The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on Specht's website \url{http://packomania.com} \cite{specht2015packomania}.
 
-The works related to this idea are too numerous to be covered here in their entierty, but we will present some of the more important attempts in roughly chronological order. As described, these approaches do not give any performance guarantees, but give lower bounds on the optimal packing of single instances. Most of the works lead to improvements of the best known packings in the literature.
+The works related to this idea are too numerous to be covered here in their entierty, but we will present some of the more important attempts. As described, these approaches do not give performance guarantees, but give lower bounds on the optimal packing of single instances. Most of the works mentioned here lead to improvements of the best known packings in the literature at the time they were published.
 
-\paragraph{Quasi-human or quasi-physical}
+\paragraph{Quasi-human and quasi-physical}
 
-As one of the first to consider the packing of unequal circles into rectangles, \textcite{GGL1995packing} developed a set of heuristics, based on enumerating \emph{stable} solutions, where a circle is either on the ground or has two lower contacts. To get out of local optima, they apply a variety of approaches, like “shaking down” circles or apply genetic algorithms to improve the stable solutions.
+\textcite{GGL1995packing} developed a set of heuristics for packing unequal circles in rectangles, based on enumerating \emph{stable} solutions, where a circle is either on the ground or has two lower contacts. To get out of local optima, they evaluate a variety of approaches, like “shaking down” circles or applying genetic algorithms to improve the stable solutions.
 
-\textcite{GLNO1998dense} propose a \emph{billiard simulation}, in which the circles are physically simulated as hard disks, and apply some additional steps to tighten the found packings.
+\textcite{GLNO1998dense} propose a \emph{billiard simulation} approach, in which the circles are physically simulated as hard disks, and apply some additional steps to tighten the found packings.
 
 \textcite{BDGL2000improving} model the disks as moving particles with repelling forces, and simulate them using a stragety resembling simmulated annealing.
 
-\textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity and then finds circles which are "most squeezed", and re-insert them randomly.
+\textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity, then finds circles which are "most squeezed", and re-inserts them randomly.
 
-\textcite{HLLX2006new} apply a quasi-human heuristic, which places new circles in gaps of approximately the same size as the circle, and combine it with a self look-ahead strategy which evalutates how beneficial the coice of a certain placement for each circle is.
+\textcite{HLLX2006new} apply a quasi-human heuristic, which places new circles in gaps of approximately the same size as the circle, and combine it with a self-look-ahead strategy which evalutates how beneficial the coice of a certain placement for each circle is.
 
-\textcite{LB2013packing} apply a metaheuristic called \emph{formulation space search}, which alternates between two different heuristics, to avoid getting stuck in local minima. After that, they perform an improvement phase, which swaps circles.
+\textcite{LB2013packing} apply a metaheuristic called \emph{formulation space search}, which alternates between two different heuristics, to avoid getting stuck in local minima. After that, they finish off with an improvement phase, which swaps circles if this improves the solution.
 
-\textcite{HHY2015action} start with a random configuration of unequal circles in a square, simulate them using a quasi-Newton method to reach a minimum energy state, and perform swapping steps based \emph{action spaces}, unoccupid rectangles, to get out of locally optimal solutions. Finally, they do a postprocessing step to increase the result's precision.
+\textcite{HHY2015action} start with a random configuration of unequal circles in a square, simulate them using a quasi-Newton method to reach a minimum energy state, and then perform swapping steps, to get out of locally optimal solutions. Finally, they do a postprocessing step to increase the result's precision.
 
 \paragraph{Pattern-based}
 
@@ -341,35 +346,29 @@ As one of the first to consider the packing of unequal circles into rectangles, 
 
 %TODO \textcite{ZYC2015packing} extend the GVS to allow packing into \emph{damaged squares}, squares with some smaller squares removed from it. They enhance the GVS by Simulated Annealing and get significantly better results in their experiments compared to GVS.
 
-\subsection{Global optimization methods}
+\subsection{Optimization methods}
 
-Another much-explored idea is to model the packing problem as a set of (nonlinear) inequalities and solve the system using commercial solvers. 
+Another much-explored idea is to model the packing problem as a set of (mostly nonlinear) inequalities and to solve this system using powerful commercial solvers.
 
 \paragraph{Stochastic optimization}
 
-\textcite{FMC2015evolutionary} solve the problem using Genetic Algorithms and other evolutionary approaches. As the evolved solutions are not always valid, they evalutate different repair strategies, like repulsion-based or Delauny-based methods.
-
 \textcite{ZD2005effective} combine simulated annealing and tabu search to pack unequal circles into a circle.
+
+\textcite{FMC2015evolutionary} solve the problem of packing unequal circles into a circle using genetic algorithms and other evolutionary approaches. As the evolved solutions are not always valid, they evalutate different repair strategies, like repulsion-based or Delauny-based methods.
 
 \paragraph{Linear optimization}
 
-\textcite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary LP, where the variables represent the assignment of the centers to the grid nodes.
+\textcite{LIE2014approximate} compute approximated solutions to packing circles into rectangles by restricting their coordinates to a regular grid and formulate a binary Linear Problem, where the variables represent the assignment of the circles' centers to the grid nodes.
 
-\textcite{SY2004mathematical} formulate a method of transitioning from one local optimum to a better one when packing unequal circles into a strip, based on a reduced gradient method.
+%\textcite{SY2004mathematical} formulate a method of transitioning from one local optimum to a better one when packing unequal circles into a strip, based on a reduced gradient method.
 
 \paragraph{Nonlinear optimization}
 
-\textcite{ALS2008disk} model the problem of packing circles into a circle as a global nonlinear optimization problem and apply a stochastic search method similar to Multistart, which they refer to as \emph{Monotonic Basin Hopping}, and which is inspired by molecular conformation problems. They also adapted this algorithm to pack circles into circular containers \cite{GJLS2009solving}.
+\textcite{ALS2008disk} model the problem of packing circles into a square as a global nonlinear optimization problem and apply a stochastic search method similar to Multistart, which they refer to as \emph{Monotonic Basin Hopping}, and which is inspired by molecular conformation problems. They also adapted this algorithm to pack circles into circular containers \cite{GJLS2009solving}.
 
 \textcite{BS2008minimizing} design packing problems as a smooth nonlinear programming model, and solve them using continuous optimization. They give multiple formulations of the problem, allowing them to pack different-sized circles into circles, squares, strips, rectangles or equilateral triangles and to pack spheres into spheres, cuboids, tetrahedra, pyramids and cylinders.
 
-\textcite{BG2010new} note that, given the contacts of the circle objects to the containers boundary beforehand, the numer of constraints is reduced significantly. They learn this information from previously best known solutions in the literature and solve the now overdetermined linear system to get high-precision results.
-
-\subsection{Surveys}
-
-\textcite{SMCSCG2007new} give an overview of numerous heuristics and optimization methods for packing equal circles in a square.
-
-\textcite{HM2009literature} survey the literature on packing unequal circles into squares, rectangles, circles and other shapes, as well as on packing spheres into various shapes.
+\textcite{BG2010new} note that, given the contacts of the circle objects with the container's boundary beforehand, the numer of constraints is reduced significantly. They learn this contact information from previously best known solutions in the literature and solve the now overdetermined linear system to get high-precision results.
 
 \chapter{Split Packing}
 
