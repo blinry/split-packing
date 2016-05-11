@@ -4,7 +4,7 @@
 \pgfmathsetmacro{\b}{51}
 
 \hatshape{1}{0}{\a}{\b}
-\draw (midcenter) circle(\r);
+\draw (midcenter) circle(\r) node {$a$};
 \draw[draw=none] (left) -- node[sloped,above] {$x$} (top);
 \draw[draw=none] (top) -- node[sloped,above] {$y$} (right);
 
@@ -16,9 +16,9 @@
 \draw[dashed] (lc) -- (l);
 \draw[dashed] (rc) -- (r);
 
-\draw[bracket] ([yshift=-2pt]right) -- node[below] {$rw$} ([yshift=-2pt]l);
-\draw[bracket] ([yshift=-9pt]r) -- node[below] {$lw$} ([yshift=-9pt]left);
-\draw[bracket] ([yshift=-16pt]right) -- node[below] {$w$} ([yshift=-16pt]left);
+\draw[bracket] ([yshift=-2pt]right) -- node[below] {$\sqrt{a}p_2$} ([yshift=-2pt]l);
+\draw[bracket] ([yshift=-10pt]r) -- node[below] {$\sqrt{a}p_1$} ([yshift=-10pt]left);
+\draw[bracket] ([yshift=-18pt]right) -- node[below] {$w$} ([yshift=-18pt]left);
 
 \begin{scope}[scale=0.76,shift={(0,-0.178)}]
     \hatshape[dotted]{1}{0}{\aa}{\bb}

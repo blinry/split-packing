@@ -4,20 +4,18 @@
 \pgfmathsetmacro{\round}{0}
 
 \hatshape{1}{\round}{\a}{\b}
-\draw[dotted] (midcenter) circle(\r) node {$a$};
-\draw[bracket] ([yshift=-23pt]right) -- node[below] {$w$} ([yshift=-23pt]left);
+\draw[bracket] ([yshift=-9pt]right) -- node[below] {$w$} ([yshift=-9pt]left);
 
 \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
 \begin{scope}[shift={(\pgfmathresult,0)}]
     \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
     \begin{scope}[shift={(0,-\pgfmathresult)}]
         \pgfmathsetmacro{\hata}{\x}
-        \hatshape[dashed]{\hata}{0}{\a}{\b}
+        \hatshape[dashed]{\hata}{0}{90}{\b}
         \pgfmathsetmacro{\r}{sqrt(\x/pi)}
         \coordinate (r) at ($(midcenter)+(-\r,-\r)$);
         \draw (midcenter) circle(\r) node {$a_2$};
-        \draw[bracket] ([yshift=-2pt]right) -- node[below] {$g$} ([yshift=-2pt]left);
-        \draw[bracket] ([yshift=-16pt]right) -- node[below] {$rg$} ([yshift=-16pt]r);
+        \draw[bracket] ([yshift=-2pt]right) -- node[below] {$\sqrt{a_2}p_2$} ([yshift=-2pt]r);
     \end{scope}
 \end{scope}
 
@@ -28,12 +26,11 @@
         \pgfmathparse{sqrt(1/pi)-sqrt((1-\x)/pi)}
         \begin{scope}[shift={(0,-\pgfmathresult)}]
             \pgfmathsetmacro{\hata}{1-\x}
-            \hatshape[dashed]{\hata}{0}{\a}{\b}
+            \hatshape[dashed]{\hata}{0}{\a}{90}
             \pgfmathsetmacro{\r}{sqrt((1-\x)/pi)}
             \coordinate (l) at ($(midcenter)+(\r,-\r)$);
             \draw (midcenter) circle(\r) node {$a_1$};
-            \draw[bracket] ([yshift=-9pt]right) -- node[below] {$f$} ([yshift=-9pt]left);
-            \draw[bracket] ([yshift=-16pt]l) -- node[below] {$lf$} ([yshift=-16pt]left);
+            \draw[bracket] ([yshift=-2pt]l) -- node[below] {$\sqrt{a_1}p_1$} ([yshift=-2pt]left);
         \end{scope}
     \end{scope}
 \fi

@@ -1,0 +1,37 @@
+\pgfmathsetmacro{\area}{1.244}
+\pgfmathsetmacro{\a}{60}
+\pgfmathsetmacro{\b}{60}
+\pgfmathsetmacro{\x}{0.5}
+\pgfmathsetmacro{\round}{0}
+
+\hatshape{\area}{\round}{\a}{\b}
+\draw[bracket] ([yshift=-10pt]right) -- node[below] {$\sqrt{2a}$} ([yshift=-9pt]left);
+
+\pgfmathparse{sqrt(\area/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+\begin{scope}[shift={(\pgfmathresult,0)}]
+    \pgfmathparse{sqrt(\area/pi)-sqrt(\x/pi)}
+    \begin{scope}[shift={(0,-\pgfmathresult)}]
+        \pgfmathsetmacro{\hata}{\x}
+        \hatshape{\hata}{0}{90}{\b}
+        \pgfmathsetmacro{\r}{sqrt(\x/pi)}
+        \coordinate (r) at ($(midcenter)+(-\r,-\r)$);
+        \draw[filled] (midcenter) circle(\r) node {$a/2$};
+        \draw[bracket] ([yshift=-2pt]right) -- node[below] {$\sqrt{a/2}p_1$} ([yshift=-2pt]r);
+    \end{scope}
+\end{scope}
+
+\def\comparg{\x}
+\if\comparg1\else
+    \pgfmathparse{sqrt(\area/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
+    \begin{scope}[shift={(-\pgfmathresult,0)}]
+        \pgfmathparse{sqrt(\area/pi)-sqrt((1-\x)/pi)}
+        \begin{scope}[shift={(0,-\pgfmathresult)}]
+            \pgfmathsetmacro{\hata}{1-\x}
+            \hatshape{\hata}{0}{\a}{90}
+            \pgfmathsetmacro{\r}{sqrt((1-\x)/pi)}
+            \coordinate (l) at ($(midcenter)+(\r,-\r)$);
+            \draw[filled] (midcenter) circle(\r) node {$a/2$};
+            \draw[bracket] ([yshift=-2pt]l) -- node[below] {$\sqrt{a/2}p_1$} ([yshift=-2pt]left);
+        \end{scope}
+    \end{scope}
+\fi

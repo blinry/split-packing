@@ -740,6 +740,20 @@ This observation motivates a family of shapes which resemble triangles whose cor
 
 \fig{hat-f}{A hat's \emph{associated split key} equals $(f_1, f_2)$}
 
+To prepare for the next proof, we need the following lemma:
+
+\begin{lemma}\label{th:overlap}
+    Place two circles of combined area $a$ in two corners of a triangle. Let $w$ be the length of the connecting side of the triangle. If the distance of the respective corner to the far point of the circle $i$'s projection onto the connecting side is $\sqrt{a_i}p_i$, then the two projections do not intersect if
+
+    $$w \ge \sqrt{a(p_1^2 + p_2^2)}.$$
+\end{lemma}
+
+\begin{proof}
+    Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do not intersect.
+\end{proof}
+
+\fig{hats-overlap}{}
+
 \begin{lemma}\label{th:hats-in-hat}
     Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
     For all $(a,0,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
@@ -823,35 +837,12 @@ This observation motivates a family of shapes which resemble triangles whose cor
 
     (TODO: pic)
 
-    To prepare for the next step, we need to make an observation about the factors $l$ and $r$ shown in \Cref{fig:hatlr}: If the top angle is a right angle, we can see that $lw = x$ and $rw = y$. So by Pythagoras, $(lw)^2 + (rw)^2 = w^2$, which is equivalent to $l^2 + r^2 \le 1$. If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant in \Cref{fig:hatlr}), the incircle only gets smaller. This means that both $l$ and $r$ shrink, too, so for each hat, $l^2 + r^2 \le 1$, respectively $r \le \sqrt{1-l^2}$.
+    We want to use \Cref{th:overlap} for this proof, so we need to make a statement about the projection factors $p_1$ and $p_2$ in \Cref{fig:hatlr}: If the top angle is a right angle, we can see that $\sqrt{a}p_1 = x$ and $\sqrt{a}p_2 = y$. So by the Pythagorean theorem, $w^2 = (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$.
+     If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant in \Cref{fig:hatlr}),
+    both $\sqrt{a}p_1$ and $\sqrt{a}p_2$ only get smaller, so for each hat, $w^2 \ge (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$, which is equivalent to $w \ge \sqrt{a(p_1^2+p_2^2)}$.
+    By \Cref{th:overlap} this means that the projections of the circles do not overlap.
 
     \fig{hatlr}{$l^2 + r^2 \le 1$ holds for each non-acute triangle}
-
-    If we enclose the incircles with hats which are \emph{similar} to the container, like in \Cref{fig:hats-overlap}, we see that the projections do not overlap if the following condition holds:
-
-    \begin{equation}\label{eq:trifit}
-        lf + rg \le w
-    \end{equation}
-
-    \fig{hats-overlap}{$f^2 + g^2 \le w^2$ for each non-acute triangle}
-
-    Also note that for similar hats, the ratio between their incircle's area and the square of their widths is constant. This means that $a_1 + a_2 \le a$ (which is true) implicates $f^2 + g^2 \le w^2$. Thus, $g \le \sqrt{w^2-f^2}$.
-
-    Putting it all together, we can show that \Cref{eq:trifit} is true:
-
-    \begin{align*}
-        lf + rg
-        &\le lf + \sqrt{1-l^2} \sqrt{w^2-f^2}\\
-        &= lf + \sqrt{(1-l^2)(w^2-f^2)}\\
-        &= lf + \sqrt{w - \textcolor{blue}{l^2w^2} - \textcolor{blue}{f^2} + l^2f^2}\\
-        &\le lf + \sqrt{w - \textcolor{orange}{2lwf} + l^2f^2}\addtocounter{equation}{1}\tag{\theequation}\label{eq:am-gm}\\
-        &= lf + \sqrt{(w-lf)^2}\\
-        &= w
-    \end{align*}
-
-    Line \ref{eq:am-gm} is a consequence of the inequality of arithmetic and geometric means: $\frac{lw+f}{2} \ge \sqrt{lwf} \Rightarrow \frac{(lw+f)^2}{4} \ge lwf \Rightarrow l^2w^2 + 2 lwf + f^2 \ge 4 lwf \Rightarrow \textcolor{blue}{l^2w^2 + f^2} \ge \textcolor{orange}{2lwf}$.
-
-    \medskip
 
     The second thing we need to show is that the hats fit into the container individually.
 
@@ -969,31 +960,99 @@ With these preparations, we can finally apply Split Packing to hats:
 
 \section{Non-acute triangles}
 
-Worst case
-
-
-\begin{proof}
-
-
-\end{proof}
-
-%\begin{theorem}
-%    For any non-acute triangle with an incircle of area $a$, for any $b > a$ there are instances in $\C(b)$ which cannot be packed into the triangle.
-%\end{theorem}
-%
-%\begin{proof}
-%    The instance $\{b\}$ cannot be packed, as the incircle is by definition the largest circle which fits into the triangle.
-%\end{proof}
+This section is going to be short.
 
 \begin{theorem}
-    Each non-acute triangle with an incircle of area $a$ is a $\C(a)$-shape.
+    A circle instance can be packed into a non-acute triangle if the circle's combined area does not exceed the area of the triangle's incircle.
 \end{theorem}
 
 \begin{proof}
-    The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
+    Call the incircle's area $a$. The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
 \end{proof}
 
+We also argue that this is the best area bound we could hope for:
+
+\begin{theorem}
+    For any non-acute triangle with an incircle of area $a$, for any $b > a$ there are instances in $\C(b)$ which cannot be packed into the triangle.
+\end{theorem}
+
+\begin{proof}
+    A single $b$-circle cannot be packed, as the incircle is by definition the largest circle which fits into the triangle.
+\end{proof}
+
+\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
+
 \section{Isosceles triangles}
+
+\begin{definition}
+    The split key of an isosceles triangle is $(1,1)$.
+\end{definition}
+
+\begin{lemma}\label{th:hats-in-iso}
+    Consider an isosceles triangle whose symmetric angles are $\alpha$. Call its twincircle area $a$.
+    For all $(a,0,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
+    \begin{itemize}
+        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,b_2)$-hat with a left-angle of $\alpha$.
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    First, we show that the hats do not intersect each other in a similar fashion as with hat containers: In a isosceles triangle, $p_1 = p_2$, so in \Cref{th:iso-width}, we construct the width of the triangle's base to be $2\sqrt{a/2}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
+\end{proof}
+
+\fig{iso-width}{The width of an isosceles triangle is x.}
+
+\begin{theorem}
+    A circle instance can be packed into an isosceles triangle whose legs are at most as long as its base if the circle's combined area does not exceed the area of the triangle's incircle.
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+
+\begin{table}
+    \caption{Packing two hats into an isosceles triangle.}
+    \label{tab:hats-in-hat}
+
+    \begin{tabular}{cp{10cm}}
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \hatsinhat[1.244]{60}{60}{0.5}{0}
+        \end{tikzpicture}
+        & Blaha \\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \hatsinhat[1.244]{60}{60}{0.45}{0}
+        \end{tikzpicture}
+        & \\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \hatsinhat[1.244]{60}{60}{0.4}{0}
+        \end{tikzpicture}
+        & \\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \hatsinhat[1.244]{60}{60}{0.2}{0}
+        \end{tikzpicture}
+        & \\
+
+        \vspace{10pt}
+
+        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+            \hatsinhat[1.244]{60}{60}{0}{0}
+        \end{tikzpicture}
+        & \\
+
+        \vspace{10pt}
+    \end{tabular}
+\end{table}
 
 Worst case
 

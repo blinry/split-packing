@@ -215,22 +215,23 @@
     \fi
 }
 
-% alpha, beta, incircle-area of right hat, rounding
-\newcommand\hatsinhat[4]{
-    \pgfmathsetmacro{\a}{(#1)}
-    \pgfmathsetmacro{\b}{(#2)}
-    \pgfmathsetmacro{\x}{(#3)}
-    \pgfmathsetmacro{\round}{(#4)}
+% a, alpha, beta, incircle-area of right hat, rounding
+\newcommand\hatsinhat[5][1]{
+    \pgfmathsetmacro{\area}{(#1)}
+    \pgfmathsetmacro{\a}{(#2)}
+    \pgfmathsetmacro{\b}{(#3)}
+    \pgfmathsetmacro{\x}{(#4)}
+    \pgfmathsetmacro{\round}{(#5)}
     \pgfmathsetmacro{\f}{(cos(\b/2)^2*sec(\a/2+\b/2)^2*(1-sin(\a)))}
     \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
 
-    \hatshape{1}{\round}{\a}{\b}
+    \hatshape{\area}{\round}{\a}{\b}
 
     \def\comparg{\x}
     \if\comparg0\else
-        \pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
+        \pgfmathparse{sqrt(\area/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
         \begin{scope}[shift={(\pgfmathresult,0)}]
-            \pgfmathparse{sqrt(1/pi)-sqrt(\x/pi)}
+            \pgfmathparse{sqrt(\area/pi)-sqrt(\x/pi)}
             \begin{scope}[shift={(0,-\pgfmathresult)}]
                 \pgfmathsetmacro{\hata}{\x}
                 \pgfmathsetmacro{\hatb}{max(\round,\x-\g*(1-\x)/(\f)))}
@@ -242,9 +243,9 @@
 
     \def\comparg{\x}
     \if\comparg1\else
-        \pgfmathparse{sqrt(1/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
+        \pgfmathparse{sqrt(\area/pi)/tan(\a/2)-sqrt(((1-\x))/pi)/tan(\a/2)}
         \begin{scope}[shift={(-\pgfmathresult,0)}]
-            \pgfmathparse{sqrt(1/pi)-sqrt((1-\x)/pi)}
+            \pgfmathparse{sqrt(\area/pi)-sqrt((1-\x)/pi)}
             \begin{scope}[shift={(0,-\pgfmathresult)}]
                 \pgfmathsetmacro{\hata}{1-\x}
                 \pgfmathsetmacro{\hatb}{\round}
