@@ -885,37 +885,37 @@ To prepare for the next proof, we need the following lemma:
     Let $j$ be the index of the other hat to be packed.
     As we normalized $a$ to 1, we know that $a_i + a_j \le 1$. Also, $f_i + f_j \ge 1$ (TODO proof in a not yet existing section about worst cases in acute triangles).
 
-    Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group $i$.
+    Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group~$i$.
 
     So by \Cref{th:split-properties}, our hat it is rounded by
 
     $$b_i \ge a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$$
 
-    Insert that into \Cref{eq:tripoke}, and also substitute $f_i = b^2$ and $a_i-f_i = c^2$ to get
+    Insert that into \Cref{eq:tripoke}:
 
-    $$\sqrt{b^2+c^2} - (1-b)\frac{c}{\sqrt{1-b^2}} \le b$$
+    $$\sqrt{f_i+(a_i-f_i)} - (1-\sqrt{f_i})\frac{\sqrt{a_i-f_i}}{\sqrt{1-f_i}} \le \sqrt{f_i}$$
 
     Bring the subtrahend to the right and square both sides.
 
-    $$b^2+c^2 \le b^2 + \frac{2b(1-b)c}{\sqrt{1-b^2}} + (1-b)^2\frac{c^2}{1-b^2}$$
+    $$f_i+(a_i-f_i) \le f_i + \frac{2\sqrt{f_i}(1-\sqrt{f_i})\sqrt{a_i-f_i}}{\sqrt{1-f_i}} + (1-b)^2\frac{(a_i-f_i)}{1-f_i}$$
 
-    Subtract $b^2$ and divide by $c$.
+    Subtract $f_i$ and divide by $\sqrt{a_i-f_i}$.
 
-    $$c \le \frac{2b(1-b)}{\sqrt{1-b^2}} + (1-b)^2\frac{c}{1-b^2}$$
+    $$\sqrt{a_i-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i})}{\sqrt{1-f_i}} + (1-\sqrt{f_i})^2\frac{\sqrt{a_i-f_i}}{1-f_i}$$
 
     Rearrange,
 
-    $$c\frac{(1-b^2)-(1-b)^2}{1-b^2} \le \frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}}$$
+    $$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{1-f_i} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{1-f_i}}$$
 
-    Then multiply with $\sqrt{1-b^2}$:
+    Then multiply with $\sqrt{1-f_i}$:
 
-    $$c\frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}} \le \frac{(1-b^2)-(1-b)^2}{\sqrt{1-b^2}}\sqrt{1-b^2}$$
+    $$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{1-f_i}} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{1-f_i}}\sqrt{1-f_i}$$
 
-    Divide by the large fraction, and resubstitute:
+    Divide by the large fraction:
 
     \begin{align*}
-        &c \le \sqrt{1-b^2}\\
-        \iff &c^2 \le 1-b^2\\
+        &\sqrt{a_i-f_i} \le \sqrt{1-f_i}\\
+        \iff &(a_i-f_i) \le 1-f_i\\
         \iff &a_i - f_i \le 1-f_i\\
         \iff &a_i \le 1\\
     \end{align*}
