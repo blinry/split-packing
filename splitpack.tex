@@ -848,11 +848,11 @@ To prepare for the next proof, we need the following lemma:
 
     If a hat's incircle is not larger than the incircle of the container hat's side, it will fit into the container without question because it is a subset of that side (like all the non-rounded hats in \Cref{tab:hats-in-hat}).
 
-    So let us assume $a_i > f_i$. For this proof, we normalize the container hat's incircle $a$ to 1 to simplify calculations. Again, for hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
+    So let us assume $a_i > f_i$. Again, for hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
     %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hat-poke-f}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
-    We are also interested in the ratio between the square root of the area of the incircle of a triangle similar to the container triangle and the length of its right side. We call this ratio $e$. See \Cref{fig:hat-poke-f} for an illustration of $d$ and $e$.
+    We are also interested in the ratio between the square root of the area of the incircle of a triangle similar to the container triangle and the length of its right side. We call this ratio $e$. See \Cref{fig:hat-poke-f} for an illustration of $d$ and $e$. Let $o$ be the container's incircle.
     From the same figure we can observe that
-    $e\sqrt{a} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{\frac{f_i}{a}}$.
+    $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{\frac{f_i}{o}}$.
 
     \fig{hat-poke-f}{The ratios $d$ and $e$ are constant for all similar triangles.}
 
@@ -870,57 +870,62 @@ To prepare for the next proof, we need the following lemma:
         d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}\\
     \end{equation*}
 
-    As observed above, $e = d\sqrt{\frac{f_i}{a}}$ (recall that we normalized $a$ to 1):
+    As observed above, $e = d\sqrt{f_i/o}$:
 
     \begin{equation*}
-        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i}\sqrt{b_i} \le d\sqrt{f_i}\\
+        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/o}\sqrt{b_i} \le d\sqrt{f_i}\\
     \end{equation*}
 
-    We can divide by $d$ and factor out $\sqrt{b_i}$ to get:
+    We can also divide by $d$ and factor out $\sqrt{b_i}$ to get:
 
     \begin{equation}\label{eq:tripoke}
-        \sqrt{a_i} - (1-\sqrt{f_i})\sqrt{b_i} \le \sqrt{f_i}
+        \sqrt{a_i} + (\sqrt{f_i/o}-1)\sqrt{b_i} \le \sqrt{f_i}
     \end{equation}
 
-    Let $j$ be the index of the other hat to be packed.
-    As we normalized $a$ to 1, we know that $a_i + a_j \le 1$. Also, $f_i + f_j \ge 1$ (TODO proof in a not yet existing section about worst cases in acute triangles).
 
-    Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group~$i$.
+    Let $j$ be the index of the other hat to be packed.
+    We know that $a_i + a_j \le a$. Also, $f_i + f_j \ge a$ (TODO proof in a not yet existing section about worst cases in acute triangles).
+
+    %Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group~$i$.
 
     So by \Cref{th:split-properties}, our hat it is rounded by
 
-    $$b_i \ge a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{1-a_i}{1-f_i} = \frac{a_i(1-f_i)-f_i(1-a_i)}{1-f_i} = \frac{a_i-f_i}{1-f_i}$$
+    $$b_i \ge a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{a-a_i}{a-f_i} = \frac{a_i(a-f_i)-f_i(a-a_i)}{a-f_i} = a\frac{a_i-f_i}{a-f_i}$$
 
     Insert that into \Cref{eq:tripoke}:
 
-    $$\sqrt{f_i+(a_i-f_i)} - (1-\sqrt{f_i})\frac{\sqrt{a_i-f_i}}{\sqrt{1-f_i}} \le \sqrt{f_i}$$
+    $$\sqrt{a_i} + (\sqrt{f_i/o}-1)\sqrt{a\frac{a_i-f_i}{a-f_i}} \le \sqrt{f_i}$$
 
-    Bring the subtrahend to the right and square both sides.
+    In our situation, the container's incircle $o$ has exactly the area $a$ we are trying to pack, so set $o$ to $a$. Also, bring the subtrahend to the right and square both sides.
 
-    $$f_i+(a_i-f_i) \le f_i + \frac{2\sqrt{f_i}(1-\sqrt{f_i})\sqrt{a_i-f_i}}{\sqrt{1-f_i}} + (1-b)^2\frac{(a_i-f_i)}{1-f_i}$$
+    $$a_i \le f_i + 2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a\frac{a_i-f_i}{a-f_i}} + (1-\sqrt{f_i/a})^2a\frac{(a_i-f_i)}{a-f_i}$$
 
     Subtract $f_i$ and divide by $\sqrt{a_i-f_i}$.
 
-    $$\sqrt{a_i-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i})}{\sqrt{1-f_i}} + (1-\sqrt{f_i})^2\frac{\sqrt{a_i-f_i}}{1-f_i}$$
+    $$\sqrt{a_i-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a}}{\sqrt{a-f_i}} + (1-\sqrt{f_i/a})^2a\frac{\sqrt{a_i-f_i}}{a-f_i}$$
 
     Rearrange,
 
-    $$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{1-f_i} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{1-f_i}}$$
+    $$\sqrt{a_i-f_i}\frac{(a-f_i)-(1-\sqrt{f_i/a})^2a}{a-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a}}{\sqrt{a-f_i}}$$
 
-    Then multiply with $\sqrt{1-f_i}$:
+    Simplify,
 
-    $$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{1-f_i}} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{1-f_i}}\sqrt{1-f_i}$$
+    $$\sqrt{a_i-f_i}\frac{2\sqrt{f_ia}-2f_i)}{a-f_i} \le \frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}}$$
+
+    Then multiply with $\sqrt{a-f_i}$:
+
+    %$$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{a-f_i}} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{a-f_i}}\sqrt{a-f_i}$$
+    $$\sqrt{a_i-f_i}\frac{2\sqrt{f_ia}-2f_i)}{\sqrt{a-f_i}} \le \frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}}\sqrt{a-f_i}$$
 
     Divide by the large fraction:
 
     \begin{align*}
-        &\sqrt{a_i-f_i} \le \sqrt{1-f_i}\\
-        \iff &(a_i-f_i) \le 1-f_i\\
-        \iff &a_i - f_i \le 1-f_i\\
-        \iff &a_i \le 1\\
+        &\sqrt{a_i-f_i} \le \sqrt{a-f_i}\\
+        \iff &a_i - f_i \le a - f_i\\
+        \iff &a_i \le a\\
     \end{align*}
 
-    As $a_i$ is never larger than 1, \Cref{eq:tripoke} is true and the hat always fits into the container. This completes the proof of \Cref{th:hats-in-hat}.
+    As $a_i$ is never larger than $a$, \Cref{eq:tripoke} is true and the hat always fits into the container. This completes the proof of \Cref{th:hats-in-hat}.
 \end{proof}
 
 Until now, the container was always a $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that that the rounding of the container hat is no longer 0, but $b$.
@@ -984,6 +989,17 @@ We also argue that this is the best area bound we could hope for:
 
 \section{Isosceles triangles}
 
+Split Packing also works for isosceles triangles.
+
+\begin{lemma}
+    Consider an isosceles triangle whose symmetric angles are not larger than $\pi/3$ and its twincircle area $a$.
+    For any $b > a$ there are instances in $\C(b)$ which cannot be packed into the triangle.
+\end{lemma}
+
+\begin{proof}
+    The instance consisting of two $b/2$-circles can not be packed
+\end{proof}
+
 \begin{definition}
     The split key of an isosceles triangle is $(1,1)$.
 \end{definition}
@@ -999,15 +1015,42 @@ We also argue that this is the best area bound we could hope for:
 
 \begin{proof}
     First, we show that the hats do not intersect each other in a similar fashion as with hat containers: In a isosceles triangle, $p_1 = p_2$, so in \Cref{th:iso-width}, we construct the width of the triangle's base to be $2\sqrt{a/2}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
+
+    Second, we show that the hats do not intersect the container. We know from \Cref{eq:tripoke} on \cpageref{eq:tripoke} that the following condition has to hold:
+
+    $$\sqrt{a_i} + (\sqrt{f_i/o}-1)\sqrt{b_i} \le \sqrt{f_i}$$
+
+    %Here, $f_i = a/2$, $o $ and $b_i = 2(a_i-f_i)$, which gives us:
+    In our case, $f_1 + f_2$ is exactly the twincircle area as constructed above, and $f_1 = f_2$, so $f_i = a/2$. The incircle of the triangle is larger than $a$ (TODO), so $o \ge a$. The hat's rounding is $b_i = a_i - f_i \frac{a-a_i}{f_i} = 2a_i-a$. So in total, we know the above condition to be true if
+
+    %$$\sqrt{a_i}-\sqrt{2-\sqrt{3}}\sqrt{a_i-f_i} \le \sqrt{f_i}$$
+    $$\sqrt{a_i}-(1-\sqrt{1/2})\sqrt{2a_i-a} \le \sqrt{a/2}$$
+
+    We square both sides:
+
+    %$$a_i+(2-\sqrt{3})(a_i-f_i) - 2\sqrt{a_i(2-\sqrt{3})(a_i-f_i)} \le f_i$$
+    $$a_i + 
+
+    Rearrange and square both sides again:
+
+    $$(a-f)^2(3-\sqrt{3})^2 \le 4a(2-\sqrt{3})(a-f)$$
+
+    And simplify to arrive at:
+
+    $$a_i \le 3f_i$$
+
+    As $a_i \le a = 2f_i \le 3f_i$, the above condition is true and the hats do not overlap the container. This concludes the proof.
 \end{proof}
 
 \fig{iso-width}{The width of an isosceles triangle is x.}
 
 \begin{theorem}
-    A circle instance can be packed into an isosceles triangle whose legs are at most as long as its base if the circle's combined area does not exceed the area of the triangle's incircle.
+    %A circle instance can be packed into an isosceles triangle whose legs are at most as long as its base if the circle's combined area does not exceed the area of the triangle's incircle.
+    
 \end{theorem}
 
 \begin{proof}
+    By \Cref{th:hats-in-iso} and the Split Packing Theorem.
 \end{proof}
 
 \begin{table}
