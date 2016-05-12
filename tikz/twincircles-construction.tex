@@ -1,0 +1,10 @@
+\pgfmathsetmacro{\area}{1.057}
+\pgfmathsetmacro{\a}{\defaulta}
+\pgfmathsetmacro{\b}{\defaultb}
+\pgfmathsetmacro{\x}{0.617}
+
+\hatshape[filled2]{\area}{0}{\a}{\b}
+\hatshape[draw=none]{\area}{\x}{\a}{\b}
+\draw[dashed,fill=white] (leftcenter) -- (rightcenter) -- (topcenter) -- cycle;
+\draw (leftcenter) circle(\s);
+\draw (rightcenter) circle(\s);

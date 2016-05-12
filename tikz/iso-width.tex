@@ -5,7 +5,7 @@
 \pgfmathsetmacro{\round}{0}
 
 \hatshape{\area}{\round}{\a}{\b}
-\draw[bracket] ([yshift=-10pt]right) -- node[below] {$\sqrt{2a}$} ([yshift=-9pt]left);
+\draw[bracket] ([yshift=-10pt]right) -- node[below] {$\sqrt{2ap_1^2}$} ([yshift=-9pt]left);
 
 \pgfmathparse{sqrt(\area/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
 \begin{scope}[shift={(\pgfmathresult,0)}]

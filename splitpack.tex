@@ -1004,24 +1004,37 @@ We also argue that this is the best area bound we could hope for:
 
 \section{Isosceles triangles}
 
-Split Packing also works for isosceles triangles.
+Split Packing gives worst-case optimal results not only for non-acute triangles, but also for isosceles triangles, as long as its two symmetric sides are not longer than the base. In this sense, it works for all triangles inbetween a right isosceles triangle and an equilateral triangle.
+
+\begin{definition}
+    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base. Examples are shown in \Cref{fig:iso-range}.
+\end{definition}
+
+\fig[1]{iso-range}{Range of considered isosceles triangles.}
+
+To prove the worst case for these triangles, we first make a statement about a triangle's \emph{twin circles}:
 
 \begin{lemma}
-    Consider an isosceles triangle whose symmetric angles are not larger than $\pi/3$ and its twincircle area $a$.
-    For any $b > a$ there are instances in $\C(b)$ which cannot be packed into the triangle.
+    Two touching equal circles, placed in the corners connected by a triangle's longest side, are the triangle's twincircles, meaning there are no two larger equal circles which can be packed.
 \end{lemma}
 
 \begin{proof}
-    The instance consisting of two $b/2$-circles can not be packed
+    Call the circle's radius $r$.
+    When dilating the triangle by $r$, the remaining area is a triangle similar the the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when dilating the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
+    But to pack two circles with radius $r+\varepsilon$, their centers need to be placed at least $r+\varepsilon$ away from the triangle's boundary and at least $2r+2\varepsilon$ away from each other. The construction shows that this is not possible.
 \end{proof}
+
+\fig{twincircles-construction}{Two circles larger than these can not be packed.}
+
+In this section, we will argue that we can always pack the twincircle area into thick isosceles triangles.
 
 \begin{definition}
     The split key of an isosceles triangle is $(1,1)$.
 \end{definition}
 
 \begin{lemma}\label{th:hats-in-iso}
-    Consider an isosceles triangle whose symmetric angles are $\alpha$. Call its twincircle area $a$.
-    For all $(a,0,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
+    Consider a thick isosceles triangle with a twincircle area of $a$ and call its symmetric angles $\alpha$.
+    For all $(a,0,(1,1))$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
     \begin{itemize}
         \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
         \item a right $(a_2,b_2)$-hat with a left-angle of $\alpha$.
@@ -1029,39 +1042,44 @@ Split Packing also works for isosceles triangles.
 \end{lemma}
 
 \begin{proof}
-    First, we show that the hats do not intersect each other in a similar fashion as with hat containers: In a isosceles triangle, $p_1 = p_2$, so in \Cref{th:iso-width}, we construct the width of the triangle's base to be $2\sqrt{a/2}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
+    Firstly, we show that the hats do not intersect each other: In any isosceles triangle, the projection factors for both sides are equal. So in \Cref{fig:iso-width}, we construct the width of the triangle's base to be $2\sqrt{a/2}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
 
-    Second, we show that the hats do not intersect the container. We know from \Cref{eq:tripoke} on \cpageref{eq:tripoke} that the following condition has to hold:
+    \fig{iso-width}{The width of an isosceles triangle is $\sqrt{2ap_1^2}$.}
+
+    Secondly, we show that the hats do not intersect the container. We know from \Cref{eq:tripoke} on \cpageref{eq:tripoke} that the following condition has to hold:
 
     $$\sqrt{a_i} + (\sqrt{f_i/o}-1)\sqrt{b_i} \le \sqrt{f_i}$$
 
-    %Here, $f_i = a/2$, $o $ and $b_i = 2(a_i-f_i)$, which gives us:
-    In our case, $f_1 + f_2$ is exactly the twincircle area as constructed above, and $f_1 = f_2$, so $f_i = a/2$. The incircle of the triangle is larger than $a$ (TODO), so $o \ge a$. The hat's rounding is $b_i = a_i - f_i \frac{a-a_i}{f_i} = 2a_i-a$. So in total, we know the above condition to be true if
+    By construction TODO, $o \ge a$, so the above inequality is true if
 
-    %$$\sqrt{a_i}-\sqrt{2-\sqrt{3}}\sqrt{a_i-f_i} \le \sqrt{f_i}$$
-    $$\sqrt{a_i}-(1-\sqrt{1/2})\sqrt{2a_i-a} \le \sqrt{a/2}$$
+    $$\sqrt{a_i} + (\sqrt{f_i/a}-1)\sqrt{b_i} \le \sqrt{f_i}$$
 
-    We square both sides:
+    And this is the same inequality that was shown to be true in \Cref{th:hats-in-hat}. The preconditions $a_i + a_j \le a$ and $f_i + f_j \ge a$ are also true here. This concludes the proof.
 
-    %$$a_i+(2-\sqrt{3})(a_i-f_i) - 2\sqrt{a_i(2-\sqrt{3})(a_i-f_i)} \le f_i$$
-    $$a_i + x$$
+    %%Here, $f_i = a/2$, $o $ and $b_i = 2(a_i-f_i)$, which gives us:
+    %In our case, $f_1 + f_2$ is exactly the twincircle area as constructed above, and $f_1 = f_2$, so $f_i = a/2$. The incircle of the triangle is larger than $a$ (TODO), so $o \ge a$. The hat's rounding is $b_i = a_i - f_i \frac{a-a_i}{f_i} = 2a_i-a$. So in total, we know the above condition to be true if
 
-    Rearrange and square both sides again:
+    %%$$\sqrt{a_i}-\sqrt{2-\sqrt{3}}\sqrt{a_i-f_i} \le \sqrt{f_i}$$
+    %$$\sqrt{a_i}-(1-\sqrt{1/2})\sqrt{2a_i-a} \le \sqrt{a/2}$$
 
-    $$(a-f)^2(3-\sqrt{3})^2 \le 4a(2-\sqrt{3})(a-f)$$
+    %We square both sides:
 
-    And simplify to arrive at:
+    %%$$a_i+(2-\sqrt{3})(a_i-f_i) - 2\sqrt{a_i(2-\sqrt{3})(a_i-f_i)} \le f_i$$
+    %$$a_i + x$$
 
-    $$a_i \le 3f_i$$
+    %Rearrange and square both sides again:
 
-    As $a_i \le a = 2f_i \le 3f_i$, the above condition is true and the hats do not overlap the container. This concludes the proof.
+    %$$(a-f)^2(3-\sqrt{3})^2 \le 4a(2-\sqrt{3})(a-f)$$
+
+    %And simplify to arrive at:
+
+    %$$a_i \le 3f_i$$
+
+    %As $a_i \le a = 2f_i \le 3f_i$, the above condition is true and the hats do not overlap the container. This concludes the proof.
 \end{proof}
 
-\fig{iso-width}{The width of an isosceles triangle is x.}
-
 \begin{theorem}
-    %A circle instance can be packed into an isosceles triangle whose legs are at most as long as its base if the circle's combined area does not exceed the area of the triangle's incircle.
-    
+    Any circle instance with a combined area of at most the triangle's twincircle area can be packed into a thick isosceles triangle.
 \end{theorem}
 
 \begin{proof}
