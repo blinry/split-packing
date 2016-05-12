@@ -1,7 +1,12 @@
-\documentclass[a4paper,style=print,oneside,bibliography=totoc,nexus,lnum,extramargin,hyperref]{tubsbook}
+\documentclass[a4paper,style=print,oneside,bibliography=totoc,nexus,lnum,extramargin]{tubsbook}
 
 \input{header.tex}
 \usepackage[english]{babel}
+
+\hypersetup{
+    colorlinks, linkcolor={medium-blue},
+    citecolor={medium-blue}, urlcolor={medium-blue}
+}
 
 %\titlehead{
 %    \begin{center}
@@ -10,7 +15,7 @@
 %}
 
 \subject{Master's Thesis}
-\title{Critical Densities for Packing Circles into Squares and Triangles}
+\title{Split Packing --- A Worst-Case Optimal Circle Packing Algorithm}
 \author{\sffamily\LARGE Sebastian Morr}
 \date{\large June 2, 2016}
 \publishers{\textbf{Institute of Operating Systems and Computer Networks\\Prof.\,Dr.\,Sándor\,Fekete}\\
@@ -54,13 +59,13 @@ Very abstract indeed.
 
 I would like to thank the following people for their support in the creation of this thesis:
 
-Christiane, your lecture in 2014 started it all
+Christiane, your lecture in 2014 started it all.
 
-Michael
+Michael, 
 
 Christian, for always taking the time for me
 
-Jan-Marc, 
+Jan-Marc, you were the first one I showed the Split Packing algorithm
 
 Sándor, for suggesting the problem to me, 
 
@@ -76,7 +81,7 @@ Marco, for and for spending late hours with me pondering over covering problems.
 
 The Pinky crew, Leslie, Moritz, Torsten, Jakob,
 
-Enrico
+Enrico, for creating the beautiful template
 
 \section*{Colophon}
 
@@ -92,34 +97,38 @@ This document was created using \LaTeXe\ by Leslie Lamport and contributors, and
 
 \chapter{Introduction}
 
-Say you are given a number of circles. Can you decide whether these circles can be packed into the unit square without overlapping each other or the square? This is known as the circle packing problem, and it is known to be NP-hard \cite{DFL2010circle}, which means there is (assuming $P \ne NP$) no deterministic polynomial-time algorithm which can decide that.
+Suppose you are given a number of circles. Can you decide whether these circles can be packed into the unit square without overlapping each other or the square? This is known as the circle packing problem, and it is known to be NP-hard \cite{DFL2010circle}, which means there is (assuming $P \ne NP$) no deterministic polynomial-time algorithm which can decide that.
 
 \fig[2.5]{big-question}{Can these circles be packed into the square?}
 
 %For hard decision problems, it is often interesting to look for necessary and sufficient conditions.
-Surely, there are necessary conditions for a packing to exist. For example, if the circles' combined area exceeds the area of the square, we can be certain that they can not be packed.
+Surely, there are necessary conditions for a packing to exist. For example, if the circles' combined area exceeds the area of the square, we can be certain that they can \emph{not} be packed.
 On the other hand, an upper bound on the circles' combined area could also serve as a sufficient condition. We might be able to say: If the circles' combined area does not exceed some number $a$, then they can always be packed.
 
-In fact, we could not only ask for \emph{some} $a$, but for the largest one. This is the problem which motivated this thesis.
+In fact, we could not only ask for \emph{some} $a$, but for the largest one. This is the problem which motivated this thesis:
 
 \begin{problem}\label{prb:1}
     What is the largest $a$ so that all sets of circles with a combined area of $a$ can be packed into the unit square?
 \end{problem}
 
-Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf} for an example packing. But at the same time $1/2$ is the \emph{largest upper bound} you could hope for. Consider the packing in \Cref{fig:squares-worst}, consisting of two quarter-squares: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
+Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See Fig TODO for an example packing. But at the same time, $1/2$ is the \emph{largest upper bound} you could hope for. Consider the packing in \Cref{fig:squares-worst}, consisting of two quarter-squares: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
 
 %Already in 1967, \textcite{MM1967some} gave such a sufficient condition for packing square objects: They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf} for an example packing. 
 
 \fig{squares-worst}{Worst case for packing squares into a square.}
 
 The equivalent problem for packing circles has since been open.
-Let us call the largest upper bound $a^*$. When \textcite{DFL2010circle} posed \Cref{prb:1} in 2010, they already suggested that $a^*$ might be limited by the instance shown in \Cref{square-worst}. Again, it is easy to argue that if these two circles were only a little larger, we could no longer pack them into the unit square without overlap. This means that their combined area represents an upper bound for $a^*$. 
+Let us call the largest upper bound $a^*$. When \textcite{DFL2010circle} posed \Cref{prb:1} in 2010, they already suggested that $a^*$ might be limited by the instance shown in \Cref{fig:square-worst}. Again, it is easy to argue that if these two circles were only a little larger, we could no longer pack them into the unit square without overlap. This means that their combined area represents an upper bound for $a^*$. 
 
 \fig{square-worst}{Worst-case circle instance in terms of packing density?}
 
 In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:square-worst} into the unit square.
 
-why is it hard?
+Summarize Split Packing in one sentence
+
+Figure with an example packing
+
+why is the problem hard?
 
 %It is easy to argue that these two circles cannot be packed into any smaller square, which means that the unit square is their \emph{optimal packing}
 %proposed a candidate for such a worst-case instance in terms of optimal packing denstiy: Two equally sized circles. Their optimal packing is depicted in \Cref{square-worst}.%, and has a packing density of ~0.53\%.
@@ -163,7 +172,7 @@ why is it hard?
 
 \section{Results}
 
-List possible packings
+List/table of results and worst cases
 
 APX-factors
 
@@ -224,7 +233,7 @@ A surprising application of circle packing involves the design of crease pattern
 
 \section{Organization}
 
-overview
+Chapter overview
 
 \chapter{Related work}
 
@@ -743,7 +752,7 @@ This observation motivates a family of shapes which resemble triangles whose cor
 To prepare for the next proof, we need the following lemma:
 
 \begin{lemma}\label{th:overlap}
-    Place two circles of combined area $a$ in two corners of a triangle. Let $w$ be the length of the connecting side of the triangle. If the distance of the respective corner to the far point of the circle $i$'s projection onto the connecting side is $\sqrt{a_i}p_i$, then the two projections do not intersect if
+    Place two circles of combined area $a$ in two corners of a triangle, like in \Cref{hats-overlap}. Let $w$ be the length of the connecting side of the triangle. If the distance of the respective corner to the far point of the circle $i$'s projection onto the connecting side is $\sqrt{a_i}p_i$, then the two projections do not intersect if
 
     $$w \ge \sqrt{a(p_1^2 + p_2^2)}.$$
 \end{lemma}
@@ -752,7 +761,13 @@ To prepare for the next proof, we need the following lemma:
     Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do not intersect.
 \end{proof}
 
-\fig{hats-overlap}{}
+\fig{hats-overlap}{text}
+
+%\begin{lemma}\label{th:poke}
+%    Take an $(a,0)$-hat with a left-angle of $\alpha$ as a container. Call the circles which define its split keys $f_1$ and $f_2$. Place a right $(a_1,b_1)$-hat with a right-angle of $\alpha$ into the container so that its tip touches the container's base, see TODO
+%
+%    The hat does not overlap the container if $a_1 \le f_1$ or $b_1 \ge a_1 - f_1\frac{a-a_1}{f_2}$
+%\end{lemma}
 
 \begin{lemma}\label{th:hats-in-hat}
     Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
@@ -1029,7 +1044,7 @@ Split Packing also works for isosceles triangles.
     We square both sides:
 
     %$$a_i+(2-\sqrt{3})(a_i-f_i) - 2\sqrt{a_i(2-\sqrt{3})(a_i-f_i)} \le f_i$$
-    $$a_i + 
+    $$a_i + x$$
 
     Rearrange and square both sides again:
 
@@ -1530,12 +1545,6 @@ It seems like a natural extension to apply Split Packing to \textbf{three-dimens
 Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that combined area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypothenuse is sufficient, see \Cref{fig:cover}. It would now be neccessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and we did not find an argument fot that, yet.
 
 \fig[1.5]{cover}{A isoscles right triangle can always be covered by two circles with a combined area of its excircle.}
-
-\appendix
-
-\chapter{Example packings}
-
-bla
 
 \printbibliography
 
