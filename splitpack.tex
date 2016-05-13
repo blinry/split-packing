@@ -1007,7 +1007,7 @@ We also argue that this is the best area bound we could hope for:
 Split Packing gives worst-case optimal results not only for non-acute triangles, but also for isosceles triangles, as long as its two symmetric sides are not longer than the base. In this sense, it works for all triangles inbetween a right isosceles triangle and an equilateral triangle.
 
 \begin{definition}
-    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base. Examples are shown in \Cref{fig:iso-range}.
+    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base, but whose top angle is at least $\pi/4$. Examples are shown in \Cref{fig:iso-range}.
 \end{definition}
 
 \fig[1]{iso-range}{Range of considered isosceles triangles.}
@@ -1025,6 +1025,8 @@ To prove the worst case for these triangles, we first make a statement about a t
 \end{proof}
 
 \fig{twincircles-construction}{Two circles larger than these can not be packed.}
+
+In the previous section, the target area $a$ which we wanted to pack always was the area of the triangles incircle. For thick isosceles triangles, the twincircle area, constituting an upper bound for the always-packable area, is \emph{smaller} than the incircle, which means it will not always be possible to pack the area of the incircle.
 
 In this section, we will argue that we can always pack the twincircle area into thick isosceles triangles.
 
@@ -1182,9 +1184,23 @@ Packing circles into an isosceles triangle
 
 \section{The problem with acute triangles}\label{sec:acute-triangles}
 
-Demonstration that two hats overlap
+A class of triangles for which we could not show worst-case optimality are general acute triangles. The problem is that the condition for \Cref{th:overlap} is not met, which means that the two hats can overlap:
 
-4 hats? bad instance
+\fig{overlap}{For general acute triangles, the two hats might overlap.}
+
+We worked on the following assumption:
+
+\begin{conjecture}
+    A circle instance can be packed in a triangle if the circles' combined area does not exceed the triangles incircle or twincircle, whichever is smaller.
+\end{conjecture}
+
+If this conjecture is true, surely there are strategies which can pack into acute triangles worst-case optimally. For example, we attempted to split the circle instance into four subinstances using a slightly modified \textsc{Split} algorithm, and then to pack four hats into the container, like in \Cref{fig:four}. Again, this is motivated by the observation that, when splitting each circle top-down into four equal circles, this strategy always works because the triangle is recursively divided into four similar triangles.
+
+\fig{four}{Packing four hats into an acute triangle.}
+
+Unfortunately, this strategy fails for some instances, like depicted in \Cref{fig:four-fail}. For this instance, the largest group, consisting of a single circle, cannot be packed if \emph{any} of the smaller groups is packed in the top or the left corner, because the remaining free space is not wide enough for the circle.
+
+\fig{four-fail}{This strategy does not work for a container with a right-angle of $\pi/10$, incircle $1$ and the circle instance $\{0.55,0.15,0.15,0.15\}$.}
 
 \section{Further results}
 
