@@ -1,37 +1,13 @@
 \gemshape{1}{0.6}
 
-%\draw[dashed] (rightcenter) circle(\s);
-%\draw[dashed] (leftcenter) circle(\s);
-%\draw[dashed] (midcenter) circle(\r) node {$a$};
 \draw[dashed] (right) -- (top) -- (left) -- cycle;
-%
-%\draw[tight] (rightcenter) -- node[below left] {$s$} ++(-45:\s) -- node[below right] {$s$} ++(45:\s) coordinate (rightright) {} -- node[right] {$s$} ++(-90:\s) -- node[above] {$s$} (right);
-%\draw[thick,orange] (rightright) -- node[sloped,above] {$s\sqrt{2}$} (right);
-%
-%\draw[tight] (leftcenter) -- node[above] {$s$} ++(180:\s) -- node[left] {$s$} ++(-90:\s) coordinate (leftleft) {} -- node[below left] {$s$} ++(135:\s) -- node[below right] {$s$} (left);
-%\draw[thick,orange] (leftleft) -- node[below] {$s\sqrt{2}$} (left);
-%
-%\draw[thick,left,blue] (0,0) -- node {$r$} (midcenter) -- node {$r\sqrt{2}$} (top);
-%\draw (midcenter) -- node[below right] {$r$} +(45:\r) -- node[above right] {$r$} (top);
-%\draw[thick,red] (left) -- node[sloped,above] {$(r+r\sqrt{2})\sqrt{2}$} (top);
-%
-%\coordinate (leftofleft) at ($(left)+(180:5pt)$);
-%\coordinate (belowleft) at ($(left)-(90:5pt)$);
-%\coordinate (farbelowleft) at ($(left)-(90:10pt)$);
-%\coordinate (abovetop) at ($(top)+(45:5pt)$);
-%\coordinate (farabovetop) at ($(top)+(45:10pt)$);
-%\coordinate (faraboveright) at ($(right)+(45:10pt)$);
-%\coordinate (aboverightright) at ($(rightright)+(45:5pt)$);
-%\coordinate (leftend) at ($(leftleft)-(90:5pt)$);
-%\coordinate (rightend) at ($(rightright)-(90:5pt)$);
-%\coordinate (totheright) at ($(rightcenter)+(0:\s)$);
-%\coordinate (rightend) at ($(totheright)-(90:5pt)$);
-%
-%\draw[bracket] (leftofleft) -- node[left] {$h(a)$} (leftofleft |- top);
+\draw[dashed] (midcenter) circle(\r);
 
 \draw[bracket] ([yshift=-2pt]righttop |- rightbottom) -- node[below] {$W(a,b)$} ([yshift=-2pt]left);
-\draw[bracket] ([yshift=-8pt]righttop |- rightbottom) -- node[below] {$w(a,b)$} ([yshift=-8pt]lefttop |- leftbottom);
+\draw[bracket] ([yshift=-9pt]righttop |- rightbottom) -- node[below] {$w(a,b)$} ([yshift=-9pt]lefttop |- leftbottom);
 \draw[bracket] ([yshift=-2pt]right) -- node[below] {$c(b)$} ([yshift=-2pt]righttop |- rightbottom);
 \draw[bracket] ([shift={(-1.4pt,1.4pt)}]left) -- node[above,sloped] {$D(a)$} ([shift={(-1.4pt,1.4pt)}]top);
-%\draw[bracket] (rightend |- farbelowleft) -- node[below] {$w'(a,b)$} (left |- farbelowleft);
-%\draw[bracket] (farabovetop) -- node[above,sloped] {$d'(a)$} (faraboveright);
+
+\draw[thick,left,blue] (0,-\r) -- node {$r$} (midcenter) -- node {$r\sqrt{2}$} (top);
+\draw (midcenter) -- node[below right] {$r$} +(45:\r) -- node[above right] {$r$} (top);
+%\draw[thick,red] (left) -- node[sloped,above] {$(r+r\sqrt{2})\sqrt{2}$} (top);
