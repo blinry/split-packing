@@ -6,5 +6,5 @@ clean:
 	latexmk -c splitpack
 	latexmk -c stage
 stage:
-	latexmk stage
+	pdflatex stage
 	evince stage.pdf &> /dev/null &

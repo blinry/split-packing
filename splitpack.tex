@@ -174,7 +174,18 @@ why is the problem hard?
 
 \section{Results}
 
-List/table of results and worst cases
+In \Cref{tab:results}, we summarize our results. Shown are the shape classes, a graphical depiction of the area that can always be packed, and a formula for the packing density of this worst case.
+
+\begin{table}
+    \caption{Overview of results.}\label{tab:results}
+    \begin{tabular}{lcccc}
+        \textbf{Shape} & \textbf{Worst case} & \textbf{Density} & \textbf{APX} & \textbf{APX} for equal circles\\
+        Non-acute triangle & \begin{tikzpicture}\input{tikz/tri-table.tex}\end{tikzpicture} & $\sqrt{\frac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi$ & d & e\\
+        Thick isosceles triangle & \begin{tikzpicture}\input{tikz/iso-table.tex}\end{tikzpicture} & c & d & e\\
+        Square & \begin{tikzpicture}\input{tikz/square-table.tex}\end{tikzpicture} & $\frac{\pi}{3+2\s} \approx 0.5390$& d & e\\
+        Long rectangle & \begin{tikzpicture}\input{tikz/rect-table.tex}\end{tikzpicture} & $\frac{\pi a}{4b}$ & d & e\\
+    \end{tabular}
+\end{table}
 
 APX-factors
 
@@ -192,7 +203,7 @@ Significance
 %    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of at most $a$ can be packed into that triangle.
 %\end{theorem}
 
-\subsection{Applications}
+\section{Applications}
 
 Circle packing is a natural, intuitive problem, that has numerous applications in engineering, science, and everyday life.
 
@@ -1213,11 +1224,25 @@ Quadrilateral Containers
 
 \chapter{Packing rubies}
 
-If the container is a isosceles right triangle, one can generalize the split packing method a bit to be able to pack different objects than circles. Specifically, we can adapt the method so that it also packs regular octagons worst-case optimally, and so that it packs squares worst-case optimally when it is allowed to rotate them while packing.
+In the last chapter, we showed how Split Packing can be used to pack circular objects into triangles.
+As we explored generalizations of Split Packing during the creation of this thesis, we usually tried to find additional container shapes for which we could use Split Packing to pack circles with worst-case density. 
+%As it turns out, Split Packing is even more powerful!
+
+But at one point, we decided to try whether we could vary the “other half” of packing problems: The objects. We rarely had thought of packing objects other than circles.\footnote{After all, the preliminary title of this thesis was \emph{Circle Packing Algorithms}!} 
+We were surprised to find out that, when we allowed to rotate objects, we could also use Split Packing to pack squares into a square container with worst-case density! Shortly after, we discovered that we could also use it to pack octagons with worst-case density. Both modified packing problems could be solved with only a very small modification of the algorithm.
+
+As we know now, the reason why we can pack circles, squares, as well as octagons, is that all these shapes are subsets of the very special shape shown in \Cref{fig:ruby-intro}. We call this shape \emph{ruby}, because it looks like a cut gemstone from the side:
+
+\fig{ruby-intro}{The “ruby” shape and its contained circle, square and hexagon.}
+
+In this chapter, we will show how to pack rubies into squares and isosceles right triangles with worst-case density. As corollaries, we get worst-case optimal packing algorithms for circles, squares, and octagons for these containers for free!
+In fact it turns out that, if you are given a set of objects, no matter what their shape is, if you can enclose them in rubies so that the total area of the rubies does not exceed the worst-case optimal case, then you can pack the shapes into these containers.
+
+%If the container is a isosceles right triangle, one can generalize the split packing method a bit to be able to pack different objects than circles. Specifically, we can adapt the method so that it also packs regular octagons worst-case optimally, and so that it packs squares worst-case optimally when it is allowed to rotate them while packing.
 
 \section{Gems and rubies}
 
-For this generalization, we utilize a new shape, which we call \emph{gem}:
+For this generalization, we need another new shape, which has a similar function as last chapter's \emph{hats}. Our ruby shape has a very distinct way its corners are cut off. We generalize this cutoff to get to a family of shapes which call \emph{gems}:
 
 \begin{definition}
     For each $0 \le a$ and $0 \le b$, an \emph{$(a,b)$-gem} is an isosceles right triangle with an incircle of area $a$, whose acute corners are cut off like shown in \Cref{fig:gem}: Each cut forms an angle of $\frac3 4\pi$ with the triangle's boundary, and the distance of each cut to the triangle's original corner is
@@ -1243,7 +1268,8 @@ Consider an ($a,b$)-gem and let $r = \sqrt{\frac{a}{\pi}}$ be the radius of its 
 
 \fig[4]{gem-construction}{Dimensions of an $(a,b)$-gem.}
 
-We also introduce a nickname for the special case where $a=b$:
+%We also introduce a nickname for the special case where $a=b$:
+The definition of a gem is designed so that we get our ruby shape exactly for $a = b$:
 
 \begin{definition}
     We call an $(a,a)$-gem an \emph{$a$-ruby}.
@@ -1391,7 +1417,7 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 
 \fig{gems-rounding}{Cutting all gems' corners by the same value does not affect the packing.}
 
-\begin{theorem}
+\begin{theorem}\label{th:gem}
     Any ruby instance $R \in \C(a,b)$ can be packed into an $(a,b)$-gem.
 \end{theorem}
 
@@ -1406,7 +1432,7 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 \end{theorem}
 
 \begin{proof}
-    The triangle is an $(a,0)$-gem, and by \Cref{th:gems} we can pack any $R \in \C(a)$ into such a gem.
+    The triangle is an $(a,0)$-gem, and by \Cref{th:gem} we can pack any $R \in \C(a)$ into such a gem.
 \end{proof}
 
 \section{Squares}
@@ -1588,7 +1614,7 @@ Strengths and limitations
 
 Potential applications
 
-\section{Future Work}
+\section{Future work}
 
 In this thesis, we mainly considered triangular and square containers. It would be interesting to see whether the Split Packing technique could be adapted to even \textbf{more container types}, like circles, ovals, regular polygons, or generalized quadrilaterals. For some of these container types, even the worst-case instance does not seem obvious. For circular and “almost square” rectangular containers, we assume the worst cases would again be their twincircles, see \Cref{fig:circle-rect-worst}, but it is unclear how to deal with the resulting shapes when cutting along the circles' tangent: Compared to triangular and square containers, these shapes cannot be split into self-similar pieces. It is also possible that the depicted instances are not the actual worst cases.
 
