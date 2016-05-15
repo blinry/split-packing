@@ -217,6 +217,33 @@
     \fi
 }
 
+\newcommand\hatsinrect[1]{
+    \draw (0,0) rectangle (1.5607,1);
+
+    \pgfmathsetmacro{\hatx}{1-(#1)}
+    \pgfmathsetmacro{\hata}{(1-(#1))*0.7853}
+    \pgfmathsetmacro{\hatb}{(1-2*(#1))*0.7853}
+
+    \pgfmathparse{sqrt(\hata/pi)}
+    \begin{scope}[shift={(1.5607-\pgfmathresult,1-\pgfmathresult)}]
+        \begin{scope}[rotate=-32.65]
+            \hatshape[filled2]{\hata}{\hatb}{32.65}{57.35}
+            \node at (midcenter) {\hatx};
+        \end{scope}
+    \end{scope}
+
+    \def\comparg{#1}
+    \if\comparg0\else
+        \pgfmathparse{(sqrt((#1)*0.7853/pi)}
+        \begin{scope}[shift={(\pgfmathresult,\pgfmathresult)}]
+            \begin{scope}[rotate=-212.65]
+                \hatshape[filled2]{#1*0.7853}{0}{32.65}{57.35}
+                \node at (midcenter) {#1};
+            \end{scope}
+        \end{scope}
+    \fi
+}
+
 \newcommand\gemsinsquare[1]{
     \draw (0,0) rectangle (\B,\B);
 
