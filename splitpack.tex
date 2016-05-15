@@ -61,29 +61,29 @@ I would like to thank the following people for their support in the creation of 
 
 Christiane, your lecture in 2014 started it all.
 
-Michael, 
+Michael, for your support back then. We all miss you.
 
-Christian, for always taking the time for me
+Christian, for always taking the time for me and for sharing my enthusiasm.
 
-Jan-Marc, you were the first one I showed the Split Packing algorithm
+Jan-Marc, you were the first one I showed the Split Packing algorithm.
 
-Sándor, for suggesting the problem to me, 
+Sándor, for suggesting the aweseome topic to me.
 
-All participants of the 31th Bellairs Winter Workshop on Computational Geometry, I draw much inspiration from every one of you!
+All participants of the 31th Bellairs Winter Workshop on Computational Geometry. I drew much inspiration from every one of you!
 
-Heike
+Heike, for being my best friend, and for softing my life.
 
-Wolfgang, for your love and unconditional support in uncountable ways
+Wolfgang, for your love and unconditional support in uncountable ways.
 
-Dominik, 
+Dominik, for sharing an office and ideas (and for the Mate supply!)
 
-Marco, for and for spending late hours with me pondering over covering problems.
+Marco, for spending late hours with me pondering over covering problems.
 
-The Pinky crew, Leslie, Moritz, Torsten, Jakob,
+The Pinky Crew: Leslie, Moritz, Torsten, Jakob, Marc, for sharing breakfast, time, and friendship.
 
-Proof-readers
+The proof-readers, that is, YOU, PROOF-READING THIS RIGHT NOW, thx! <3
 
-Enrico, for creating the beautiful template
+Enrico, for creating the beautiful \LaTeX\ template.
 
 \section*{Colophon}
 
@@ -124,9 +124,7 @@ Let us call the largest upper bound $a^*$. When \textcite{DFL2010circle} posed \
 
 \fig{square-worst}{Worst-case circle instance in terms of packing density?}
 
-In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:square-worst} into the unit square.
-
-Summarize Split Packing in one sentence
+In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:square-worst} into the unit square. The method recursively splits the circle instance in half and packs the two parts seperately.
 
 Figure with an example packing
 
@@ -179,11 +177,11 @@ In \Cref{tab:results}, we summarize our results. Shown are the shape classes, a 
 \begin{table}
     \caption{Overview of results.}\label{tab:results}
     \begin{tabular}{lcccc}
-        \textbf{Shape} & \textbf{Worst case} & \textbf{Density} & \textbf{APX} & \textbf{APX} for equal circles\\
-        Non-acute triangle & \begin{tikzpicture}\input{tikz/tri-table.tex}\end{tikzpicture} & $\sqrt{\frac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi$ & d & e\\
-        Thick isosceles triangle & \begin{tikzpicture}\input{tikz/iso-table.tex}\end{tikzpicture} & c & d & e\\
-        Square & \begin{tikzpicture}\input{tikz/square-table.tex}\end{tikzpicture} & $\frac{\pi}{3+2\s} \approx 0.5390$& d & e\\
-        Long rectangle & \begin{tikzpicture}\input{tikz/rect-table.tex}\end{tikzpicture} & $\frac{\pi a}{4b}$ & d & e\\
+        \textbf{Shape} & \textbf{Worst case} & \textbf{Density}\\
+        Non-acute triangle & \begin{tikzpicture}\input{tikz/tri-table.tex}\end{tikzpicture} & $\sqrt{\frac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi$\\
+        Thick isosceles triangle & \begin{tikzpicture}\input{tikz/iso-table.tex}\end{tikzpicture} & c\\
+        Square & \begin{tikzpicture}\input{tikz/square-table.tex}\end{tikzpicture} & $\frac{\pi}{3+2\s} \approx 0.5390$\\
+        Long rectangle & \begin{tikzpicture}\input{tikz/rect-table.tex}\end{tikzpicture} & $\frac{\pi a}{4b}$\\
     \end{tabular}
 \end{table}
 
@@ -246,9 +244,14 @@ A surprising application of circle packing involves the design of crease pattern
 
 \section{Organization}
 
-Chapter overview
+This thesis is structured as follows:
+In \textbf{\Cref{ch:related-work}}, we give an overview aobout related work regarding the packing of squares and circles.
+In \textbf{\Cref{ch:split-packing}}, we describe the general Split Packing algorithm and analyze its properties.
+In \textbf{\Cref{ch:circles}}, we describe how to use Split Packing for packing circles into triangles.
+In \textbf{\Cref{ch:rubies}}, we show that the algorithm can be generalized to pack objects different than circles.
+Finally, in \textbf{\Cref{ch:conclusions}}, we summarize our results and show some directions for future work.
 
-\chapter{Related work}
+\chapter{Related work}\label{ch:related-work}
 
 The literature on packing can roughly be divided into three categories, depending on the authors' objective:
 
@@ -719,15 +722,36 @@ Note that the Split Packing algorithm can easily be extended to allow splitting 
 
 \section{Analysis}
 
-approximation factor for unequal circles
+There are two perspectives on Split Packing. Say that we have all elements in place so that we know we can use Split Packing to pack each circle instance in $\C(a)$ into a shape of densit
 
-and for equal circles
+First, it can give sufficient conditions for the decision problem if a given circle instance can be packed into a given container: If the circles have a combined area of at most $a$, the instance can be packed.
+
+But second, it can also be used as an approximation algorithm. Say you are given a circle instance of total area $a$. The task is to find the smallest container of a certain family (for example, triangular or square) in which the instance can be packed. Again, \textcite{DFL2010circle} proved it to be NP-hard to find the minimum-area container, but we can use the Split Packing algorithm for an approximation: Select a $\C(a)$-shape with a guaranteed packing density of $d$.
+%where the ratio between $a$ and the shape's area $APX$ (we call the ratio $a/APX$ the \emph{packing density}) is as high as possible.
+
+\paragraph{Approximation factor for unequal circles}
+
+We can be sure that the area of the optimal container $OPT$ needs to be as least $a$:
+
+$$OPT \ge a$$
+
+At the same time, the area of the approximated container $APX$ is exactly $a/d$:
+
+$$APX = a/d$$
+
+which means that
+
+$$APX/OPT \le = 1/d$$
+
+\subsubsection{Runtime}
+
+$O(n log n)$ for sorting, after that $O(n^2)$, I think
 
 table of factors
 
 Diagram for triangles
 
-\chapter{Packing circles}
+\chapter{Packing circles}\label{ch:circles}
 
 We turn to specific classes of container shapes now. For each shape, we are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with combined area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of combined area $a'$ which \emph{cannot} be packed. Second, that all instances of combined area $a$ can be packed.
 
@@ -1222,7 +1246,7 @@ Rectangular Containers
 
 Quadrilateral Containers
 
-\chapter{Packing rubies}
+\chapter{Packing rubies}\label{ch:rubies}
 
 In the last chapter, we showed how Split Packing can be used to pack circular objects into triangles.
 As we explored generalizations of Split Packing during the creation of this thesis, we usually tried to find additional container shapes for which we could use Split Packing to pack circles with worst-case density. 
@@ -1604,7 +1628,7 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 %    The maximum density for packing equal circles in the plane is $\pi/\sqrt{12}$, so the smallest possible square container has an area of $\frac{\sqrt{12}}{\pi}a$.
 %\end{proof}
 
-\chapter{Conclusion}
+\chapter{Conclusion}\label{ch:conclusions}
 
 Re-state results
 
