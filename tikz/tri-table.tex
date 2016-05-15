@@ -1,0 +1,8 @@
+\pgfmathsetmacro{\a}{39}
+\pgfmathsetmacro{\b}{51}
+
+\hatshape{1}{0}{\a}{\b}
+\draw[filled] (midcenter) circle(\r);
+\draw[draw=none] (left) -- node[above] {$b$} (top);
+\draw[draw=none] (top) -- node[above] {$a$} (right);
+\draw[draw=none] (left) -- node[below] {$c$} (right);

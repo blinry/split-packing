@@ -1,0 +1,22 @@
+\begin{scope}[xshift=-45]
+    \gemshape{1}{1}
+    \draw[filled] (midcenter) circle(\r);
+\end{scope}
+
+\begin{scope}[xshift=0]
+    \gemshape{1}{1}
+
+    \pgfmathsetmacro{\rr}{1.207106*\r}
+    \pgfmathsetmacro{\bla}{1.207106*\r-\r}
+
+    \begin{scope}[shift={(0,\bla)}]
+        \draw[filled] (0:\rr) -- (90:\rr) -- (180:\rr) -- (270:\rr) -- cycle;
+    \end{scope}
+\end{scope}
+
+\begin{scope}[xshift=45]
+    \gemshape{1}{1}
+
+    \pgfmathsetmacro{\rr}{1.08239*\r}
+    \draw[filled] (22.5:\rr) -- (67.5:\rr) -- (112.5:\rr) -- (157.5:\rr) -- (202.5:\rr) -- (247.5:\rr) -- (292.5:\rr) -- (337.5:\rr) -- cycle;
+\end{scope}
