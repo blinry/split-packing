@@ -113,22 +113,24 @@ In fact, we could not only ask for \emph{some} $a$, but for the largest one. Thi
     What is the largest $a$ so that all sets of circles with a combined area of $a$ can be packed into the unit square?
 \end{problem}
 
-Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See the left of \Cref{fig:squares-worst} for an example packing. But at the same time, $1/2$ is the \emph{largest upper bound} you could hope for. Consider the packing in \Cref{fig:squares-worst}, consisting of two quarter-squares: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
+Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf-packing} for an example packing. But at the same time, $1/2$ is the \emph{largest upper bound} you could hope for. Consider the square packing in \Cref{fig:worst-cases}, consisting of two quarter-squares: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
 
 %Already in 1967, \textcite{MM1967some} gave such a sufficient condition for packing square objects: They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf} for an example packing. 
 
-\fig[5]{squares-worst}{Left: Example of Moon and Moser's shelf-packing. Right: Worst case for packing squares into a square.}
+\fig[7]{shelf-packing}{Example of Moon and Moser's shelf-packing.}
 
 The equivalent problem for packing circles has since been open.
-Let us call the largest upper bound $a^*$. When \textcite{DFL2010circle} posed \Cref{prb:1} in 2010, they already suggested that $a^*$ might be limited by the instance shown in \Cref{fig:square-worst}. Again, it is easy to argue that if these two circles were only a little larger, we could no longer pack them into the unit square without overlap. This means that their combined area represents an upper bound for $a^*$. 
+When \textcite{DFL2010circle} posed \Cref{prb:1} in 2010, they already suggested that the largest packable area might be limited by the circle instance shown in \Cref{fig:worst-cases}. Again, it is easy to argue that if these two circles were only a little larger, we could no longer pack them into the unit square without overlap. This means that their combined area represents an upper bound on the area which can always be packed.
 
-\fig{square-worst}{Worst-case circle instance in terms of packing density?}
+\fig[5]{worst-cases}{Left: Worst case for packing squares into a square. Right: Conjectured worst case for packing circles into a square.}
 
-In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:square-worst} into the unit square. The method recursively splits the circle instance in half and packs the two parts seperately.
+In this thesis, we will give a constructive proof that you can indeed pack all circle instances whose area does not exceed the combined area of the two circles shown in \Cref{fig:worst-cases} into the unit square.
+The method is based on a divide-and-conquer approach and repeatedly splits the circle instance in halves, which are then packed recursively.
+%recursively splits the circle instance in half and packs the two parts seperately.
+See \Cref{fig:example} for an example packing.
+We will also generalize this packing approach to certain classes of triangles and rectangles, and demonstrate that it also can be used to pack other objects than circles.
 
-Figure with an example packing
-
-why is the problem hard?
+\fig[0.02]{example}{Example packing produced by the Split Packing algorithm.}
 
 %It is easy to argue that these two circles cannot be packed into any smaller square, which means that the unit square is their \emph{optimal packing}
 %proposed a candidate for such a worst-case instance in terms of optimal packing denstiy: Two equally sized circles. Their optimal packing is depicted in \Cref{square-worst}.%, and has a packing density of ~0.53\%.
