@@ -908,9 +908,9 @@ To prepare for the next proof, we need the following lemma:
     In this proof, we use two different length-area ratios, which are illustrated in \Cref{fig:hat-poke-f}. The first one $d$, which describes the ratio between the length of the triangle's right leg and the area of its right-hand incircle $f_i$. Note that for all triangles \emph{similar} to the right part of the container triangle, this ratio between the length of this edge and the square root of the incircle's area will be constant.
     %For hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
     %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hat-poke-f}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
-    The second ratio, $e$, is the ratio between the length of the same right leg and the incircle-area of the whole container triangle. Again, if formulated as a quotient between the length of this edge and the square root of the incircle, it is a constant for a given container triangle.
-    From the same figure we can observe that
-    $e\sqrt{a} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{\frac{f_i}{a}}$.
+    The second ratio, $e$, is the ratio between the length of the same right leg and the incircle-area of the whole container triangle. Again, if formulated as a quotient between the length of this edge and the square root of the incircle, it is a constant for a given container triangle. Note that, in preparation for a generalization later in this chapter, we denote the triangle's incircle by $o$.
+    From \Cref{fig:hat-poke-f} we can also observe that
+    $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{\frac{f_i}{o}}$.
 
     \fig{hat-poke-f}{The ratios $d$ and $e$ are constant for all similar triangles.}
 
@@ -925,19 +925,25 @@ To prepare for the next proof, we need the following lemma:
     We can tell from \Cref{fig:hat-poke} that this does not happen if right leg of the triangle the hat is based on ($d\sqrt{a_i}$), minus the right leg of the $(b_i,0)$-triangle similar to the containers right side ($d\sqrt{b_i}$), plus the right leg of the $(b_i,0)$-triangle similar to the container ($e\sqrt{b_i}$) is at most the length of the container right leg ($d\sqrt{f_i}$):
 
     \begin{equation*}
-        d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}\\
+        d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}
     \end{equation*}
 
-    As observed above, $e = d\sqrt{f_i/a}$:
+    As observed above, $e = d\sqrt{f_i/o}$:
 
     \begin{equation*}
-        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/a}\sqrt{b_i} \le d\sqrt{f_i}\\
+        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/o}\sqrt{b_i} \le d\sqrt{f_i}
+    \end{equation*}
+
+    In our case, $o = a$. But even if $o \ge a$, the inequality is true if
+
+    \begin{equation*}
+        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/a}\sqrt{b_i} \le d\sqrt{f_i}
     \end{equation*}
 
     We can also divide by $d$ and factor out $\sqrt{b_i}$ to get:
 
     \begin{equation}\label{eq:tripoke}
-        \sqrt{a_i} - (1-\sqrt{f_i/o})\sqrt{b_i} \le \sqrt{f_i}
+        \sqrt{a_i} - (1-\sqrt{f_i/a})\sqrt{b_i} \le \sqrt{f_i}
     \end{equation}
 
 
@@ -1081,15 +1087,15 @@ In this section, we will argue that we can always pack the twincircle area into 
 
     \fig{iso-width}{The width of an isosceles triangle is $\sqrt{2ap_1^2}$.}
 
-    Secondly, we show that the hats do not intersect the container. We know from \Cref{eq:tripoke} on \cpageref{eq:tripoke} that the following condition has to hold:
+    Secondly, we show that the hats do not intersect the container. We are going to re-use the proof from \Cref{th:hats-in-hat} here. On \cpageref{eq:tripoke}, we showed that the hats do not overlap the container if certain conditions are met. These conditions are also true here:
 
-    $$\sqrt{a_i} + (\sqrt{f_i/o}-1)\sqrt{b_i} \le \sqrt{f_i}$$
+    \begin{itemize}
+        \item $a_1 + a_2 \le a$, the hat's incircles add up to at most $a$ because of the conjugatedness of the tuples.
+        \item $f_i + f_j \ge a$, in this case, the incircles of the triangles sides are equal to $a$ by assumption.
+        \item $o \ge a$, meaning that the triangles incircle is at least as large as the area of the twincircles. This can be demonstrated like in \Cref{fig:hat-f-sum} on \cpageref{fig:hat-f-sum}, but in the reverse direction: For a right isosceles triangle, the twincircle area $a$ is exactly equal to the triangle's incircle. If leaving the twincircles in place, but increasing the top angle, the incircle only gets larger.
+    \end{itemize}
 
-    By construction TODO, $o \ge a$, so the above inequality is true if
-
-    $$\sqrt{a_i} + (\sqrt{f_i/a}-1)\sqrt{b_i} \le \sqrt{f_i}$$
-
-    And this is the same inequality that was shown to be true in \Cref{th:hats-in-hat}. The preconditions $a_i + a_j \le a$ and $f_i + f_j \ge a$ are also true here. This concludes the proof.
+    So also in this case, the hats do not overlap the container. This concludes the proof.
 \end{proof}
 
 \begin{table}
