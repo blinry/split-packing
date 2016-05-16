@@ -190,18 +190,40 @@ We will also generalize this packing approach to certain classes of triangles an
 
 In \Cref{tab:results}, we summarize our results. Shown are the shape classes, a graphical depiction of the area that can always be packed, and a formula for the packing density of this worst case.
 
+\newcommand{\entry}[6]{
+\begin{tikzpicture}[scale=#1,baseline={([yshift={-\ht\strutbox}]current bounding box.north)}]\input{tikz/#2.tex}\end{tikzpicture}
+& \textbf{#3} \vfill\vspace{10pt}
+\textit{Condition:} #4 \vfill\vspace{5pt}
+\textit{Packable area:} #5 \vfill\vspace{5pt}
+\textit{Density:} #6\\}
+
 \begin{table}
+    \setlength\extrarowheight{1pt}
     \caption{Overview of results.}\label{tab:results}
-    \begin{tabular}{lcccc}
-        \textbf{Shape} & \textbf{Worst case} & \textbf{Density}\\
-        Non-acute triangle & \begin{tikzpicture}[scale=2]\input{tikz/tri-table.tex}\end{tikzpicture} & $\sqrt{\frac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi$\\
-        Thick isosceles triangle & \begin{tikzpicture}[scale=2]\input{tikz/iso-table.tex}\end{tikzpicture} & c\\
-        Square & \begin{tikzpicture}[scale=2]\input{tikz/square-table.tex}\end{tikzpicture} & $\frac{\pi}{3+2\s} \approx 0.5390$\\
-        Long rectangle & \begin{tikzpicture}[scale=2]\input{tikz/rect-table.tex}\end{tikzpicture} & $\frac{\pi a}{4b}$\\
-    \end{tabular}
+    \begin{longtable}{cp{10cm}}
+        \entry{1.9}{tri-table}{Right or obtuse triangle}
+        {$a^2+b^2 \le c^2$}
+        {incircle area}
+        {$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%$}
+
+        \entry{2.4}{iso-table}{Thick isosceles triangle}
+        {$a/\s \le b \le a$}
+        {“twincircle” area}
+        {$48.60\% < \dfrac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}} < 53.91\%$}
+
+        \entry{2.8}{square-table}{Square}
+        {none}
+        {“twincircle” area}
+        {$\dfrac{\pi}{3+2\s} \approx 53.90\%$}
+
+        \entry{3}{rect-table}{Long rectangle}
+        {$w = \frac{2+3\s}{4}h \approx 1.5607h$}
+        {circle with diameter $h$}
+        {$\dfrac{\pi h}{4w} < 50.33\%$}
+    \end{longtable}
 \end{table}
 
-APX-factors
+When using Split Packing as an approximation algorithm, the approximation factor $ALG/OPT$ is equal to the reciprocal of the guaranteed packing density.
 
 Significance
 
@@ -565,7 +587,10 @@ We can go even further: If one group's relative filling level becomes twice as l
 
 \begin{proof}
     The condition is equivalent to $\mysum(C_i) - f_i\min\left\{\frac{\mysum(C_1)}{f_1},\frac{\mysum(C_2)}{f_2}\right\} > \frac{\mysum(C_i)}{2}$. So by \Cref{th:min1}, $\min(C_i) > \frac{\mysum(C_i)}{2}$, which means that the minimum size of the circles in $C_i$ is already more than half of its total sum. The only possible instance which satisfies this constraint is a single circle with area $a_i$.
+
 \end{proof}
+
+Note that we usually do need this last property and will ignore the additional constraint on $\min(C_i)$, except in \Cref{ch:rubies}, where we discuss packing objects other than circles.
 
 %Here is a definition that makes it easier to talk about 
 %The next definition looks a bit weird, but makes it easier to talk about multiple shapes:
@@ -1030,14 +1055,32 @@ With these preparations, we can finally apply Split Packing to hats:
 
 This section is going to be short, as non-acute triangles are only a special case of a hat.
 
-\begin{theorem}
-    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
+\begin{theorem}\label{th:tri}
+    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this bound is tight. Expressed algebraically, for a triangle with side lengths $a$, $b$, and $c$, the density bound is
+
+    $$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%.$$
 \end{theorem}
 
 \begin{proof}
     The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
 
     On the other hand, a single circle of area $a + \varepsilon$ can not be packed, as the the incircle is by definition the largest circle which fits into the triangle.
+
+    As for the algebraic formulation of the density bound, the area of the triangle can be calculated using Heron's formula:
+
+    $$\Delta(a,b,c) := \sqrt{s(s-a)(s-b)(s-c)} \text{ with } s = \frac{a+b+c}{2}$$
+
+    It is also known that the radius of the incircle of this triangle is
+
+    $$R(a,b,c) := \frac{\Delta(a,b,c)}{s} \text{ with } s = \frac{a+b+c}{2},$$
+
+    so the incircle has an area of
+
+    $$I(a,b,c) = \pi R(a,b,c)^2 = \frac{(a+b-c)(c+a-b)(b+c-a)}{4(a+b+c)}.$$
+
+    Finally, the ratio between the circle's and the triangle's area can be calculated to be
+
+    $$\frac{\pi R(a,b,c)^2}{\Delta(a,b,c)} = \sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi.$$
 \end{proof}
 
 %\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
@@ -1144,13 +1187,19 @@ In this section, we will argue that we can always pack the twincircle area into 
 \end{table}
 
 \begin{theorem}
-    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
+    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight. Expressed algebraically, the density bound is
+
+    $$\frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
 \end{theorem}
 
 \begin{proof}
     By \Cref{th:hats-in-iso} and the Split Packing Theorem, the triangle is a $\C(a)$-shape.
 
     In \Cref{th:iso-worst}, we argued that any two equal circles larger than the twincircles can not be packed.
+
+    We use Heron's formula again to calculate a density bound of
+
+    $$\frac{2I(a/2, b, h)}{a/2\cdot h} = \frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
 \end{proof}
 
 %\begin{theorem}
@@ -1259,38 +1308,32 @@ As the aspect ratio gets even larger, at some point the twincircle area gets lar
 At the bottom of \Cref{fig:long-rects}, we divided all rectangles along their diagonal, and inscribed circles into the resulting halves. We will show that we can pack circles worst-case optimally into a rectangle if the area of those two circles is at least as large as the worst-case area:
 We know from the previous sections that we can pack right hats with incircle density. It is left to show that, if one of the two hats should get larger than the other one, they both can still be packed.
 
-What is the aspect ratio of the rectangle's sides where the combined area of the two circles incribed in the halves is exactly equal to the incircle area? In \Cref{fig:rect-construction}, we see that the area of the incircle is $A = \pi(\frac{a}{2})^2$.
+What is the aspect ratio of the rectangle's sides where the combined area of the two circles incribed in the halves is exactly equal to the incircle area? In \Cref{fig:rect-construction}, we see that the area of the incircle is $A = \pi(\frac{h}{2})^2$.
 
 \fig[4]{rect-construction}{Constructing the case where $A = 2B$.}
 
-The area of a triangle with side lengths $a$, $b$, and $c$ can be calculated using Heron's formula:
+The proof of \Cref{th:tri} on \cpageref{th:tri} discusses how to use Heron's formula to algebraically find the area of a triangle, given it's side lenghts.
+In our case, $A = 2B$ is equivalent to
 
-$$\Delta(a,b,c) := \sqrt{s(s-a)(s-b)(s-c)} \text{ with } s = \frac{a+b+c}{2}$$
+$$\frac{\pi}{4}h^2 = 2I(h,w,\sqrt{h^2+w^2}) = \frac{\pi aw(h+w-\sqrt{h^2+w^2}}{h+w+\sqrt{h^2+w^2}}$$
 
-It is also known that the radius of the incircle of this triangle is
-
-$$R(a,b,c) := \frac{\Delta(a,b,c)}{s} \text{ with } s = \frac{a+b+c}{2}$$
-
-So the area of the triangle's incircle can be calculated to be
-
-$$I(a,b,c) := \pi R(a,b,c)^2 = \frac{(a+b-c)(c+a-b)(b+c-a)}{4(a+b+c)}$$
-
-So in our case, $A = 2B$ is equivalent to
-
-$$\frac{\pi}{4}a^2 = 2I(a,b,\sqrt{a^2+b^2}) = \frac{\pi ab(a+b-\sqrt{a^2+b^2}}{a+b+\sqrt{a^2+b^2}}$$
-
-and equation this is true for $b = \frac{2+3\s}{4}a \approx 1.5607a$.
+and this equation this is true for $w = \frac{2+3\s}{4}h \approx 1.5607h$.
 This means that all rectangles whose side ratio is at least this large can be packed wost-case optimally, simply by using the split key $F = (1,1)$ and by placing two right hats in the rectangle.
 
 \begin{theorem}
     Given a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$, let $a$ be the area of its incircle.
-    All circle instances with a combined area of up to $a = \frac{\pi h}{4w}$ can be packed into the rectangle, and this area bound is tight.
+    All circle instances with a combined area of up to $a$ can be packed into the rectangle, and this area bound is tight. Expressed algebraically, the density bound is
+
+    $$\frac{\pi h}{4w}.$$
+
 \end{theorem}
 
 \begin{proof}
     By \Cref{th:hats-in-rect} and the Split Packing Theorem, the rectangle is a $\C(a)$-shape.
 
-    The $a$-circle's diameter is equal to the rectangle's smaller side, so it is obvious that any larger circles can not  be packed.
+    The $a$-circle's diameter is equal to the rectangle's smaller side, so it is obvious that any larger circles can not be packed.
+
+    The density bound is the ratio of the circle's and the rectangle's area, which can be calculated to be $\frac{\pi (h/2)^2}{wh} = \frac{\pi h}{4w}$.
 \end{proof}
 
 %also works for rectangles whose twincircle area does not exceed their incircle area.
@@ -1525,7 +1568,7 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
     This can be proven similarly like in \Cref{th:iso-worst}: Let $r$ be the radius of these circles. When eroding the square by $r$, the result is a square with a diagonal of $2r$. When eroding by a larger radius $r + \varepsilon$, the diagonal will be smaller than $2r$. But the centers of the two circles need to be placed at least $2r + 2\varepsilon$ away from each other, and additionally need a distance of at least $r + \varepsilon$ from the square's boundary. We see that both constraints can not be satisfied at the same time.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{th:square-twincircle-area}
     The twincircles of a square with area $a$
     have a combined area of
     $$\frac{\pi}{3+2\s}a \approx 0.5390a.$$
@@ -1658,13 +1701,17 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
 %\end{figure}
 
 \begin{theorem}\label{th:square}
-    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight.
+    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight. Expressed algebraically, the density bound is
+
+    $$\frac{\pi}{3+2\s}.$$
 \end{theorem}
 
 \begin{proof}
     By \Cref{th:gems-in-square} and the Split Packing Theorem, the square is a $\R(a)$-shape. TODO naja
 
     Two rubies with a combined incircle area of more than $a$ will have incircles which are larger than the square's twincircles. As shown in \Cref{th:square-worst}, those can not be packed, which means that the rubies can not be packed, as well.
+
+    The density bound was proven in \Cref{th:square-twincircle-area}.
 \end{proof}
 
 -> octagons, squares

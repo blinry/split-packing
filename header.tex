@@ -43,11 +43,14 @@
     }
 \usepackage{graphicx}
     \graphicspath{{images/}}
+\usepackage{longtable}
+    \renewcommand{\arraystretch}{3}
 \usepackage{chngcntr}
     \counterwithout{equation}{chapter}
 %\usepackage{nicefrac}
 \usepackage{csquotes}
 \usepackage{scrhack}
+\usepackage{array}
 \usepackage[backend=biber,style=numeric-comp,maxbibnames=99,url=false]{biblatex}
     \addbibresource{../references/references.bib}
 
@@ -92,6 +95,7 @@
 \newcommand{\wlofg}{without loss of generality}
 \DeclareMathOperator{\mysum}{sum}
 \DeclareMathOperator*{\argmin}{arg\,min}
+
 
 \makeatletter
     % center the contents of floatstuff automatically
