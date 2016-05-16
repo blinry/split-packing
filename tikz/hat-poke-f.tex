@@ -6,7 +6,7 @@
 \pgfmathsetmacro{\g}{(cos(\a/2)^2*sec(\a/2+\b/2)^2*(1-sin(\b)))}
 
 \hatshape{1}{\round}{\a}{\b}
-\draw[dashed] (midcenter) circle(\r) node {$a$};
+\draw[dashed] (midcenter) circle(\r) node {$o$};
 
 %\pgfmathparse{sqrt(1/pi)/tan(\b/2)-sqrt(((\x))/pi)/tan(\b/2)}
 %\begin{scope}[shift={(\pgfmathresult,0)}]
@@ -27,7 +27,7 @@
     \begin{scope}[shift={(0,-\pgfmathresult)}]
         \hatshape{\g}{0}{90}{\b}
         \draw[dashed] (midcenter) circle(\r) node {$f_i$};
-        \draw[bracket] ([shift={(2pt,2pt)}]top) -- node[sloped,above] {$e\sqrt{a} = d\sqrt{f_i}$} ([shift={(2pt,2pt)}]right);
+        \draw[bracket] ([shift={(2pt,2pt)}]top) -- node[sloped,above] {$e\sqrt{o} = d\sqrt{f_i}$} ([shift={(2pt,2pt)}]right);
         %\draw[bracket] ([shift={(6pt,6pt)}]thetop) -- node[sloped,above] {$x$} ([shift={(6pt,6pt)}]top);
     \end{scope}
 \end{scope}

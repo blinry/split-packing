@@ -769,8 +769,10 @@ As described in the beginning of the last chapter, Split Packing was originally 
 
 \section{Hats}
 
-We saw in \Cref{ch:split-packing} that when applying \textsc{Split} to a circle instance, we will often get a group for which we can guarantee a minimum circle size.
-If you think about how a circle of minimum size can be placed in the container, there might be certain points which can never be covered by a circle without the circle overlapping the container's boundary. For example, if the container's boundary contains angles, you cannot use all of the area inside of that angle, as the minimum circle might be too large to cover all of its points. As we cannot use such points for packing the circle instance, we might as well remove it from the container without changing its packing capabilities at all.
+We saw in \Cref{ch:split-packing} that when applying \textsc{Split} to a circle instance, we can often make a statement about the minimum circle size of one group.
+If you think about how a circle of minimum size can be placed in the container, there might be certain points which can never be covered by a circle without overlapping the container's boundary. For example, if the container's boundary contains sharp angles, you can not use all of the area inside of that angle, as the minimum circle might be too large to cover all of its points. As we can not use such points for packing the circle instance, we might as well remove it from the container without changing its packing capabilities.
+
+TODO fig
 
 Technically, you can calculate the usable area of a container shape by first eroding it by a circle of minimum size, and then dilating the result with the same circle.
 
@@ -778,8 +780,7 @@ This observation motivates a family of shapes which resemble triangles whose cor
 
 \begin{definition}
     For each $0 \le b \le a$, an \emph{$(a,b)$-hat} is a non-acute triangle with an incircle of area $a$, whose corners are rounded to the radius of a $b$-circle, see \Cref{fig:hat}.
-    Call the angle of the original triangle laying clockwise from the triangle's longest side the hat's \emph{left-angle}, and the one which lies counter-clockwise from the longest side the hat's \emph{right-angle}.
-    %An $a$-hat is an $(a,0)$-hat.
+    Call the two lower angles of the original triangle \emph{left-angle} and \emph{right-angle}.
     If we say \emph{right hat} or \emph{obtuse hat}, the hat is based on a right/obtuse triangle.
 \end{definition}
 
@@ -791,21 +792,21 @@ This observation motivates a family of shapes which resemble triangles whose cor
 \fig[3]{hat}{An $(a,b)$-hat.}
 
 \begin{definition}\label{def:hat-split-key}
-    A hat's \emph{associated split key} equals the tuple of the areas of the two circles incribed in the hat's two sides when splitting the underlying triangle orthogonally to its base through its tip, see \Cref{fig:hat-f}.
+    To get a hat's \emph{associated split key}, split the underlying triangle orthogonally to its base through its tip, and inscribe two circles in the two sides, see \Cref{fig:hat-f}.
 \end{definition}
 
 \fig{hat-f}{A hat's \emph{associated split key} equals $(f_1, f_2)$}
 
-To prepare for the next proof, we need the following lemma:
+To prepare for the next proof, we establish the following lemma:
 
 \begin{lemma}\label{th:overlap}
-    Place two circles of combined area $a$ in two corners of a triangle, like in \Cref{hats-overlap}. Let $w$ be the length of the connecting side of the triangle. If the distance of the respective corner to the far point of the circle $i$'s projection onto the connecting side is $\sqrt{a_i}p_i$, then the two projections do not intersect if
+    Place two circles of combined area $a$ in two corners of a triangle, like in \Cref{fig:hats-overlap}. Let $w$ be the length of the connecting side of the triangle. Now, define $p_1$ and $p_2$ to be the “projection factors”, so that, when projecting circle $a_i$ down onto the connecting side, the distance between the triangle's corner and the far point of the projection is $\sqrt{a_i}p_i$. The two projections do not intersect if
 
     $$w \ge \sqrt{a(p_1^2 + p_2^2)}.$$
 \end{lemma}
 
 \begin{proof}
-    Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do not intersect.
+    Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do never intersect.
 \end{proof}
 
 \fig{hats-overlap}{text}
@@ -820,7 +821,7 @@ To prepare for the next proof, we need the following lemma:
 \end{lemma}
 
 \begin{proof}
-    Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles towards the container's matching angles and push them as far to the left/right as possible. \Cref{tab:hats-in-hat} illustrates how these packings looks like for $a=1$ and different values of $a_1$ and~$a_2$.
+    Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles towards the container's matching angles and push them as far to the left/right as possible. \Cref{tab:hats-in-hat} illustrates how these packings looks like for different values of $a_1$ and~$a_2$ and gives some informal reasoning why they can always be packed.
 
     \begin{table}
         \caption{Hat-in-hat packings for different values of $a_1$ and $a_2$}
@@ -839,7 +840,7 @@ To prepare for the next proof, we need the following lemma:
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.9}{0}
             \end{tikzpicture}
-            & As $a_2$ gets smaller, the second hat gets less rounded, but still enough so that it can be packed. The first hat is a non-rounded triangle, which fits beside the second one.\\
+            & As $a_2$ gets smaller, the second hat gets less rounded, but still enough so that it can be packed. The other hat is a non-rounded triangle, which fits beside the second one.\\
 
             \vspace{10pt}
 
@@ -853,41 +854,41 @@ To prepare for the next proof, we need the following lemma:
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.6}{0}
             \end{tikzpicture}
-            & When $a_1$ and $a_2$ have a ratio as specified by the container's associated split key, the two hats are both not rounded, but they still fit beside each other.\\
+            & \\
 
             \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-                \hatsinhat{\defaulta}{\defaultb}{0.5}{0}
+                \hatsinhat{\defaulta}{\defaultb}{0.43}{0}
             \end{tikzpicture}
-            & When $a_2$ gets smaller than specified by the split key, it is now the first container which is getting more rounded.\\
+            & When $a_1$ and $a_2$ have a ratio as specified by the container's associated split key, the two hats are both not rounded, but they can still be packed.\\
 
             \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.3}{0}
             \end{tikzpicture}
-            & \\
+            & When $a_2$ gets smaller than specified by the split key, it is now the first container which is getting more rounded.\\
 
             \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-                \hatsinhat{\defaulta}{\defaultb}{0.2}{0}
+                \hatsinhat{\defaulta}{\defaultb}{0.1}{0}
             \end{tikzpicture}
-            & As $a_1$ approaches $a$, it is now the first hat whose shape gets closer to a perfect $a$-circle. By the same argument as before, this circle can be packed.\\
+            & As $a_1$ approaches $a$, it is now the first hat whose shape gets closer to a perfect $a$-circle.\\
 
             \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0}{0}
             \end{tikzpicture}
-            & \\
+            & By the same argument as before, this circle can be packed.\\
 
             \vspace{10pt}
         \end{tabular}
     \end{table}
 
-    These way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
+    This way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
 
     We first want to show that the hats do not overlap each other. If the hats' projections onto the container's base do not overlap, we found a seperating axis and can be sure that the hats do not overlap, as well. Furthermore, because the hats' incircles touch the rightmost part of the left hat's boundary and the leftmost part of the right hat's boundary, it suffices to show that the projections of the hats' incircles onto the container's base do not overlap.
 
@@ -900,15 +901,15 @@ To prepare for the next proof, we need the following lemma:
 
     \fig{hatlr}{$l^2 + r^2 \le 1$ holds for each non-acute triangle}
 
-    The second thing we need to show is that the hats fit into the container individually. Unfortunately, this part of the proof is going to long and technical.
+    The second property we need to show is that the hats fit into the container individually. Unfortunately, this part of the proof is going to be long and technical.
 
     If a hat's incircle is not larger than the incircle of the container hat's side, it will fit into the container without question because it is a subset of that side (like all the non-rounded hats in \Cref{tab:hats-in-hat}).
     So let us assume $a_i > f_i$.
 
-    In this proof, we use two different length-area ratios, which are illustrated in \Cref{fig:hat-poke-f}. The first one $d$, which describes the ratio between the length of the triangle's right leg and the area of its right-hand incircle $f_i$. Note that for all triangles \emph{similar} to the right part of the container triangle, this ratio between the length of this edge and the square root of the incircle's area will be constant.
+    In this proof, we use two different length-area ratios, which are illustrated in \Cref{fig:hat-poke-f}. The first one is $d$, which describes the ratio between the length of the triangle's right leg and the area of its right incircle $f_i$. Note that for all triangles \emph{similar} to the right part of the container triangle, this ratio between the length of this edge and the square root of the incircle's area will be constant.
     %For hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
     %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hat-poke-f}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
-    The second ratio, $e$, is the ratio between the length of the same right leg and the incircle-area of the whole container triangle. Again, if formulated as a quotient between the length of this edge and the square root of the incircle, it is a constant for a given container triangle. Note that, in preparation for a generalization later in this chapter, we denote the triangle's incircle by $o$.
+    The second ratio, $e$, is the ratio between the length of the same right leg and the incircle-area of the whole container triangle. Again, if formulated as a quotient between the length of this edge and the square root of the incircle, it is a constant for triangles similar to the given container triangle. Note that, in preparation for a generalization later in this chapter, we denote the triangle's incircle by $o$.
     From \Cref{fig:hat-poke-f} we can also observe that
     $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{\frac{f_i}{o}}$.
 
@@ -990,7 +991,7 @@ To prepare for the next proof, we need the following lemma:
     As $a_i$ is never larger than $a$, \Cref{eq:tripoke} is true and the hat always fits into the container. This completes the proof of \Cref{th:hats-in-hat}.
 \end{proof}
 
-Until now, the container was always a $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that that the rounding of the container hat is no longer 0, but $b$.
+Until now, the container was always an $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that that the rounding of the container hat is no longer 0, but $b$.
 
 \begin{lemma}\label{th:rounded-hats-in-hat}
     Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
@@ -1018,9 +1019,9 @@ With these preparations, we can finally apply Split Packing to hats:
 
     If $C$ only consists of a single circle, it can be packed into the hat, as it is as most as big as the hat's incircle.
 
-    Now assume that for any $0 \le b' \le a'$, an $(a',b')$-hat could pack all circle instances in $\C(a',b')$ with at most $n$ circles. Consider a circle instance $C$ containing $n+1$ circles.
+    Now assume that for any $0 \le b \le a$, any $(a,b)$-hat could pack all circle instances in $\C(a,b)$ with at most $n$ circles. Consider a circle instance $C \in \C(a,b)$ containing $n+1$ circles.
     \Cref{def:hat-split-key} tells us how to compute the split key $F$.
-    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can also pack $C_1$ and $C_2$ and that we can pack $C$ into the container hat.
+    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats in the container, we have connstructed a packing of $C$ into the container hat.
 
     By induction, we can pack each $C \in \C(a,b)$ into the $(a,b)$-hat.
 \end{proof}
