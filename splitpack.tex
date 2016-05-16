@@ -52,7 +52,21 @@ published or written by another person except where due reference is made in the
 \centerline{\bfseries Abstract}
 \vspace*{1em}
 \noindent
-Very abstract indeed.
+In this thesis, we describe an algorithm for packing circles and other objects into various containers.
+
+Not only do we prove these upper bounds for many container types for the first time, but we do it by giving a constructive algorithm that realizes these packings.
+
+We show that Split Packing is able to pack circles with worst-case density into the following container shapes:
+
+Any right or obtuse triangles,
+equilateral triangles, and isosceles triangles whose longest side is the base,
+squares,
+rectangles with an aspect ratio of more than 1:1.57
+
+As another generalization, we show that Split Packing can be used to pack octagons worst-case optimally into squares. If we allow to rotate objects, we can also pack squares worst-case optimally.
+
+We have only begun to study the properties of Split Packing in this thesis and see many open research questions.
+
 \cleardoublepage
 
 \section*{Acknowledgments}
@@ -180,10 +194,10 @@ In \Cref{tab:results}, we summarize our results. Shown are the shape classes, a 
     \caption{Overview of results.}\label{tab:results}
     \begin{tabular}{lcccc}
         \textbf{Shape} & \textbf{Worst case} & \textbf{Density}\\
-        Non-acute triangle & \begin{tikzpicture}\input{tikz/tri-table.tex}\end{tikzpicture} & $\sqrt{\frac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi$\\
-        Thick isosceles triangle & \begin{tikzpicture}\input{tikz/iso-table.tex}\end{tikzpicture} & c\\
-        Square & \begin{tikzpicture}\input{tikz/square-table.tex}\end{tikzpicture} & $\frac{\pi}{3+2\s} \approx 0.5390$\\
-        Long rectangle & \begin{tikzpicture}\input{tikz/rect-table.tex}\end{tikzpicture} & $\frac{\pi a}{4b}$\\
+        Non-acute triangle & \begin{tikzpicture}[scale=2]\input{tikz/tri-table.tex}\end{tikzpicture} & $\sqrt{\frac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi$\\
+        Thick isosceles triangle & \begin{tikzpicture}[scale=2]\input{tikz/iso-table.tex}\end{tikzpicture} & c\\
+        Square & \begin{tikzpicture}[scale=2]\input{tikz/square-table.tex}\end{tikzpicture} & $\frac{\pi}{3+2\s} \approx 0.5390$\\
+        Long rectangle & \begin{tikzpicture}[scale=2]\input{tikz/rect-table.tex}\end{tikzpicture} & $\frac{\pi a}{4b}$\\
     \end{tabular}
 \end{table}
 
@@ -238,12 +252,6 @@ In foresting, one might want to plant trees so that the grown forest will be as 
 
 A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees involves a packing problem called circle/river-packing. See \Cref{fig:origami} on \cpageref{fig:origami} for an example. This kind of Origami design was pioneered by Robert J. Lang \cite{lang1996computational}. Using circle packings (without “rivers”), one can design crease patterns for folding arbitrary stars.
 
-%Photo collage "Content-aware photo collage using circle packing"
-
-%\paragraph{Other}
-
-%In Operations Research, one might want to disperse facilities so that the minimum distance between any two is maximized TODOcite.
-
 \section{Organization}
 
 This thesis is structured as follows:
@@ -277,19 +285,17 @@ Even tough, decision problem whether it is possible to pack a given set of squar
 
 For another variant, we could restrict the square objects to be equally sized, but allow the container to be arbitrary.
 In this case, too, the decision problem remains hard:
-\textcite{FPT1981optimal} showed it to be NP-hard to pack equal squares into arbitrary polygons with holes by a reduction from \textsc{3-SAT}. They construct gadgets for variables and clauses and connect them with wires.% In Fig TODO, such a construction is depicted.
+\textcite{FPT1981optimal} showed it to be NP-hard to pack equal squares into arbitrary polygons with holes by a reduction from \textsc{3-SAT}. They construct gadgets for variables and clauses and connect them with wires.
 
 \subsection{Approximation algorithms}
 
 As mentioned in the introduction of this chapter, we can directly use approximation algorithms for packing squares to obtain approximation algorithms for packing circles.
 If we are given an algorithm which can pack all square instances with a combined area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a combined area of $\frac{\pi}{4}a \approx 0.7854a$ into that shape. 
 
-\textcite{MM1967some} developed an algorithm which can pack all square instances with a combined area of $1/2$ into the unit square.
-They sort the squares by their size and place them into the square in a shelf-like manner.%, see fig TODO.
-They also proofed that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed.%, see fig TODO.
+As already mentioned in the introduction, \textcite{MM1967some} developed an algorithm which can pack all square instances with a combined area of $1/2$ into the unit square.
+They sort the squares by their size and place them into the square in a shelf-like manner, see \Cref{fig:shelf-packing} on \cpageref{fig:shelf-packing}.
+They also proofed that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed.
 As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a combined area of $\pi/8 \approx 0.3927$ into the unit square.
-
-%TODO but not directly for circles: 5 x 1/5
 
 \textcite{KK1975optimal} showed that any square instance with a combined area of~1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is approximately $0.6124$. Applied to circles, this result means that all circle instances with a combined area of~1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi} \times 2\sqrt{2}/\sqrt{\pi} \approx 1.3030 \times 1.5958$, with a packing density of approximately $0.4810$.
 
@@ -325,7 +331,6 @@ The optimal packings of up to nine equal circles in a square were already known 
 
 The optimal solution for $n = 10$ was confirmed only in 1990, by \textcite{DPW1990optimal}. In the same paper, they also prove the optimal solutions for 11, 12 and 13 circles.
 See \textcite{WMP1994history} for an overview of the history of optimal solutions for $n \le 13$.
-%The smallest number of equal circles for whose optimal packing in a square is currently not known is TODO.
 
 Some years later, \textcite{NO1998more} provided computer-aided optimality proofs for $n \le 27$. Their algorithm is based on a procedure by \textcite{PWMD1992packing}.
 \textcite{MC2005new} give computer-aided proofs for $n=28,29,30$ within very tight tolerance values.
@@ -371,8 +376,6 @@ The works related to this idea are too numerous to be covered here in their enti
 
 \textcite{lubachevsky1997curved} studied \emph{curved hexagonal packings} of equal circles in a circle, a pattern derived from known best packings of circles in hexagons. For large $n$, a curved hexagonal packing was found to be not optimal. Instead, good packings found by the authors seemed to have a curved hexagonally-packed area in the center and an irregular pattern along the periphery.
 
-%TODO \textcite{ZYC2015packing} extend the GVS to allow packing into \emph{damaged squares}, squares with some smaller squares removed from it. They enhance the GVS by Simulated Annealing and get significantly better results in their experiments compared to GVS.
-
 \subsection{Optimization methods}
 
 Another much-explored idea is to model the packing problem as a set of (mostly nonlinear) inequalities and to solve this system using powerful commercial solvers.
@@ -399,11 +402,12 @@ Another much-explored idea is to model the packing problem as a set of (mostly n
 
 \chapter{Split Packing}\label{ch:split-packing}
 
-While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:square-worst}.%proposed by \textcite{DFL2010circle}.
+While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:worst-cases} on \cpageref{fig:worst-case}.%proposed by \textcite{DFL2010circle}.
+When we attempted to find a strategy which could pack this area, many strategies did not work. For example, a shelf-packing based approach inspired by Moon \& Moser's algorithm for packing squares does not work for five equal circles, see \Cref{fig:shelf-fail}.
 
-%We attempted quite a few strategies to pack this area which did not work. For example, a shelf-packing based approach inspired by Moon \& Moser's algorithm for packing squares does not work for five equal circles, see TODO.
+\fig[6]{shelf-fail}{Shelf-packing does not work for five equal circles. The upper right circle slightly overlaps the middle one.}
 
-At one point, we tried restricting the input instance with the hope that this would make the problem easier. We decided to only allow circles which would have areas equal to a negative power of two of the total available area. This would only allow half-, quarter-, eight-, sixteenth-circles, and so on, in terms of the total area. We were surprised to find that these instances were easy to pack!
+At one point, we tried restricting the input instance with the hope that this would make the problem easier. We decided to only allow circles which would have areas equal to a negative power of two of the total available area. This would only allow half-, quarter-, eight-, sixteenth-circles, and so on, in terms of the total circle area $a$. We were surprised to find that these instances were easy to pack!
 
 Imagine starting with the total area $a$ combined into one large circle. It's easy to check that this circle can be packed, simply by placing it in the middle of the square, see the top left of \Cref{fig:easy}. Now, you are allowed to “split” the circle into two half-circles, resulting in the worst-case instance discussed in the introduction. If we also cut the square into halves along the circles' tangent, both circles now are incircles of isosceles right triangles.
 %The area of the circle and the area of its surrounding triangle are in a certain ratio to one another. This ratio is constant, so
@@ -731,7 +735,7 @@ First, it can give sufficient conditions for the decision problem if a given cir
 But second, it can also be used as an approximation algorithm. Say you are given a circle instance of total area $a$. The task is to find the smallest container of a certain family (for example, triangular or square) in which the instance can be packed. Again, \textcite{DFL2010circle} proved it to be NP-hard to find the minimum-area container, but we can use the Split Packing algorithm for an approximation: Select a $\C(a)$-shape with a guaranteed packing density of $d$.
 %where the ratio between $a$ and the shape's area $APX$ (we call the ratio $a/APX$ the \emph{packing density}) is as high as possible.
 
-\paragraph{Approximation factor for unequal circles}
+\paragraph{Approximation factor}
 
 We can be sure that the area of the optimal container $OPT$ needs to be as least $a$:
 
@@ -762,8 +766,6 @@ Second, we are going to show how Split Packing can pack all instances of this ar
 As described in the beginning of the last chapter, Split Packing was originally designed to pack circles, so in this chapter, our objecs will always be circles.
 
 %are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with combined area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of combined area $a'$ which \emph{cannot} be packed. Second, that all instances of combined area $a$ can be packed.
-
-%The respective worst-case instances for all container classes are depicted in Fig TODO.
 
 \section{Hats}
 
@@ -807,12 +809,6 @@ To prepare for the next proof, we need the following lemma:
 \end{proof}
 
 \fig{hats-overlap}{text}
-
-%\begin{lemma}\label{th:poke}
-%    Take an $(a,0)$-hat with a left-angle of $\alpha$ as a container. Call the circles which define its split keys $f_1$ and $f_2$. Place a right $(a_1,b_1)$-hat with a right-angle of $\alpha$ into the container so that its tip touches the container's base, see TODO
-%
-%    The hat does not overlap the container if $a_1 \le f_1$ or $b_1 \ge a_1 - f_1\frac{a-a_1}{f_2}$
-%\end{lemma}
 
 \begin{lemma}\label{th:hats-in-hat}
     Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
@@ -1025,27 +1021,19 @@ With these preparations, we can finally apply Split Packing to hats:
 
 \section{Non-acute triangles}
 
-This section is going to be short.
+This section is going to be short, as non-acute triangles are only a special case of a hat.
 
 \begin{theorem}
-    A circle instance can be packed into a non-acute triangle if the circle's combined area does not exceed the area of the triangle's incircle.
+    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
 \end{theorem}
 
 \begin{proof}
-    Call the incircle's area $a$. The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
+    The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
+
+    On the other hand, a single circle of area $a + \varepsilon$ can not be packed, as the the incircle is by definition the largest circle which fits into the triangle.
 \end{proof}
 
-We also argue that this is the best area bound we could hope for:
-
-\begin{theorem}
-    For any non-acute triangle with an incircle of area $a$, for any $b > a$ there are instances in $\C(b)$ which cannot be packed into the triangle.
-\end{theorem}
-
-\begin{proof}
-    A single $b$-circle cannot be packed, as the incircle is by definition the largest circle which fits into the triangle.
-\end{proof}
-
-\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
+%\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
 
 \section{Isosceles triangles}
 
@@ -1059,13 +1047,13 @@ Split Packing gives worst-case optimal results not only for non-acute triangles,
 
 To prove the worst case for these triangles, we first make a statement about a triangle's \emph{twin circles}:
 
-\begin{lemma}
+\begin{lemma}\label{th:iso-worst}
     Two touching equal circles, placed in the corners connected by a triangle's longest side, are the triangle's twincircles, meaning there are no two larger equal circles which can be packed.
 \end{lemma}
 
 \begin{proof}
     Call the circle's radius $r$.
-    When dilating the triangle by $r$, the remaining area is a triangle similar the the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when dilating the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
+    When eroding the triangle by $r$, the remaining area is a triangle similar the the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when eroding the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
     But to pack two circles with radius $r+\varepsilon$, their centers need to be placed at least $r+\varepsilon$ away from the triangle's boundary and at least $2r+2\varepsilon$ away from each other. The construction shows that this is not possible.
 \end{proof}
 
@@ -1102,35 +1090,6 @@ In this section, we will argue that we can always pack the twincircle area into 
     $$\sqrt{a_i} + (\sqrt{f_i/a}-1)\sqrt{b_i} \le \sqrt{f_i}$$
 
     And this is the same inequality that was shown to be true in \Cref{th:hats-in-hat}. The preconditions $a_i + a_j \le a$ and $f_i + f_j \ge a$ are also true here. This concludes the proof.
-
-    %%Here, $f_i = a/2$, $o $ and $b_i = 2(a_i-f_i)$, which gives us:
-    %In our case, $f_1 + f_2$ is exactly the twincircle area as constructed above, and $f_1 = f_2$, so $f_i = a/2$. The incircle of the triangle is larger than $a$ (TODO), so $o \ge a$. The hat's rounding is $b_i = a_i - f_i \frac{a-a_i}{f_i} = 2a_i-a$. So in total, we know the above condition to be true if
-
-    %%$$\sqrt{a_i}-\sqrt{2-\sqrt{3}}\sqrt{a_i-f_i} \le \sqrt{f_i}$$
-    %$$\sqrt{a_i}-(1-\sqrt{1/2})\sqrt{2a_i-a} \le \sqrt{a/2}$$
-
-    %We square both sides:
-
-    %%$$a_i+(2-\sqrt{3})(a_i-f_i) - 2\sqrt{a_i(2-\sqrt{3})(a_i-f_i)} \le f_i$$
-    %$$a_i + x$$
-
-    %Rearrange and square both sides again:
-
-    %$$(a-f)^2(3-\sqrt{3})^2 \le 4a(2-\sqrt{3})(a-f)$$
-
-    %And simplify to arrive at:
-
-    %$$a_i \le 3f_i$$
-
-    %As $a_i \le a = 2f_i \le 3f_i$, the above condition is true and the hats do not overlap the container. This concludes the proof.
-\end{proof}
-
-\begin{theorem}
-    Any circle instance with a combined area of at most the triangle's twincircle area can be packed into a thick isosceles triangle.
-\end{theorem}
-
-\begin{proof}
-    By \Cref{th:hats-in-iso} and the Split Packing Theorem.
 \end{proof}
 
 \begin{table}
@@ -1177,11 +1136,15 @@ In this section, we will argue that we can always pack the twincircle area into 
     \end{tabular}
 \end{table}
 
-Worst case
+\begin{theorem}
+    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
+\end{theorem}
 
-Packing two hats into an isosceles triangle
+\begin{proof}
+    By \Cref{th:hats-in-iso} and the Split Packing Theorem, the triangle is a $\C(a)$-shape.
 
-Packing circles into an isosceles triangle
+    In \Cref{th:iso-worst}, we argued that any two equal circles larger than the twincircles can not be packed.
+\end{proof}
 
 %\begin{theorem}
 %    Each $A \in \C(a)$ can be packed into an isosceles triangle with a largest angle $\gamma$ between $\frac{\pi}{2}$ and $\frac{\pi}{3}$ and an area of $a\frac{1+\frac{1}{\sin(\gamma)}}{\pi}$.
@@ -1312,9 +1275,18 @@ $$\frac{\pi}{4}a^2 = 2I(a,b,\sqrt{a^2+b^2}) = \frac{\pi ab(a+b-\sqrt{a^2+b^2}}{a
 and equation this is true for $b = \frac{2+3\s}{4}a \approx 1.5607a$.
 This means that all rectangles whose side ratio is at least this large can be packed wost-case optimally, simply by using the split key $F = (1,1)$ and by placing two right hats in the rectangle.
 
-%also works for rectangles whose twincircle area does not exceed their incircle area.
+\begin{theorem}
+    Given a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$, let $a$ be the area of its incircle.
+    All circle instances with a combined area of up to $a = \frac{\pi h}{4w}$ can be packed into the rectangle, and this area bound is tight.
+\end{theorem}
 
-Quadrilateral Containers?
+\begin{proof}
+    By \Cref{th:hats-in-rect} and the Split Packing Theorem, the rectangle is a $\C(a)$-shape.
+
+    The $a$-circle's diameter is equal to the rectangle's smaller side, so it is obvious that any larger circles can not  be packed.
+\end{proof}
+
+%also works for rectangles whose twincircle area does not exceed their incircle area.
 
 \chapter{Packing rubies}\label{ch:rubies}
 
@@ -1522,43 +1494,47 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 \section{Isosceles right triangles}
 
 \begin{theorem}
-    Any ruby instance $R \in \C(a)$ can be packed into an isosceles right triangle with an incircle of area $a$.
+    Given an isosceles right triangle with an incircle of area $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the triangle, and this area bound is tight.
 \end{theorem}
 
 \begin{proof}
-    The triangle is an $(a,0)$-gem, and by \Cref{th:gem} we can pack any $R \in \C(a)$ into such a gem.
+    The triangle is an $(a,0)$-gem, and by \Cref{th:gem} we can pack any $R \in \R(a)$ into such a gem.
+
+    A ruby with an incircle area of more than $a$ can not be packed, as its incircle would be larger than the triangle's incircle.
 \end{proof}
 
 \section{Squares}
 
+Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,b)$-shapes, to argue about the packing properties of squares is going to be relatively straightforward.
+
+\begin{lemma}\label{th:square-worst}
+    Two touching equal circles, packed into opposing corners of a squar, are the squares \emph{twincircles}, meaning that there are no two larger equal circles which can be packed.
+\end{lemma}
+
+\begin{proof}
+    %The instance ${\frac{a'}{2}, \frac{a'}{2}}$ cannot be packed. TODO
+    This can be proven similarly like in \Cref{th:iso-worst}: Let $r$ be the radius of these circles. When eroding the square by $r$, the result is a square with a diagonal of $2r$. When eroding by a larger radius $r + \varepsilon$, the diagonal will be smaller than $2r$. But the centers of the two circles need to be placed at least $2r + 2\varepsilon$ away from each other, and additionally need a distance of at least $r + \varepsilon$ from the square's boundary. We see that both constraints can not be satisfied at the same time.
+\end{proof}
+
 \begin{lemma}
     The twincircles of a square with area $a$
     have a combined area of
-    $\frac{\pi}{3+2\s}a \approx 0.5390a$.
+    $$\frac{\pi}{3+2\s}a \approx 0.5390a.$$
 \end{lemma}
 
 \begin{proof}
     We can construct the twincircles' radius $r$ as seen in \Cref{fig:square-worst-construction}:
 
-    \begin{align*}
-        2r + 2\frac{r}{\s} &= \sqrt{a}\\
-        \iff r &= \frac{\sqrt{a}}{2 + \frac{2}{\s}}\\
-    \end{align*}
+    \begin{equation*}
+        2r + 2\frac{r}{\s} = \sqrt{a} \iff r = \frac{\sqrt{a}}{2 + \s}
+    \end{equation*}
 
     So, the combined area of the twincircles is
 
-    $$2\pi r^2 = 2\pi\frac{a}{4 + \frac{8}{\s}+\frac{4}{2}} = \frac{\pi}{3+2\s}a$$
+    $$2\pi r^2 = 2\pi\frac{a}{4 + 4\s + 2} = \frac{\pi}{3+2\s}a$$
 \end{proof}
 
-\fig{square-worst-construction}{Construction of the twincircles' radius $r$.}
-
-\begin{lemma}
-    For any $a'$ larger than a square's twincircle area, there is a circle instance $C \in \C(a')$ that cannot be packed into that square.
-\end{lemma}
-
-\begin{proof}
-    The instance ${\frac{a'}{2}, \frac{a'}{2}}$ cannot be packed. TODO
-\end{proof}
+\fig{square-worst-construction}{Constructing the twincircles' radius $r$.}
 
 \begin{lemma}\label{th:gems-in-square}
     Consider a square with twincircle area $a$.
@@ -1604,7 +1580,7 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 
 \begin{proof}
     Place the tips of the gems in two opposing corners of the square, like in \Cref{fig:gems-in-square}.
-    This placement constitues a valid packing because (1) the gems fit into the square individually and (2) the gems never overlap. This can be proven algebraically in exactly the same fashion as in \Cref{th:gems-in-gem}.
+    This placement constitues a valid packing because (1) the gems fit into the square individually and (2) the gems never overlap. This can be proven algebraically in exactly the same fashion as in \Cref{th:gems-in-gem}, where we proved a similar statement about packing into gems.
 
     %We can use the previously established \Cref{th:gems-in-gem} for this proof, by only considering the situation above the square's lower-left to upper-right diagonal. If an isosceles right $(\frac{a_1}{2},b_1)$-hat and an isosceless right $(\frac{a_2}{2},b_2)$-hat can be packed into an isosceles right $(\frac{a}{2})$-hat, then this proof is complete.
 
@@ -1673,12 +1649,16 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 %\end{figure}
 
 \begin{theorem}\label{th:square}
-    Any ruby instance with a combined incircle area of $a$ can be packed into a square with twincircle area $a$.
+    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight.
 \end{theorem}
 
 \begin{proof}
-    By \Cref{th:gems-in-square} and the Split Packing Theorem.
+    By \Cref{th:gems-in-square} and the Split Packing Theorem, the square is a $\R(a)$-shape. TODO naja
+
+    Two rubies with a combined incircle area of more than $a$ will have incircles which are larger than the square's twincircles. As shown in \Cref{th:square-worst}, those can not be packed, which means that the rubies can not be packed, as well.
 \end{proof}
+
+-> octagons, squares
 
 %\begin{theorem}
 %    The Splitpack algorithm, when used to pack circles into squares, is a $\frac{3+2\s}{\pi} \approx 1.8552$-approximation algorithm, and this factor is tight.
@@ -1693,10 +1673,6 @@ Like with hats, “rounding” the container gem does not affect the packing pro
 %\begin{theorem}
 %    For packing equal circles, Splitpack gives a xxx-approximation.
 %\end{theorem}
-%
-%\begin{proof}
-%    The maximum density for packing equal circles in the plane is $\pi/\sqrt{12}$, so the smallest possible square container has an area of $\frac{\sqrt{12}}{\pi}a$.
-%\end{proof}
 
 \chapter{Conclusion}\label{ch:conclusions}
 
