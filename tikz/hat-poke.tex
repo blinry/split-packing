@@ -17,14 +17,14 @@
         \pgfmathsetmacro{\origa}{\a}
         \hatshape[draw=none,filled2]{\hata}{\hatb}{90}{\b}
         \draw[dashed] (midcenter) circle(\r) node {$a_i$};
-        \draw[dashed] (topcenter) circle(\s) node {$y$};
+        \draw[dashed] (topcenter) circle(\s) node {$b_i$};
         \draw[bracket] ([shift={(19pt,19pt)}]top) -- node[sloped,above] {$d\sqrt{a_i}$} ([shift={(19pt,19pt)}]right);
 
         \begin{scope}[shift={(topcenter)}]
             \hatshape{\hatb}{0}{\origa}{\b}
-            \draw[bracket] ([shift={(1pt,1pt)}]top) -- node[sloped,above] {$e\sqrt{y}$} ([shift={(1pt,1pt)}]right);
+            \draw[bracket] ([shift={(1pt,1pt)}]top) -- node[sloped,above] {$e\sqrt{b_i}$} ([shift={(1pt,1pt)}]right);
             \hatshape{\hatb}{0}{90}{\b}
-            \draw[bracket] ([shift={(7pt,7pt)}]top) -- node[sloped,above] {$d\sqrt{y}$} ([shift={(7pt,7pt)}]right);
+            \draw[bracket] ([shift={(7pt,7pt)}]top) -- node[sloped,above] {$d\sqrt{b_i}$} ([shift={(7pt,7pt)}]right);
         \end{scope}
 
         \hatshape{\hata}{0}{90}{\b}
