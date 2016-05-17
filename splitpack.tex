@@ -1399,6 +1399,8 @@ An $a$-ruby contains the following shapes, see \Cref{fig:gem}:
     \item a regular octagon of area $\frac{8\s-8}{\pi}a \approx 1.0548a$.
 \end{itemize}
 
+This is because if the circle's radius is $r = \sqrt{a/pi}$, then the square has an edge length of $((1+1/\s)r$, so its area is $(1+\s+1/2)r^2$. Regular $n$-gons with apothem\footnote{The apothem is the distance of the polygon's center to its sides.} $r$ have an area of $nr^2\tan(\pi/n)$, which, for $n=8$, amounts to $8r^2(\s-1)$.
+
 \fig{ruby}{An $a$-ruby and its contained circle, square and hexagon.}
 
 From this point forward, we will no longer pack circles, but rubies. To simplify talking about these instances, we make the following definition:
