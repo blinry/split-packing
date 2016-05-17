@@ -1701,7 +1701,7 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
 %\end{figure}
 
 \begin{theorem}\label{th:square}
-    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight. Expressed algebraically, the density bound is
+    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight. Expressed algebraically, the density bound for the rubies' incircles is
 
     $$\frac{\pi}{3+2\s}.$$
 \end{theorem}
@@ -1714,7 +1714,25 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
     The density bound was proven in \Cref{th:square-twincircle-area}.
 \end{proof}
 
--> octagons, squares
+\begin{theorem}
+    Given a square with a twincircle area of $a$, the following object instances can be packed into the square.
+
+    \begin{itemize}
+        \item All circle instances with a combined area of up to $a$,
+        \item all octagon instances with a combined area of up to $\frac{8\s-8}{\pi}a \approx 1.0548a$, and
+        \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the square's area.
+    \end{itemize}
+
+    All of these area bounds are tight.
+\end{theorem}
+
+\begin{proof}
+    As demonstrated above, the three shapes are subsets of rubies in these specific area ratios. To pack them, enclose all of them in the smallest possible ruby. The combined incircle area of these rubies will now be at most $a$. We then know from \Cref{th:square} that we can always pack these rubies.
+
+    The tightness of these bounds for circles was shown in \Cref{th:square-twincircle-area}. For the same reason, two octagons with larger incircles can not be packed: Their incircles would overlap, which means that the octagons themselves would overlap. For squares, 
+\end{proof}
+
+Note that the result that you can pack all sets of squares with a density of up to 1 is already known, even without rotations, as it can be done with Moon and Moser's Shelf Packing \cite{MM1967some}. For circles and octagons, this is a new result, as far as we know.
 
 %\begin{theorem}
 %    The Splitpack algorithm, when used to pack circles into squares, is a $\frac{3+2\s}{\pi} \approx 1.8552$-approximation algorithm, and this factor is tight.
