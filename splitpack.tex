@@ -796,6 +796,8 @@ $$APX/OPT \le = 1/d$$
 
 \subsubsection{Runtime}
 
+Before \textsc{Splitpack} is first invoked, the circle instance has to be sorted descendingly by size, this can be done in $O(n log n)$ time. Each run of the \textsc{Split} subroutine takes linear time in the size of its input. In the worst case, each run splits off only one element, so that ...
+
 $O(n log n)$ for sorting, after that $O(n^2)$, I think
 
 table of factors
