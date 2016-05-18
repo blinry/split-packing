@@ -1,0 +1,12 @@
+\gemshape{1}{0}
+
+\pgfmathsetmacro{\rr}{1.207106781*\r}
+\pgfmathsetmacro{\bla}{1.207106781*\r-\r}
+
+\begin{scope}[shift={(0,\bla)}]
+    \draw[filled] (0:\rr)
+               -- (90:\rr)
+               -- (180:\rr)
+               -- (270:\rr)
+               -- cycle;
+\end{scope}

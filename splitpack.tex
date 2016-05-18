@@ -188,38 +188,59 @@ We will also generalize this packing approach to certain classes of triangles an
 
 \section{Results}
 
-In \Cref{tab:results}, we summarize our results. Shown are the shape classes, a graphical depiction of the area that can always be packed, and a formula for the packing density of this worst case.
-
-\newcommand{\entry}[6]{
-\begin{tikzpicture}[scale=#1,baseline={([yshift={-\ht\strutbox}]current bounding box.north)}]\input{tikz/#2.tex}\end{tikzpicture}
-& \textbf{#3} \vfill\vspace{10pt}
-\textit{Condition:} #4 \vfill\vspace{5pt}
-\textit{Packable area:} #5 \vfill\vspace{5pt}
-\textit{Density:} #6\\}
+In \Cref{tab:results} and \Cref{tab:results2}, we summarize our results. Each entry shows a combination of container shape and object shape which can be packed worst-case optimally. Additionally, eachh entry includes a graphical depiction of the instance which limits the maximally packable area, and a formula for the packing density of this worst case.
 
 \begin{table}
-    \setlength\extrarowheight{1pt}
-    \caption{Overview of results.}\label{tab:results}
+    \caption{Overview of results for packing circles.}\label{tab:results}
     \begin{longtable}{cp{10cm}}
-        \entry{1.9}{tri-table}{Right or obtuse triangle}
-        {$a^2+b^2 \le c^2$}
-        {incircle area}
+        \entry{1.9}{tri-table}{Circles in a right/obtuse triangle}
+        {$a^2+b^2 \le c^2$}%
+        %{incircle area}
         {$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%$}
 
-        \entry{2.4}{iso-table}{Thick isosceles triangle}
-        {$a/\s \le b \le a$}
-        {“twincircle” area}
+        \entry{2.4}{iso-table}{Circles in a thick isosceles triangle}
+        {$a/\s \le b \le a$}%
+        %{“twincircle” area}
         {$48.60\% < \dfrac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}} < 53.91\%$}
 
-        \entry{2.8}{square-table}{Square}
-        {none}
-        {“twincircle” area}
+        \entry{2.8}{square-table}{Circles in a square}
+        {--}%
+        %{“twincircle” area}
         {$\dfrac{\pi}{3+2\s} \approx 53.90\%$}
 
-        \entry{3}{rect-table}{Long rectangle}
-        {$w = \frac{2+3\s}{4}h \approx 1.5607h$}
-        {circle with diameter $h$}
+        \entry{3}{rect-table}{Circles in a long rectangle}
+        {$w = \frac{2+3\s}{4}h \approx 1.5607h$}%
+        %{circle with diameter $h$}
         {$\dfrac{\pi h}{4w} < 50.33\%$}
+    \end{longtable}
+\end{table}
+
+\begin{table}
+    \caption{Overview of results for packing other objects.}\label{tab:results2}
+    \begin{longtable}{cp{10cm}}
+        \entry{2.5}{squares-in-square-table}{Squares in a square}
+        {}
+        {$50\%$}
+
+        \entry{2.5}{octagons-in-square-table}{Octagons in a square}
+        {}
+        {$8(5\s-7) \approx 56.85\%$}
+
+        \entry{2.5}{rubies-in-square-table}{“Rubies” in a square}
+        {}
+        {$8\sqrt{2(\s-1)}+6\s-15 \approx 76.67\%$}
+
+        \entry{1.8}{squares-in-tri-table}{Squares in an isosceles right triangle}
+        {}
+        {$50\%$}
+
+        \entry{1.8}{octagons-in-tri-table}{Octagons in an isosceles right triangle}
+        {}
+        {$8(5\s-7) \approx 56.85\%$}
+
+        \entry{1.8}{rubies-in-tri-table}{“Sharp rubies” in an isosceles right triangle}
+        {}
+        {$4\sqrt{2(\s-1)} + 3\s -7 \approx 88.34\%$}
     \end{longtable}
 \end{table}
 
@@ -1381,9 +1402,11 @@ An $a$-ruby contains the following shapes, see \Cref{fig:gem}:
     \item a regular octagon of area $\frac{8\s-8}{\pi}a \approx 1.0548a$.
 \end{itemize}
 
-This is because if the circle's radius is $r = \sqrt{a/pi}$, then the square has an edge length of $((1+1/\s)r$, so its area is $(1+\s+1/2)r^2$. Regular $n$-gons with apothem\footnote{The apothem is the distance of the polygon's center to its sides.} $r$ have an area of $nr^2\tan(\pi/n)$, which, for $n=8$, amounts to $8r^2(\s-1)$.
+This is because if the circle's radius is $r = \sqrt{a/\pi}$, then the square has an edge length of $((1+1/\s)r$, so its area is $(1+\s+1/2)r^2$. Regular $n$-gons with an apothem\footnote{The apothem is the distance of the polygon's center to its sides.} of $r$ have an area of $nr^2\tan(\pi/n)$, which, for $n=8$, amounts to $8r^2(\s-1)$.
 
 \fig{ruby}{An $a$-ruby and its contained circle, square and hexagon.}
+
+A ruby itself has an area of $\frac{8\sqrt{2(7+5\s)}-3(7+4\s)}{\pi}a \approx 1.4225a$. TODO derive
 
 We will also use gems and rubies where only one corner is cut off, we will call them \emph{sharp}:
 
@@ -1392,6 +1415,8 @@ We will also use gems and rubies where only one corner is cut off, we will call 
 \end{definition}
 
 \fig{sharp-ruby}{A \emph{sharp} ruby.}
+
+A sharp ruby is a superset of a regular ruby with the same parameters and has an area of $\frac{4\sqrt{2(7+5\s)}-5\s-9}{\pi}a \approx 1.6388a$. TODO derive
 
 From this point forward, we will no longer pack circles, but (regular and sharp) rubies. To simplify talking about these instances, we make the following definition:
 

@@ -1,0 +1,25 @@
+\draw (0,0) rectangle (\B,\B);
+\newcommand\circrad{0.398942}
+\newcommand\apothem{0.431812}
+
+\draw[filled] ++(\circrad, \circrad)
+              +(22.5: \apothem)
+           -- +(67.5: \apothem)
+           -- +(112.5:\apothem)
+           -- +(157.5:\apothem)
+           -- +(202.5:\apothem)
+           -- +(247.5:\apothem)
+           -- +(292.5:\apothem)
+           -- +(337.5:\apothem)
+           -- cycle;
+
+\draw[filled] ++(\B-\circrad, \B-\circrad)
+              +(22.5: \apothem)
+           -- +(67.5: \apothem)
+           -- +(112.5:\apothem)
+           -- +(157.5:\apothem)
+           -- +(202.5:\apothem)
+           -- +(247.5:\apothem)
+           -- +(292.5:\apothem)
+           -- +(337.5:\apothem)
+           -- cycle;
