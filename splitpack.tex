@@ -358,9 +358,9 @@ The decision problem whether it is possible to pack a given set of unequal circl
 
 The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\pi/\sqrt{12} \approx 0.9069$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see the paper of \textcite{CW2010simple}.
 
-For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket, or in another asymptotically space filling manner, like in the construction of \textcite{bourke2011random}.
+For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket (see \Cref{fig:apollonian}), or in another asymptotically space filling manner, like in the construction of \textcite{bourke2011random}.
 
-(TODO: figures of both)
+\fig{apollonian}{Circle instances which force a packing in the style of an Apollonian gasket approach a packing density of 1.}
 
 \subsection{Optimal packings}
 
@@ -445,7 +445,7 @@ Another much-explored idea is to model the packing problem as a set of (mostly n
 
 \chapter{Split Packing}\label{ch:split-packing}
 
-While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:worst-cases} on \cpageref{fig:worst-case}.%proposed by \textcite{DFL2010circle}.
+While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:worst-cases} on \cpageref{fig:worst-cases}.%proposed by \textcite{DFL2010circle}.
 When we attempted to find a strategy which could pack this area, many strategies did not work. For example, a shelf-packing based approach inspired by Moon \& Moser's algorithm for packing squares does not work for five equal circles, see \Cref{fig:shelf-fail}.
 
 \fig[6]{shelf-fail}{Shelf-packing does not work for five equal circles. The upper right circle slightly overlaps the middle one.}
@@ -539,18 +539,17 @@ For asymmetric containers, we might want to target a different ratio. For exampl
     A \emph{split key} is a tuple of two positive real numbers.
 \end{definition}
 
-\textsc{Split} (\Cref{alg:split}) works like this: It starts with two empty “buckets”, and then in each step adds the largest remaining circle of the input instance to the “more empty” bucket---the bucket where the ratio between the sum of its current content and the associated factor of the split key is smaller.
+\textsc{Split} (\Cref{alg:split}) takes two parameters: The first one is a circle instance, whose circles are assumed to be sorted descendingly by size. The second parameter is the split key. The algorithm then creates two empty “buckets”, and in each step adds the largest remaining circle of the input instance to the “more empty” bucket. We say that a bucket is relatively more empty if the ratio between the sum of its current content and the associated factor of the split key is smaller than the ratio in the other one.
 In the simplest case, the split key will actually describe the desired combined area of the two groups, and \textsc{Split} puts the next circle into the group which has the smaller “relative filling level”.
 
 \begin{algorithm}
     \caption{\textsc{Split}$(C,F)$}
     \label{alg:split}
     \begin{algorithmic}
-        \Require A circle instance $C$ and a split key $F = (f_1, f_2)$
+        \Require A circle instance $C$, sorted decendingly by size, and a split key $F = (f_1, f_2)$
         \Ensure Circle instances $C_1, C_2$
         \State $C_1 \gets \emptyset$
         \State $C_2 \gets \emptyset$
-        \State Sort $C$ descending by size.
         \ForAll{$c \in C$}
             \State $j = \argmin_{i} \frac{\mysum(C_i)}{f_i}$\Comment{Find the index of the more empty bucket.}
             \State $C_j \gets C_j \cup \{c\}$
@@ -743,7 +742,7 @@ Written as an algorithm, Split Packing looks like this:
 \begin{algorithm}
     \caption{\textsc{Splitpack}$(s,C)$}
     \begin{algorithmic}
-        \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$
+        \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$, sorted decendingly by size
         \Ensure A packing of $C$ into $s$
         \State Determine split key $F$ for shape $s$
         \State $(C_1, C_2) \gets \textsc{Split}(C,F)$ \Comment{See \Cref{alg:split}.}
