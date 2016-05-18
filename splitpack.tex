@@ -291,7 +291,7 @@ Some authors strive to obtain the \textbf{optimal solutions} to packing problems
 So, another approach is to design \textbf{heuristics} in order to obtain “good” solutions. These solutions are often close-to-optimal, but might degenerate for certain instances and thus make no guarantees about the actual quality of the produced packings.
 Finally, some authors develop \textbf{approximation algorithms}, which do make performance guarantees about the obtained solutions. In the best case, these algorithms produce solutions which are only a constant factor away from the optimal ones.
 
-A packing problem usually consists of three components: The first component is the type of objects that are to be packed. For example, these can be square or circular objects, and they can be allowed to have different sizes or be restricted to be of equal size. The second component is the type of the container, for example, a square, a triangle, a general polygon. Thirdly, one can define restrictions on the movement of the objects: The objects could be allowed to rotate, or be restricted to translations only. For the purpose of this literature review, we always restrict the movement of the objects to translations only. There are also online variants of packing problems, where the object instance is not known beforehand, but in this, we restrict ourselves to offline approaches.
+A packing problem usually consists of three components: The first component is the type of objects that are to be packed. For example, these can be square or circular objects, and they can be allowed to have different sizes or be restricted to be of equal size. The second component is the type of the container, for example, a square, a triangle, a general polygon. Thirdly, one can define restrictions on the movement of the objects: The objects could be allowed to rotate, or be restricted to translations only. Throughout this thesis, we allow the objects to be translated, rotated and reflected unless mentioned otherwise. There are also online variants of packing problems, where the object instance is not known beforehand, but in this, we restrict ourselves to offline approaches.
 
 In general, packing arbitraryly-shaped objects into arbitrary containers can immediately shown to be NP-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $n$. The decision problem whether it is possible to pack these objects into the container without rotation is a reduction from \textsc{Partition}.
 
@@ -853,63 +853,45 @@ To prepare for the next proof, we establish the following lemma:
         \label{tab:hats-in-hat}
 
         \begin{tabular}{cp{7cm}}
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{1}{0}
             \end{tikzpicture}
             & When $a_2 = a$, the second hat is simply rounded to a circle of area $a$. By definition, this is the incircle of the container, so it can be packed.\\
-
-            \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.9}{0}
             \end{tikzpicture}
             & As $a_2$ gets smaller, the second hat gets less rounded, but still enough so that it can be packed. The other hat is a non-rounded triangle, which fits beside the second one.\\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.7}{0}
             \end{tikzpicture}
             & \\
-
-            \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.6}{0}
             \end{tikzpicture}
             & \\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.43}{0}
             \end{tikzpicture}
             & When $a_1$ and $a_2$ have a ratio as specified by the container's associated split key, the two hats are both not rounded, but they can still be packed.\\
-
-            \vspace{10pt}
 
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.3}{0}
             \end{tikzpicture}
             & When $a_2$ gets smaller than specified by the split key, it is now the first container which is getting more rounded.\\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0.1}{0}
             \end{tikzpicture}
             & As $a_1$ approaches $a$, it is now the first hat whose shape gets closer to a perfect $a$-circle.\\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \hatsinhat{\defaulta}{\defaultb}{0}{0}
             \end{tikzpicture}
             & By the same argument as before, this circle can be packed.\\
-
-            \vspace{10pt}
         \end{tabular}
     \end{table}
 
@@ -1403,20 +1385,29 @@ This is because if the circle's radius is $r = \sqrt{a/pi}$, then the square has
 
 \fig{ruby}{An $a$-ruby and its contained circle, square and hexagon.}
 
-From this point forward, we will no longer pack circles, but rubies. To simplify talking about these instances, we make the following definition:
+We will also use gems and rubies where only one corner is cut off, we will call them \emph{sharp}:
 
 \begin{definition}
-    A \emph{ruby instance} is defined excactly like a circle instance (see \Cref{def:circle-instance}), except that the real numbers now define the areas of the rubies' incircles.
+    A \emph{sharp $(a,b)$-gem} is a isosceles triangle where only one corner is cut off like in the definition of a gem, see \Cref{fig:sharp-ruby}. A \emph{sharp ruby} is a sharp $(a,a)$-gem. A \emph{sharp ruby instance} is a circle instance where the real numbers define the areas of the sharp rubies' incircles.
+\end{definition}
+
+\fig{sharp-ruby}{A \emph{sharp} ruby.}
+
+From this point forward, we will no longer pack circles, but (regular and sharp) rubies. To simplify talking about these instances, we make the following definition:
+
+\begin{definition}
+    A \emph{ruby instance} is defined excactly like a circle instance (see \Cref{def:circle-instance}), except that the real numbers now define the areas of the rubies' incircles. $\R$ is the set of all ruby instances, $\R(a,b)$ is defined analogously.
+    Similarly, we call the set of all \emph{sharp ruby instances} $\myS$.
 \end{definition}
 
 One way to think about ruby instances is that they consist of the rubies “built around” the circles of a circle instance.
 
 \begin{lemma}\label{th:gems-in-gem}
-    Any two $(a, 0, (1,1))$-conjugated gems can be packed into an $(a,0)$-gem.
+    Any two $(a, 0, (1,1))$-conjugated sharp gems can be packed into a $(a,0)$-gem.
 \end{lemma}
 
 \begin{proof}
-    Assume \wlofg\ that the two gems are an $(a_1, b_1)$-gem and an $(a_2, b_2)$-gem with $a_1 \ge a_2$, meaning that we always swap the larger gem to the left. Also, let us normalize $a$ to 1 to make calculations easier. The proofs hold for all $a$, one just needs to multiply all areas with $a$ and all lengths with $\sqrt{a}$.
+    Assume \wlofg\ that the two gems are a sharp $(a_1, b_1)$-gem and a sharp $(a_2, b_2)$-gem with $a_1 \ge a_2$, meaning that we always swap the larger gem to the left. Also, let us normalize $a$ to 1 to make calculations easier. The proofs hold for all $a$, one just needs to multiply all areas with $a$ and all lengths with $\sqrt{a}$.
 
     Again, we will show that we can always place the gems so that (1) they do not overlap each other and (2) they do not overlap the container. See \Cref{tab:gems-in-gem} for an overview of the different cases, along with some more informal reasoning.
 
@@ -1425,49 +1416,35 @@ One way to think about ruby instances is that they consist of the rubies “buil
         \label{tab:gems-in-gem}
 
         \begin{tabular}{cp{8cm}}
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0.5}{0}
             \end{tikzpicture}
             & The two gems are placed so that their tips touch the container's base and point towards each other. We assume $a_1 \ge \frac 1 2$ and normalize $a_1 + a_2$ to 1.\\
-
-            \vspace{10pt}
 
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0.334}{0}
             \end{tikzpicture}
             & They are then pushed as far to the left/right as possible. As $a_1$ grows, the gem becomes “rounded” enough so that it does not overlap the container.\\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0.333}{0}
             \end{tikzpicture}
             & As soon as $a_1 > \frac 2 3$, we know from \Cref{th:split-properties} that $b_1 = a_1$, so the gem takes the form of a ruby from this point forward. We display it in a darker shade here.\\
-
-            \vspace{10pt}
 
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0.172}{0}
             \end{tikzpicture}
             & When $a_1 = 2\s-2$, the ruby touches the container's right leg.\\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0.171}{0}
             \end{tikzpicture}
             & So when the ruby gets larger than that, it has to be rotated so that its tip points up. That these two positions exactly fit is the defining property of the ruby shape.\\
 
-            \vspace{10pt}
-
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0.1}{0}
             \end{tikzpicture}
             & In this orientation, it can then grow without overlapping the container and the smaller gem.\\
-
-            \vspace{10pt}
 
             \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
                 \gemsingem{0}{0}
@@ -1523,38 +1500,73 @@ One way to think about ruby instances is that they consist of the rubies “buil
     Expressions of the form $f\sqrt{x} + g\sqrt{1-x}$ have their only extremum at $x = \frac{f^2}{f^2+g^2}$. This point turns out to be a global maximum for $f,g > 0$. In our case, the maximum is at $\frac{1+2\s}{7} \approx 0.5469$, and we have equality for $a_1 = 2\s-2 \approx 0.8284$. If $a_1$ gets larger than that, the left hand side of the equation will only get smaller, so that the inequality holds. This concludes the proof of \Cref{th:gems-in-gem}.
 \end{proof}
 
-Like with hats, “rounding” the container gem does not affect the packing properties:
+Like with hats, “rounding” the container gem to a sharp gem with larger cut-off does not affect the packing properties:
 
 \begin{lemma}\label{th:rounded-gems-in-gem}
-    Any two $(a, b, (1,1))$-conjugated gems can be packed into an $(a,b)$-gem.
+    Any two $(a, b, (1,1))$-conjugated sharp gems can be packed into a sharp $(a,b)$-gem.
 \end{lemma}
 
 \begin{proof}
-    \Cref{th:gems-in-gem} tells us that this theorem is true for $b = 0$. But when cutting all gems' corners by the same value, the inner gems will not overlap the container.
+    \Cref{th:gems-in-gem} tells us that this theorem is true for $b = 0$. 
+    For $b > 0$, we flip the containers cut-off corner to the right, and also flip the smaller gem's cut-off corner so that it points to the right. Because the cut-off has the same shape, the inner gems will not overlap the container.
 \end{proof}
 
-\fig{gems-rounding}{Cutting all gems' corners by the same value does not affect the packing.}
+\fig{gems-rounding}{Cutting one corner of each gem by the same value does not affect the packing.}
 
-\begin{theorem}\label{th:gem}
-    Any ruby instance $R \in \C(a,b)$ can be packed into an $(a,b)$-gem.
+\begin{theorem}\label{th:sharp-gem}
+    Any sharp ruby instance $R \in \C(a,b)$ can be packed into a sharp $(a,b)$-gem.
 \end{theorem}
 
 \begin{proof}
     By \Cref{th:hats-in-iso} and the Split Packing Theorem.
 \end{proof}
 
-\section{Isosceles right triangles}
-
-As isosceles right triangles are simply non-rounded gems, this is again going to be a short section.
-
-\begin{theorem}
-    Given an isosceles right triangle with an incircle of area $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the triangle, and this area bound is tight.
+\begin{theorem}\label{th:gem}
+    Any ruby instance $R \in \C(a,b)$ can be packed into an $(a,b)$-gem.
 \end{theorem}
 
 \begin{proof}
-    The triangle is an $(a,0)$-gem, and by \Cref{th:gem} we can pack any $R \in \R(a)$ into such a gem.
+    This follows analogously to the reasoning with sharp gems. In this case, when cutting off the corners of the container gem, all corners of the contained gems are cut off by the same value, so they still fit inside.
+\end{proof}
+
+\section{Isosceles right triangles}
+
+As isosceles right triangles are simply non-rounded sharp gems, this is again going to be a short section.
+
+\begin{theorem}\label{th:iso}
+    Given an isosceles right triangle with an incircle of area $a$, all sharp ruby instances with a combined incircle area of up to $a$ can be packed into the triangle, and this area bound is tight.
+\end{theorem}
+
+\begin{proof}
+    The triangle is a sharp $(a,0)$-gem, and by \Cref{th:gem} we can pack any sharp ruby instance $S \in \myS(a)$ into such a gem.
 
     A ruby with an incircle area of more than $a$ can not be packed, as its incircle would be larger than the triangle's incircle.
+\end{proof}
+
+As a minor corollary, as rubies are subsets of sharp rubies of the same incircle, we can state the same property for regular rubies.
+
+\begin{corollary}
+    Given an isosceles right triangle with an incircle of area $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the triangle, and this area bound is tight.
+\end{corollary}
+
+We can make an observation here: Given an isosceles right triangle with a incircle area of $a$, and some arbitrary objects, if one can enclose each object in a sharp ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the triangle. This is a very general result which can be used to make statements about some interesting classes of shapes:
+
+\begin{corollary}
+    Given a right isosceles triangle with an incircle area of $a$, the following object instances can be packed into the square.
+
+    \begin{itemize}
+        \item All circle instances with a combined area of up to $a$,
+        \item all octagon instances with a combined area of up to $\frac{8\s-8}{\pi}a \approx 1.0548a$, and
+        \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the square's area.
+    \end{itemize}
+
+    All of these area bounds are tight.
+\end{corollary}
+
+\begin{proof}
+    As demonstrated above, the three shapes are subsets of rubies in these specific area ratios. To pack them, enclose all of them in the smallest possible sharp ruby. The combined incircle area of these rubies will now be at most $a$. We then know from \Cref{th:iso} that we can always pack these rubies.
+
+    The tightness of these bounds is obvious for circles and hexagons. For squares, the tightness follows from the result by \textcite{gobel1979geometrical} that the largest two squares that can be packed into a square are quarter-squares. This implies that, when cutting the square along its diagonal, there is no larger square that can be packed into an isosceles right triangle than one with half the triangle's area.
 \end{proof}
 
 \section{Squares}
@@ -1562,7 +1574,7 @@ As isosceles right triangles are simply non-rounded gems, this is again going to
 Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,b)$-shapes, to argue about the packing properties of squares is going to be relatively straightforward.
 
 \begin{lemma}\label{th:square-worst}
-    Two touching equal circles, packed into opposing corners of a squar, are the squares \emph{twincircles}, meaning that there are no two larger equal circles which can be packed.
+    Two touching equal circles, packed into opposing corners of a square, are the squares \emph{twincircles}, meaning that there are no two larger equal circles which can be packed.
 \end{lemma}
 
 \begin{proof}
@@ -1589,6 +1601,8 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
 \end{proof}
 
 \fig{square-worst-construction}{Constructing the twincircles' radius $r$.}
+
+Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular gems, whose two corners are cut off. The reason it will become clear in \Cref{fig:gems-in-square}: A large sharp $(a,0)$-ruby cannot be packed into the square.
 
 \begin{lemma}\label{th:gems-in-square}
     Consider a square with twincircle area $a$.
@@ -1709,14 +1723,16 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
 \end{theorem}
 
 \begin{proof}
-    By \Cref{th:gems-in-square} and the Split Packing Theorem, the square is a $\R(a)$-shape. TODO naja
+    By \Cref{th:gems-in-square} and the Split Packing Theorem, the square is a $\R(a)$-shape.
 
     Two rubies with a combined incircle area of more than $a$ will have incircles which are larger than the square's twincircles. As shown in \Cref{th:square-worst}, those can not be packed, which means that the rubies can not be packed, as well.
 
     The density bound was proven in \Cref{th:square-twincircle-area}.
 \end{proof}
 
-\begin{theorem}
+We can make an observation here: Given a square with a twincircle area of $a$, and some arbitrary objects, if one can enclose each object in a ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the square. This is a very general result which can be used to make statements about some interesting classes of shapes:
+
+\begin{corollary}
     Given a square with a twincircle area of $a$, the following object instances can be packed into the square.
 
     \begin{itemize}
@@ -1726,12 +1742,12 @@ Finally, we turn to square containers. Having established $(a,b)$-gems as $\R(a,
     \end{itemize}
 
     All of these area bounds are tight.
-\end{theorem}
+\end{corollary}
 
 \begin{proof}
     As demonstrated above, the three shapes are subsets of rubies in these specific area ratios. To pack them, enclose all of them in the smallest possible ruby. The combined incircle area of these rubies will now be at most $a$. We then know from \Cref{th:square} that we can always pack these rubies.
 
-    The tightness of these bounds for circles was shown in \Cref{th:square-twincircle-area}. For the same reason, two octagons with larger incircles can not be packed: Their incircles would overlap, which means that the octagons themselves would overlap. For squares, 
+    The tightness of these bounds for circles was shown in \Cref{th:square-twincircle-area}. For the same reason, two octagons with larger incircles can not be packed: Their incircles would overlap, which means that the octagons themselves would overlap. For squares, that the largest two squares that can be packed into a square are two quarter-squares was shown by \textcite{gobel1979geometrical}.
 \end{proof}
 
 Note that the result that you can pack all sets of squares with a density of up to 1 is already known, even without rotations, as it can be done with Moon and Moser's Shelf Packing \cite{MM1967some}. For circles and octagons, this is a new result, as far as we know.
