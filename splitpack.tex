@@ -52,20 +52,24 @@ published or written by another person except where due reference is made in the
 \centerline{\bfseries Abstract}
 \vspace*{1em}
 \noindent
-In this thesis, we describe an algorithm for packing circles and other objects into various containers.
 
-Not only do we prove these upper bounds for many container types for the first time, but we do it by giving a constructive algorithm that realizes these packings.
+In the classic \emph{circle packing problem}, one asks whether a given a set of circles can be packed into the unit square. This problem is known to be NP-hard, so it is unlikely that there is a fast algorithm which can always make that decision.
+In this thesis, we present a new sufficient area condition: It is possible to pack any circle instances with a combined area of up to $\approx \! 53.90\%$ of the square's area. This area condition is tight, in the sense that for any larger percentages, there are instances which can not be packed. Similar results have long been known for squares, but to our knowledge, we are the first to answer this question for circular objects.
 
-We show that Split Packing is able to pack circles with worst-case density into the following container shapes:
+%In this thesis, we present a packing algorithm that solves problems like the following: \emph{What is the largest $a$ so that any set of circles with a combined area of up to $a$ can be packed into the unit square?}  Our results give sufficient conditions on the decicion problem of whether a given circle instance can be packed into a given container.
 
-Any right or obtuse triangles,
-equilateral triangles, and isosceles triangles whose longest side is the base,
-squares,
-rectangles with an aspect ratio of more than 1:1.57
+Our proof is constructive: We describe a versatile, divide and conquer-based algorithm for packing circles and other objects into various container shapes with worst-case density. It uses an elegant subdivision scheme which recursively split the circles into groups and packs them into subcontainers, which is why we call the algorithm \emph{Split Packing}.
+Besides realizing packings below the critical density bound as described, there is also a second perspective on the Split Packing algorithm: When looking for the smallest container in which a given set of circles can be packed, the algorithm can be used as a constant-factor approximation algorithm, as it runs in polynomial time.
 
-As another generalization, we show that Split Packing can be used to pack octagons worst-case optimally into squares. If we allow to rotate objects, we can also pack squares worst-case optimally.
+We also demonstrate that the Split Packing approach is generalizable to a large number of different packing problems.
+Besides for square containers, we were able to apply the algorithm to pack circles with worst-case density into
+right or obtuse triangles,
+equilateral triangles,
+isosceles triangles whose longest side is the base,
+and rectangles with an aspect ratio of more than $\approx \! 1.57:1$.
+Additionally, we show that the same algorithm can also be used to pack objects other than circles: It can pack octagons worst-case optimally into squares and isosceles right triangles. If allowed to rotate the objects, it can also pack squares into these containers with worst-case density.
 
-We have only begun to study the properties of Split Packing in this thesis and see many open research questions.
+Aside from the obtained results, we also believe that the ideas behind Split Packing are interesting and elegant on their own. We see many opportunites to apply these techniques in the context of other packing and covering problems.
 
 \cleardoublepage
 
@@ -87,7 +91,7 @@ All participants of the 31th Bellairs Winter Workshop on Computational Geometry.
 
 Heike, for being my best friend, and for softing my life.
 
-Wolfgang, for your love and unconditional support in uncountable ways.
+Wolfgang, for your love and unconditional support in more ways than I can count.
 
 Dominik, for sharing an office and ideas (and for the Mate supply!)
 
@@ -811,7 +815,7 @@ Split Packing has polynomial runtime:
 
 In the last chapter, we described how Split Packing works in general. In this chapter, we turn to specific types of container shapes: Triangles and Rectangles. For each shape, we will demonstrate two properties: First, we will argue about the \emph{worst-case circle instance} in terms of the density of its optimal packing. This instance constitutes an upper bound to the question “How much area can always be packed?”, because we can show that, given more area, we can find instances which \emph{cannot} be packed.
 
-Second, we are going to show how Split Packing can pack all instances of this area into the shape. This is a constructive way to show a lower bound to our problem. Both pieces together give the answer to \Cref{prb:1}: We have found the largest area $a$, so that circles with this combined area can always be packed into the shape, and we have a polyominal-time algorithm that actually realizes the packing.
+Second, we are going to show how Split Packing can pack all instances of this area into the shape. This is a constructive way to show a lower bound to our problem. Both pieces together give the answer to \Cref{prb:1}: We have found the largest area $a$, so that circles with this combined area can always be packed into the shape, and we have a polynominal-time algorithm that actually realizes the packing.
 
 As described in the beginning of the last chapter, Split Packing was originally designed to pack circles, so in this chapter, our objecs will always be circles.
 
