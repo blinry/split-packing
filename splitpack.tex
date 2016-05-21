@@ -777,36 +777,35 @@ Note that the Split Packing algorithm can easily be extended to allow splitting 
 
 \section{Analysis}
 
-There are two perspectives on Split Packing. Say that we have all elements in place so that we know we can use Split Packing to pack each circle instance in $\C(a)$ into a shape of densit
+There are two perspectives on the implications of the Split Packing theorem. Suppose that we have all three elements mentioned above in place so that we can use Split Packing to pack each circle instance in $\C(a)$ into a given shape.
+First, we now have a sufficient condition for the decision problem if a given circle instance can be packed into a given container: If the circles have a combined area of at most $a$, then the instance can be packed.
 
-First, it can give sufficient conditions for the decision problem if a given circle instance can be packed into a given container: If the circles have a combined area of at most $a$, the instance can be packed.
-
-But second, it can also be used as an approximation algorithm. Say you are given a circle instance of total area $a$. The task is to find the smallest container of a certain family (for example, triangular or square) in which the instance can be packed. Again, \textcite{DFL2010circle} proved it to be NP-hard to find the minimum-area container, but we can use the Split Packing algorithm for an approximation: Select a $\C(a)$-shape with a guaranteed packing density of $d$.
+But second, it can also be used as an approximation algorithm. Say you are given a circle instance of total area $a$, but now we want to find the smallest container of a certain family (for example, triangular or square) in which the instance can be packed. We can then use Split Packing as an approximation algorithm: Select a $\C(a)$-shape of the family whose guaranteed packing density $d$ is as high as possible. We can then be sure that this container has at most $1/d$ times the area of the optimal container.
 %where the ratio between $a$ and the shape's area $APX$ (we call the ratio $a/APX$ the \emph{packing density}) is as high as possible.
 
-\paragraph{Approximation factor}
+\begin{theorem}
+    Split Packing, when used to pack circles into a $\C(a,b)$-shape of area $A$, is an approximation algorithm with an approximation factor of $A/a$, compared to the scaling of this shape that minimizes its area.
+\end{theorem}
 
-We can be sure that the area of the optimal container $OPT$ needs to be as least $a$:
+\begin{proof}
+    We can be sure that the area of the optimal container $OPT$ needs to be as least $a$, as we need to be able to fit the circles inside without overlap:
 
-$$OPT \ge a$$
+    $$OPT \ge a$$
 
-At the same time, the area of the approximated container $APX$ is exactly $a/d$:
+    At the same time, the area of the approximated container $APX$ is exactly $A$, which means that
 
-$$APX = a/d$$
+    $$APX/OPT \le = A/a.$$
+\end{proof}
 
-which means that
+Split Packing has polynomial runtime:
 
-$$APX/OPT \le = 1/d$$
+\begin{theorem}
+    Assuming that geometric constructions take constant time, Split Packing has a runtime of $O(n^2)$.
+\end{theorem}
 
-\subsubsection{Runtime}
-
-Before \textsc{Splitpack} is first invoked, the circle instance has to be sorted descendingly by size, this can be done in $O(n log n)$ time. Each run of the \textsc{Split} subroutine takes linear time in the size of its input. In the worst case, each run splits off only one element, so that ...
-
-$O(n log n)$ for sorting, after that $O(n^2)$, I think
-
-table of factors
-
-Diagram for triangles
+\begin{proof}
+    Before \textsc{Splitpack} is first invoked, the circle instance has to be sorted descendingly by size, this can be done in $O(n log n)$ time. Each run of the \textsc{Split} subroutine takes linear time in the size of its input. In the worst case, each run splits off only one element, so that ... TODO
+\end{proof}
 
 \chapter{Packing circles}\label{ch:circles}
 
