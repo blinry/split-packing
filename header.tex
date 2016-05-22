@@ -25,6 +25,7 @@
     \newtheorem{conjecture}{Conjecture}
 \usepackage{amsfonts}
 %\usepackage{todonotes}
+\usepackage{subcaption}
 \usepackage{tikz}
     \usetikzlibrary{calc}
     \usetikzlibrary{arrows}
@@ -40,6 +41,12 @@
             \caption{#3}%
             \label{fig:#2}%
         \end{figure}%
+    }
+    \newcommand\subfig[2][3]{%
+        %\tikzsetnextfilename{#1}%
+        \begin{tikzpicture}[scale=#1]%
+            \input{tikz/#2.tex}%
+        \end{tikzpicture}%
     }
 \usepackage{graphicx}
     \graphicspath{{images/}}

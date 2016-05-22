@@ -226,17 +226,9 @@ In \Cref{tab:results} and \Cref{tab:results2}, we summarize our results. Each en
 \begin{table}
     \caption{Overview of results for packing other objects.}\label{tab:results2}
     \begin{longtable}{cp{10cm}}
-        \entry{2.5}{squares-in-square-table}{Squares in a square (\Cref{th:square2})}
+        \entry{1.8}{rubies-in-tri-table}{“Sharp rubies” in an isosceles right triangle (\Cref{th:iso-right})}
         {}
-        {$50\%$}
-
-        \entry{2.5}{octagons-in-square-table}{Octagons in a square (\Cref{th:square2})}
-        {}
-        {$8(5\s-7) \approx 56.85\%$}
-
-        \entry{2.5}{rubies-in-square-table}{“Rubies” in a square (\Cref{th:square})}
-        {}
-        {$8\sqrt{2(\s-1)}+6\s-15 \approx 76.67\%$}
+        {$4\sqrt{2(\s-1)} + 3\s -7 \approx 88.34\%$}
 
         \entry{1.8}{squares-in-tri-table}{Squares in an isosceles right triangle (\Cref{th:iso-right2})}
         {}
@@ -246,9 +238,17 @@ In \Cref{tab:results} and \Cref{tab:results2}, we summarize our results. Each en
         {}
         {$8(5\s-7) \approx 56.85\%$}
 
-        \entry{1.8}{rubies-in-tri-table}{“Sharp rubies” in an isosceles right triangle (\Cref{th:iso-right})}
+        \entry{2.5}{rubies-in-square-table}{“Rubies” in a square (\Cref{th:square})}
         {}
-        {$4\sqrt{2(\s-1)} + 3\s -7 \approx 88.34\%$}
+        {$8\sqrt{2(\s-1)}+6\s-15 \approx 76.67\%$}
+
+        \entry{2.5}{squares-in-square-table}{Squares in a square (\Cref{th:square2})}
+        {}
+        {$50\%$}
+
+        \entry{2.5}{octagons-in-square-table}{Octagons in a square (\Cref{th:square2})}
+        {}
+        {$8(5\s-7) \approx 56.85\%$}
     \end{longtable}
 \end{table}
 
@@ -1067,7 +1067,9 @@ With these preparations, we can finally apply Split Packing to hats:
 This section is going to be short, as non-acute triangles are only a special case of a hat.
 
 \begin{theorem}\label{th:tri}
-    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this bound is tight. Expressed algebraically, for a triangle with side lengths $a$, $b$, and $c$, the density bound is
+    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this bound is tight.
+    See \Cref{fig:example-circles-in-right} for some example packings.
+    Expressed algebraically, for a triangle with side lengths $a$, $b$, and $c$, the density bound is
 
     $$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%.$$
 \end{theorem}
@@ -1093,6 +1095,19 @@ This section is going to be short, as non-acute triangles are only a special cas
 
     $$\frac{\pi R(a,b,c)^2}{\Delta(a,b,c)} = \sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi.$$
 \end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.013]{example-circles-in-right-1} &
+        \subfig[0.013]{example-circles-in-right-2} \\
+        \subfig[0.013]{example-circles-in-right-3} &
+        \subfig[0.013]{example-circles-in-right-4} \\
+        \subfig[0.013]{example-circles-in-right-5} &
+        \subfig[0.013]{example-circles-in-right-6} \\
+    \end{tabular}
+    \caption{Example packings of various circle instances in a right triangle produced by Split Packing.}
+    \label{fig:example-circles-in-right}
+\end{figure}
 
 %\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
 
@@ -1198,7 +1213,9 @@ In this section, we will argue that we can always pack the twincircle area into 
 \end{table}
 
 \begin{theorem}\label{th:iso}
-    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight. Expressed algebraically, the density bound is
+    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
+    See \Cref{fig:example-circles-in-equilateral} for some example packings.
+    Expressed algebraically, the density bound is
 
     $$\frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
 \end{theorem}
@@ -1212,6 +1229,19 @@ In this section, we will argue that we can always pack the twincircle area into 
 
     $$\frac{2I(a/2, b, h)}{a/2\cdot h} = \frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
 \end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.015]{example-circles-in-equilateral-1} &
+        \subfig[0.015]{example-circles-in-equilateral-2} \\
+        \subfig[0.015]{example-circles-in-equilateral-3} &
+        \subfig[0.015]{example-circles-in-equilateral-4} \\
+        \subfig[0.015]{example-circles-in-equilateral-5} &
+        \subfig[0.015]{example-circles-in-equilateral-6} \\
+    \end{tabular}
+    \caption{Example packings of various circle instances in an equilateral triangle produced by Split Packing.}
+    \label{fig:example-circles-in-equilateral}
+\end{figure}
 
 %\begin{theorem}
 %    Each $A \in \C(a)$ can be packed into an isosceles triangle with a largest angle $\gamma$ between $\frac{\pi}{2}$ and $\frac{\pi}{3}$ and an area of $a\frac{1+\frac{1}{\sin(\gamma)}}{\pi}$.
@@ -1333,11 +1363,25 @@ This means that all rectangles whose side ratio is at least this large can be pa
 
 \begin{theorem}\label{th:rect}
     Given a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$, let $a$ be the area of its incircle.
-    All circle instances with a combined area of up to $a$ can be packed into the rectangle, and this area bound is tight. Expressed algebraically, the density bound is
+    All circle instances with a combined area of up to $a$ can be packed into the rectangle, and this area bound is tight.
+    See \label{fig:example-circles-in-rect} for some example packings.
+    Expressed algebraically, the density bound is
 
     $$\frac{\pi h}{4w}.$$
-
 \end{theorem}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.015]{example-circles-in-rect-1} &
+        \subfig[0.015]{example-circles-in-rect-2} \\
+        \subfig[0.015]{example-circles-in-rect-3} &
+        \subfig[0.015]{example-circles-in-rect-4} \\
+        \subfig[0.015]{example-circles-in-rect-5} &
+        \subfig[0.015]{example-circles-in-rect-6} \\
+    \end{tabular}
+    \caption{Example packings of various circle instances in a rectangle with aspect ratio 1:1.57 produced by Split Packing.}
+    \label{fig:example-circles-in-rect}
+\end{figure}
 
 \begin{proof}
     By \Cref{th:hats-in-rect} and the Split Packing Theorem, the rectangle is a $\C(a)$-shape.
@@ -1568,6 +1612,8 @@ As isosceles right triangles are simply non-rounded sharp gems, this is again go
 
 \begin{theorem}\label{th:iso-right}
     Given an isosceles right triangle with an incircle of area $a$, all sharp ruby instances with a combined incircle area of up to $a$ can be packed into the triangle, and this area bound is tight.
+    See \Cref{fig:example-sharp-rubies-in-iso} for some example packings.
+    Expressed algebraically, the density bound TODO
 \end{theorem}
 
 \begin{proof}
@@ -1575,6 +1621,19 @@ As isosceles right triangles are simply non-rounded sharp gems, this is again go
 
     A ruby with an incircle area of more than $a$ can not be packed, as its incircle would be larger than the triangle's incircle.
 \end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.0085]{example-sharp-rubies-in-iso-1} &
+        \subfig[0.0085]{example-sharp-rubies-in-iso-2} \\
+        \subfig[0.0085]{example-sharp-rubies-in-iso-3} &
+        \subfig[0.0085]{example-sharp-rubies-in-iso-4} \\
+        \subfig[0.0085]{example-sharp-rubies-in-iso-5} &
+        \subfig[0.0085]{example-sharp-rubies-in-iso-6} \\
+    \end{tabular}
+    \caption{Example packings of various sharp ruby instances in an isosceles right triangle produced by Split Packing.}
+    \label{fig:example-sharp-rubies-in-iso}
+\end{figure}
 
 As a minor corollary, as rubies are subsets of sharp rubies of the same incircle, we can state the same property for regular rubies.
 
@@ -1593,7 +1652,7 @@ We can make an observation here: Given an isosceles right triangle with a incirc
         \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the square's area.
     \end{itemize}
 
-    All of these area bounds are tight.
+    All of these area bounds are tight. See \Cref{fig:example-stuff-in-iso} for some example packings.
 \end{corollary}
 
 \begin{proof}
@@ -1601,6 +1660,17 @@ We can make an observation here: Given an isosceles right triangle with a incirc
 
     The tightness of these bounds is obvious for circles and hexagons. For squares, the tightness follows from the result by \textcite{gobel1979geometrical} that the largest two squares that can be packed into a square are quarter-squares. This implies that, when cutting the square along its diagonal, there is no larger square that can be packed into an isosceles right triangle than one with half the triangle's area.
 \end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.0085]{example-stuff-in-iso-1} &
+        \subfig[0.0085]{example-stuff-in-iso-2} \\
+        \subfig[0.0085]{example-stuff-in-iso-3} &
+        \subfig[0.0085]{example-stuff-in-iso-4} \\
+    \end{tabular}
+    \caption{Example packings of ruby-, circle-, octagon-, and square instances in an isosceles right triangle produced by Split Packing.}
+    \label{fig:example-stuff-in-iso}
+\end{figure}
 
 \section{Squares}
 
@@ -1750,7 +1820,9 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
 %\end{figure}
 
 \begin{theorem}\label{th:square}
-    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight. Expressed algebraically, the density bound for the rubies' incircles is
+    Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight.
+    See \Cref{fig:example-rubies-in-square} for some example packings.
+    Expressed algebraically, the density bound for the rubies' incircles is
 
     $$\frac{\pi}{3+2\s}.$$
 \end{theorem}
@@ -1763,6 +1835,19 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
     The density bound was proven in \Cref{th:square-twincircle-area}.
 \end{proof}
 
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.017]{example-rubies-in-square-1} &
+        \subfig[0.017]{example-rubies-in-square-2} \\
+        \subfig[0.017]{example-rubies-in-square-3} &
+        \subfig[0.017]{example-rubies-in-square-4} \\
+        \subfig[0.017]{example-rubies-in-square-5} &
+        \subfig[0.017]{example-rubies-in-square-6} \\
+    \end{tabular}
+    \caption{Example packings of various ruby instances in a square produced by Split Packing.}
+    \label{fig:example-rubies-in-square}
+\end{figure}
+
 We can make an observation here: Given a square with a twincircle area of $a$, and some arbitrary objects, if one can enclose each object in a ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the square. This is a very general result which can be used to make statements about some interesting classes of shapes:
 
 \begin{corollary}\label{th:square2}
@@ -1774,7 +1859,7 @@ We can make an observation here: Given a square with a twincircle area of $a$, a
         \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the square's area.
     \end{itemize}
 
-    All of these area bounds are tight.
+    All of these area bounds are tight. See \Cref{fig:example-stuff-in-square} for some example packings.
 \end{corollary}
 
 \begin{proof}
@@ -1782,6 +1867,17 @@ We can make an observation here: Given a square with a twincircle area of $a$, a
 
     The tightness of these bounds for circles was shown in \Cref{th:square-twincircle-area}. For the same reason, two octagons with larger incircles can not be packed: Their incircles would overlap, which means that the octagons themselves would overlap. For squares, that the largest two squares that can be packed into a square are two quarter-squares was shown by \textcite{gobel1979geometrical}.
 \end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.017]{example-stuff-in-square-1} &
+        \subfig[0.017]{example-stuff-in-square-2} \\
+        \subfig[0.017]{example-stuff-in-square-3} &
+        \subfig[0.017]{example-stuff-in-square-4} \\
+    \end{tabular}
+    \caption{Example packings of ruby-, circle-, octagon-, and square instances in a square produced by Split Packing.}
+    \label{fig:example-stuff-in-square}
+\end{figure}
 
 Note that the result that you can pack all sets of squares with a density of up to 1 is already known, even without rotations, as it can be done with Moon and Moser's Shelf Packing \cite{MM1967some}. For circles and octagons, this is a new result, as far as we know.
 
