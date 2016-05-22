@@ -196,65 +196,76 @@ We will also generalize this packing approach to certain classes of triangles an
 
 \section{Results}
 
-In \Cref{tab:results} and \Cref{tab:results2}, we summarize our results. Each entry shows a combination of container shape and object shape which can be packed worst-case optimally. Additionally, eachh entry includes a graphical depiction of the instance which limits the maximally packable area, and a formula for the packing density of this worst case.
+In \Cref{tab:results,tab:results2} we summarize our results. Each table entry represents a different packing problem, namely a specific combination of an object shape (like circles or squares), and a container shape (like a triangle or a recangle).
+
+For all packing problems listed, we give a constructive proof that all object instances can be packed whose combined area does not exceed the worst-case density instance. Each table entry contains a graphical depiction of this worst-case instance. We also give the algebraic expression for this density.
+When using Split Packing as an approximation algorithm, the approximation factor $\text{ALG}/\text{OPT}$ is equal to the reciprocal of the guaranteed packing density. It is also listed in the table.
+
+Note that we restrict some container types to fulfill certain conditions. For example, our results for packing circles into triangles only hold if the triangle is a right/obtuse triangle.
 
 \begin{table}
     \caption{Overview of results for packing circles.}\label{tab:results}
     \begin{longtable}{cp{10cm}}
-        \entry{1.9}{tri-table}{Circles in a right/obtuse triangle (\Cref{th:tri})}
+        \entry{1.9}{tri-table}{Circles in a right/obtuse triangle}{\Cref{th:tri}}
         {$a^2+b^2 \le c^2$}%
         %{incircle area}
         {$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%$}
+        {Reciprocal of the density, larger than 1.8552}
 
-        \entry{2.4}{iso-table}{Circles in a thick isosceles triangle (\Cref{th:iso})}
+        \entry{2.4}{iso-table}{Circles in a thick isosceles triangle}{\Cref{th:iso}}
         {$a/\s \le b \le a$}%
         %{“twincircle” area}
         {$48.60\% < \dfrac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}} < 53.91\%$}
+        {Reciprocal of the density, between 1.8552 and 2.0576}
 
-        \entry{2.8}{square-table}{Circles in a square (\Cref{th:square2})}
+        \entry{2.8}{square-table}{Circles in a square}{\Cref{th:square2}}
         {--}%
         %{“twincircle” area}
         {$\dfrac{\pi}{3+2\s} \approx 53.90\%$}
+        {$\dfrac{3+2\s}{\pi} \approx 1.8552$}
 
-            \entry{3}{rect-table}{Circles in a long rectangle (\Cref{th:rect})}
+        \entry{3}{rect-table}{Circles in a long rectangle}{\Cref{th:rect}}
         {$w = \frac{2+3\s}{4}h \approx 1.5607h$}%
         %{circle with diameter $h$}
         {$\dfrac{\pi h}{4w} < 50.33\%$}
+        {$\dfrac{4w}{\pi h} > 1.9870$}
     \end{longtable}
 \end{table}
 
 \begin{table}
     \caption{Overview of results for packing other objects.}\label{tab:results2}
     \begin{longtable}{cp{10cm}}
-        \entry{1.8}{rubies-in-tri-table}{“Sharp rubies” in an isosceles right triangle (\Cref{th:iso-right})}
+        \entry{1.8}{rubies-in-tri-table}{“Sharp rubies” in an isosceles right triangle}{\Cref{th:iso-right}}
         {}
         {$4\sqrt{2(\s-1)} + 3\s -7 \approx 88.34\%$}
+        {$\approx 1.1320$}
 
-        \entry{1.8}{squares-in-tri-table}{Squares in an isosceles right triangle (\Cref{th:iso-right2})}
+        \entry{1.8}{squares-in-tri-table}{Squares in an isosceles right triangle}{\Cref{th:iso-right2}}
         {}
         {$50\%$}
+        {$2$}
 
-        \entry{1.8}{octagons-in-tri-table}{Octagons in an isosceles right triangle (\Cref{th:iso-right2})}
+        \entry{1.8}{octagons-in-tri-table}{Octagons in an isosceles right triangle}{\Cref{th:iso-right2}}
         {}
         {$8(5\s-7) \approx 56.85\%$}
+        {$\approx 1.7589$}
 
-        \entry{2.5}{rubies-in-square-table}{“Rubies” in a square (\Cref{th:square})}
+        \entry{2.5}{rubies-in-square-table}{“Rubies” in a square}{\Cref{th:square}}
         {}
         {$8\sqrt{2(\s-1)}+6\s-15 \approx 76.67\%$}
+        {$\approx 1.3043$}
 
-        \entry{2.5}{squares-in-square-table}{Squares in a square (\Cref{th:square2})}
+        \entry{2.5}{squares-in-square-table}{Squares in a square}{\Cref{th:square2}}
         {}
         {$50\%$}
+        {$2$}
 
-        \entry{2.5}{octagons-in-square-table}{Octagons in a square (\Cref{th:square2})}
+        \entry{2.5}{octagons-in-square-table}{Octagons in a square}{\Cref{th:square2}}
         {}
         {$8(5\s-7) \approx 56.85\%$}
+        {$\approx 1.7589$}
     \end{longtable}
 \end{table}
-
-When using Split Packing as an approximation algorithm, the approximation factor $ALG/OPT$ is equal to the reciprocal of the guaranteed packing density.
-
-Significance
 
 %Furthermore, we describe an algorithm which is able to pack circles into non-acute triangles with worst-case density.
 %
