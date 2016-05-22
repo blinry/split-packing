@@ -120,7 +120,7 @@ In fact, we could not only ask for \emph{some} $a$, but for the largest one. Thi
     What is the largest $a$ so that all sets of circles with a combined area of $a$ can be packed into the unit square?
 \end{problem}
 
-Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf-packing} for an example packing. But at the same time, $1/2$ is the \emph{largest upper bound} you could hope for. Consider the square packing in \Cref{fig:worst-cases}, consisting of two equal squares, each of which has one fourth of the container square's area: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
+Already in 1967, \textcite{MM1967some} solved this problem for square objects. They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $\nicefrac{1}{2}$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf-packing} for an example packing. But at the same time, $\nicefrac{1}{2}$ is the \emph{largest upper bound} you could hope for. Consider the square packing in \Cref{fig:worst-cases}, consisting of two equal squares, each of which has one fourth of the container square's area: If you made the squares only slightly larger, they could no longer be packed without overlapping each other.
 
 %Already in 1967, \textcite{MM1967some} gave such a sufficient condition for packing square objects: They proved that it is possible to pack a set of squares into the unit square, if their combined area does not exceed $1/2$. Their method first sorts the squares descending by size and then places them in the container square in a shelf-like manner. See \Cref{fig:shelf} for an example packing. 
 
@@ -202,7 +202,7 @@ Note that we restrict some container types to fulfill certain conditions. For ex
         {Reciprocal of the density, larger than 1.8552}
 
         \entry{2.4}{iso-table}{Circles in a thick isosceles triangle}{\Cref{th:iso}}
-        {$a/\s \le b \le a$}%
+        {$\dfrac{a}{\s} \le b \le a$}%
         %{“twincircle” area}
         {$48.60\% < \dfrac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}} < 53.91\%$}
         {Reciprocal of the density, between 1.8552 and 2.0576}
@@ -214,7 +214,7 @@ Note that we restrict some container types to fulfill certain conditions. For ex
         {$\dfrac{3+2\s}{\pi} \approx 1.8552$}
 
         \entry{3}{rect-table}{Circles in a long rectangle}{\Cref{th:rect}}
-        {$w = \frac{2+3\s}{4}h \approx 1.5607h$}%
+        {$w = \dfrac{2+3\s}{4}h \approx 1.5607h$}%
         %{circle with diameter $h$}
         {$\dfrac{\pi h}{4w} < 50.33\%$}
         {$\dfrac{4w}{\pi h} > 1.9870$}
@@ -335,7 +335,7 @@ Even tough, decision problem whether it is possible to pack a given set of squar
 
 For another variant, we could restrict the square objects to be equally sized, but allow the container to be arbitrary.
 In this case, too, the decision problem remains hard:
-\textcite{FPT1981optimal} showed it to be NP-hard to pack equal squares into arbitrary polygons with holes by a reduction from \textsc{3-SAT}.
+\textcite{FPT1981optimal} showed it to be NP-hard to pack equal squares into arbitrary polygons with holes by a reduction from \textsc{3-Sat}.
 %They construct gadgets for variables and clauses and connect them with wires.
 
 \subsection{Approximation algorithms}
@@ -343,14 +343,14 @@ In this case, too, the decision problem remains hard:
 As mentioned in the introduction of this chapter, we can directly use approximation algorithms for packing squares to obtain approximation algorithms for packing circles.
 If we are given an algorithm which can pack all square instances with a combined area of $a$ into a given shape, we immediately get an algorithm which can pack all circle instances with a combined area of $\frac{\pi}{4}a \approx 0.7854a$ into that shape. 
 
-As already mentioned in the introduction, \textcite{MM1967some} developed a worst-case optimal packing algorithm for squares: The algorithm can pack all square instances with a combined area of $1/2$ into the unit square.
+As already mentioned in the introduction, \textcite{MM1967some} developed a worst-case optimal packing algorithm for squares: The algorithm can pack all square instances with a combined area of $\nicefrac{1}{2}$ into the unit square.
 It works by sorting the squares by their size and placing them into the square in a shelf-like manner, see \Cref{fig:shelf-packing} on \cpageref{fig:shelf-packing}.
-But they also prooved that $1/2$ is the critical density when packing squares into a square: Two squares, each with an area of more than $1/4$ of the container's area, cannot be packed.
-As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a combined area of $\pi/8 \approx 0.3927$ into the unit square.
+But they also prooved that $\nicefrac{1}{2}$ is the critical density when packing squares into a square: Two squares, each with an area of more than $\nicefrac{1}{4}$ of the container's area, cannot be packed.
+As by above remark, this algorithm can be used to pack circles: It can pack all circle instances with a combined area of $\frac{\pi}{8} \approx 0.3927$ into the unit square.
 
-\textcite{KK1975optimal} showed that any square instance with a combined area of~1 can be packed into a rectangle of dimensions $2/\sqrt{3} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is approximately $0.6124$. Applied to circles, this result means that all circle instances with a combined area of~1 can be packed into a rectangle of dimensions $4/\sqrt{3\pi} \times 2\sqrt{2}/\sqrt{\pi} \approx 1.3030 \times 1.5958$, with a packing density of approximately $0.4810$.
+\textcite{KK1975optimal} showed that any square instance with a combined area of~1 can be packed into a rectangle of dimensions $\frac{2}{\sqrt{3}} \times \sqrt{2} \approx 1.1547 \times 1.4142$, and that this is the smallest-area rectangle with that property. The packing density in this case is approximately $0.6124$. Applied to circles, this result means that all circle instances with a combined area of~1 can be packed into a rectangle of dimensions $\frac{4}{\sqrt{3\pi}} \times \frac{2\sqrt{2}}{\sqrt{\pi}} \approx 1.3030 \times 1.5958$, with a packing density of approximately $0.4810$.
 
-\textcite{hougardy2011packing} recently showed that for any set of squares with a combined area of~1, there is some rectangle with an area of less than $1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a combined area of~1, there is some rectangle with an area of less than $28\pi/5 \approx 1.7825$ in which the circles can be packed.
+\textcite{hougardy2011packing} recently showed that for any set of squares with a combined area of~1, there is some rectangle with an area of less than $1.4$ in which the squares can be packed using a computer generated proof. This means that for any set of circles with a combined area of~1, there is some rectangle with an area of less than $\frac{28\pi}{5} \approx 1.7825$ in which the circles can be packed.
 
 \section{Packing circles}
 
@@ -364,7 +364,7 @@ The decision problem whether it is possible to pack a given set of unequal circl
 
 \subsection{Density bounds}
 
-The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\pi/\sqrt{12} \approx 0.9069$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see the paper of \textcite{CW2010simple}.
+The densest packing of equal circles in the plane can be easily guessed: Arrange them on a hexagonal grid, so that each circle touches six others. This arrangement results in a packing density of $\frac{\pi}{\sqrt{12}} \approx 0.9069$. An incomplete proof was given by \textcite{thue1892om}, which was later fixed by \textcite{fejestoth1940uber}. For a simple proof, see the paper of \textcite{CW2010simple}.
 
 For unequal circles, the optimal packing density can get arbitrarily close to 1 if the circle instance is chosen so that it can be packed in the manner of an Apollonian gasket (see \Cref{fig:apollonian}), or in another asymptotically space filling manner, like in the construction of \textcite{bourke2011random}.
 
@@ -373,12 +373,10 @@ For unequal circles, the optimal packing density can get arbitrarily close to 1 
 \subsection{Optimal packings}
 
 A problem which has been considered a lot is the following: What is the smallest square in which $n$ unit circles can be packed?
-Surprisingly, optimal results are only known for $n < 35$.
+Surprisingly, optimal results are only known for~$n < 35$.
 
 The optimal packings of up to nine equal circles in a square were already known in 1965: The cases for $n \le 6$ are trivial,
 \textcite{schaer1965densest} proved the optimal solutions for $n = 7$ and $n = 8$, and \textcite{SM1965geometric} the one for $n = 9$.
-
-(TODO: figure of up to n=9?)
 
 The optimal solution for $n = 10$ was confirmed only in 1990, by \textcite{DPW1990optimal}. In the same paper, they also prove the optimal solutions for 11, 12 and 13 circles.
 See \textcite{WMP1994history} for an overview of the history of optimal solutions for $n \le 13$.
@@ -390,7 +388,7 @@ Finally, \textcite{LR2002packing} proved solutions for up to $n=35$ to be optima
 \subsection{Approximation algorithms}
 
 %The problem of finding the smallest square that suffices for packing any set of circles of combined area 1 was posed by .
-When \textcite{DFL2010circle} posed (TODO plakativer?) (\Cref{prb:1}), they also described a straightforward quadtree-based approximation algorithm which can guarantee a packing density of $\pi/16 \approx 0.1963$ when packing circles into a square.
+When \textcite{DFL2010circle} posed (TODO plakativer?) (\Cref{prb:1}), they also described a straightforward quadtree-based approximation algorithm which can guarantee a packing density of $\frac{\pi}{16} \approx 19.63\%$ when packing circles into a square.
 
 \textcite{MPSSW2014polynomial} devised asymptotic polynomial-time approximation schemes for packing unequal circles into the smallest number of unit bins and for packing circles into a strip of unit width and of minimum height. They first pack “large” circles by solving a semi-algebraic system, then cut the remaining free space into sub-bins, and pack the smaller circles into these bins by starting the same algorithm recursively.
 
@@ -453,7 +451,7 @@ Another much-explored idea is to model the packing problem as a set of (mostly n
 
 \chapter{Split Packing}\label{ch:split-packing}
 
-While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:worst-cases} on \cpageref{fig:worst-cases}.%proposed by \textcite{DFL2010circle}.
+While trying to solve \Cref{prb:1}, we worked on the assumption that it would in fact be possible to pack all circle instances whose area would not exceed that of the two-circle instance shown in \Cref{fig:worst-cases} on \cpageref{fig:worst-cases}.
 When we attempted to find a strategy which could pack this area, many strategies did not work. For example, a shelf-packing based approach inspired by Moon \& Moser's algorithm for packing squares does not work for five equal circles, see \Cref{fig:shelf-fail}.
 
 \fig[6]{shelf-fail}{Shelf-packing does not work for five equal circles. The upper right circle slightly overlaps the middle one.}
@@ -522,7 +520,7 @@ For example, for the circle instance $C = \{1,1,2,3\}$, $\mysum(C) = 7$ and $\mi
     $\C$ is the set of all circle instances. $\C(a)$ consist of exactly those circle instances $C$ with $\mysum(C) \le a$. Finally, $\C(a,b)$ consists of exactly those circle instances $C \in \C(a)$ with $\min(C) \ge b$.
 \end{definition}
 
-Let us give another example for the last definition, as it is crucial for the rest of this thesis: For any circle instance $C$ contained in $\C(1,1/8)$, the combined area of $C$'s circles is at most~1, and at the same time, each of $C$'s circles is at least an eigth-circle.
+Let us give another example for the last definition, as it is crucial for the rest of this thesis: For any circle instance $C$ contained in $\C(1,\frac{1}{8})$, the combined area of $C$'s circles is at most~1, and at the same time, each of $C$'s circles is at least an eigth-circle.
 
 Finally, we introduce two definitions which come in handy when discussing worst-case instances:
 
@@ -592,7 +590,7 @@ On the other hand, if the resulting groups' area ratio does deviate from the spl
 
     Now assume for contradicion $C_i$ contained an element smaller than $\mysum(C_i) - f_i r$. As the elements were inserted by descending size, all elements which were put into $C_i$ after that element would have to be at least as small. So the last element put into $C_i$ (let us call it~$c$) would be smaller than $\mysum(C_i) - f_i r$, as well.
 
-    But this means that $\frac{\mysum(C_i) - c}{f_i} > \frac{\mysum(C_i) - (\mysum(C_i) - f_i r)}{f_i} = r$, meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than~$r$.
+    But this means that $$\frac{\mysum(C_i) - c}{f_i} > \frac{\mysum(C_i) - (\mysum(C_i) - f_i r)}{f_i} = r,$$ meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than~$r$.
     Recall that $r$ is the smallest filling level of any group by the time the algorithm ends, meaning that at the time when $c$ is inserted, $C_i$'s filling level is already larger than the filling level of the other group.
     %the group's filling level would have been at least as small.
     This is a contradiction, as the greedy algorithm would choose to put $c$ not into $C_i$, but into the other group with the smaller filling level in this case.
@@ -784,11 +782,11 @@ Note that the Split Packing algorithm can easily be extended to allow splitting 
 There are two perspectives on the implications of the Split Packing theorem. Suppose that we have all three elements mentioned above in place so that we can use Split Packing to pack each circle instance in $\C(a)$ into a given shape.
 First, we now have a sufficient condition for the decision problem if a given circle instance can be packed into a given container: If the circles have a combined area of at most $a$, then the instance can be packed.
 
-But second, it can also be used as an approximation algorithm. Say you are given a circle instance of total area $a$, but now we want to find the smallest container of a certain family (for example, triangular or square) in which the instance can be packed. We can then use Split Packing as an approximation algorithm: Select a $\C(a)$-shape of the family whose guaranteed packing density $d$ is as high as possible. We can then be sure that this container has at most $1/d$ times the area of the optimal container.
+But second, it can also be used as an approximation algorithm. Say you are given a circle instance of total area $a$, but now we want to find the smallest container of a certain family (for example, triangular or square) in which the instance can be packed. We can then use Split Packing as an approximation algorithm: Select a $\C(a)$-shape of the family whose guaranteed packing density $d$ is as high as possible. We can then be sure that this container has at most $\frac{1}{d}$ times the area of the optimal container.
 %where the ratio between $a$ and the shape's area $APX$ (we call the ratio $a/APX$ the \emph{packing density}) is as high as possible.
 
 \begin{theorem}
-    Split Packing, when used to pack circles into a $\C(a,b)$-shape of area $A$, is an approximation algorithm with an approximation factor of $A/a$, compared to the scaling of this shape that minimizes its area.
+    Split Packing, when used to pack circles into a $\C(a,b)$-shape of area $A$, is an approximation algorithm with an approximation factor of $\frac{A}{a}$, compared to the scaling of this shape that minimizes its area.
 \end{theorem}
 
 \begin{proof}
@@ -798,7 +796,7 @@ But second, it can also be used as an approximation algorithm. Say you are given
 
     At the same time, the area of the approximated container $APX$ is exactly $A$, which means that
 
-    $$APX/OPT \le = A/a.$$
+    $$\frac{\text{APX}}{\text{OPT}} \le \frac{A}{a}.$$
 \end{proof}
 
 Split Packing has polynomial runtime:
@@ -947,7 +945,7 @@ To prepare for the next proof, we establish the following lemma:
     %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hat-poke-f}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
     The second ratio, $e$, is the ratio between the length of the same right leg and the incircle-area of the whole container triangle. Again, if formulated as a quotient between the length of this edge and the square root of the incircle, it is a constant for triangles similar to the given container triangle. Note that, in preparation for a generalization later in this chapter, we denote the triangle's incircle by $o$.
     From \Cref{fig:hat-poke-f} we can also observe that
-    $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{\frac{f_i}{o}}$.
+    $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{f_i/o}$.
 
     \fig{hat-poke-f}{The ratios $d$ and $e$ are constant for all similar triangles.}
 
@@ -1116,7 +1114,7 @@ This section is going to be short, as non-acute triangles are only a special cas
 Split Packing gives worst-case optimal results not only for non-acute triangles, but also for isosceles triangles, as long as its two symmetric sides are not longer than the base. In this sense, it works for all triangles inbetween a right isosceles triangle and an equilateral triangle.
 
 \begin{definition}
-    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base, but whose top angle is at least $\pi/4$. Examples are shown in \Cref{fig:iso-range}.
+    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base, but whose top angle is at least $\frac{\pi}{4}$. Examples are shown in \Cref{fig:iso-range}.
 \end{definition}
 
 \fig[1]{iso-range}{Range of considered isosceles triangles.}
@@ -1153,7 +1151,7 @@ In this section, we will argue that we can always pack the twincircle area into 
 \end{lemma}
 
 \begin{proof}
-    Firstly, we show that the hats do not intersect each other: In any isosceles triangle, the projection factors for both sides are equal. So in \Cref{fig:iso-width}, we construct the width of the triangle's base to be $2\sqrt{a/2}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
+    Firstly, we show that the hats do not intersect each other: In any isosceles triangle, the projection factors for both sides are equal. So in \Cref{fig:iso-width}, we construct the width of the triangle's base to be $2\sqrt{\frac{a}{2}}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
 
     \fig{iso-width}{The width of an isosceles triangle is $\sqrt{2ap_1^2}$.}
 
@@ -1227,7 +1225,7 @@ In this section, we will argue that we can always pack the twincircle area into 
 
     We use Heron's formula again to calculate a density bound of
 
-    $$\frac{2I(a/2, b, h)}{a/2\cdot h} = \frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
+    $$\frac{2I(\frac{a}{2}, b, h)}{\frac{a}{2}h} = \frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
 \end{proof}
 
 \begin{figure}
@@ -1305,7 +1303,7 @@ If this conjecture is true, surely there are strategies which can pack into acut
 
 Unfortunately, this strategy fails for some instances, like depicted in \Cref{fig:four-fail}. For this instance, the largest group, consisting of a single circle, cannot be packed if \emph{any} of the smaller groups is packed in the top or the left corner, because the remaining free space is not wide enough for the circle.
 
-\fig{four-fail}{This strategy does not work for a container with a right-angle of $\pi/10$, incircle $1$ and the circle instance $\{0.55,0.15,0.15,0.15\}$.}
+\fig{four-fail}{This strategy does not work for a container with a right-angle of $\frac{\pi}{10}$, incircle $1$ and the circle instance $\{0.55,0.15,0.15,0.15\}$.}
 
 \section{Rectangles}\label{sec:rectangles}
 
@@ -1388,7 +1386,7 @@ This means that all rectangles whose side ratio is at least this large can be pa
 
     The $a$-circle's diameter is equal to the rectangle's smaller side, so it is obvious that any larger circles can not be packed.
 
-    The density bound is the ratio of the circle's and the rectangle's area, which can be calculated to be $\frac{\pi (h/2)^2}{wh} = \frac{\pi h}{4w}$.
+    The density bound is the ratio of the circle's and the rectangle's area, which can be calculated to be $\frac{\pi (\frac{h}{2})^2}{wh} = \frac{\pi h}{4w}$.
 \end{proof}
 
 %also works for rectangles whose twincircle area does not exceed their incircle area.
@@ -1454,7 +1452,7 @@ An $a$-ruby contains the following shapes, see \Cref{fig:gem}:
     \item a regular octagon of area $\frac{8\s-8}{\pi}a \approx 1.0548a$.
 \end{itemize}
 
-This is because if the circle's radius is $r = \sqrt{a/\pi}$, then the square has an edge length of $((1+1/\s)r$, so its area is $(1+\s+1/2)r^2$. Regular $n$-gons with an apothem\footnote{The apothem is the distance of the polygon's center to its sides.} of $r$ have an area of $nr^2\tan(\pi/n)$, which, for $n=8$, amounts to $8r^2(\s-1)$.
+This is because if the circle's radius is $r = \sqrt{\frac{a}{\pi}}$, then the square has an edge length of $((1+\frac{1}{\s})r$, so its area is $(1+\s+\frac{1}{2})r^2$. Regular $n$-gons with an apothem\footnote{The apothem is the distance of the polygon's center to its sides.} of $r$ have an area of $nr^2\tan(\frac{\pi}{n})$, which, for $n=8$, amounts to $8r^2(\s-1)$.
 
 \fig{ruby}{An $a$-ruby and its contained circle, square and hexagon.}
 
@@ -1530,7 +1528,7 @@ One way to think about ruby instances is that they consist of the rubies “buil
         \end{tabular}
     \end{table}
 
-    The smaller gem is always placed so that its tip touches the bottom of the container gem and its left corner fits into the containers right corner. By assumption, its incircle is smaller than $\frac{1}{2}$, so it will fit inside the right half of the container and thus never overlap the container's boundary. For the larger gem, there are three cases:
+    The smaller gem is always placed so that its tip touches the bottom of the container gem and its left corner fits into the containers right corner. By assumption, its incircle is smaller than $\nicefrac{1}{2}$, so it will fit inside the right half of the container and thus never overlap the container's boundary. For the larger gem, there are three cases:
 
     \paragraph{Case 1}
 
@@ -1542,8 +1540,8 @@ One way to think about ruby instances is that they consist of the rubies “buil
     \end{align*}
 
     Expressions of the form $f\sqrt{x} - g\sqrt{2x-1}$ have their only extremum at $x = \frac{f^2}{2(f^2-2g^2)}$. This point turns out to be a global minimum for $f,g > 0$.
-    In our case, this minimum point is at $a_1 = (1+5\s+4\sqrt{1+5\s})/35 \approx 0.5553$.
-    As we can check our inequality to be true for $a_1 = 1/2$ as well as for $a_1 = \frac 2 3$, this means that it always holds between those two values.
+    In our case, this minimum point is at $a_1 = \frac{1+5\s+4\sqrt{1+5\s}}{35} \approx 0.5553$.
+    As we can check our inequality to be true for $a_1 = \frac{1}{2}$ as well as for $a_1 = \frac 2 3$, this means that it always holds between those two values.
 
     \paragraph{Case 2}
 
@@ -1553,7 +1551,7 @@ One way to think about ruby instances is that they consist of the rubies “buil
 
     But in the range for $a_1$ specified above, this is true:
 
-    $$W(a_1, a_1) = \frac{(1+\s)^{3/2}}{\sqrt{\pi}}\sqrt{a_1} \le \frac{(1+\s)^{3/2}}{\sqrt{\pi}}\sqrt{2\s-2} = \frac{2+\s}{\sqrt{\pi}} = D(1)$$
+    $$W(a_1, a_1) = \frac{(1+\s)^{\frac{3}{2}}}{\sqrt{\pi}}\sqrt{a_1} \le \frac{(1+\s)^{\frac{3}{2}}}{\sqrt{\pi}}\sqrt{2\s-2} = \frac{2+\s}{\sqrt{\pi}} = D(1)$$
 
     In both Case 1 and Case 2, the two gems do not overlap each other because the projections of their incircles do not overlap. See \Cref{th:hats-in-iso} for a proof.
 
@@ -1571,7 +1569,7 @@ One way to think about ruby instances is that they consist of the rubies “buil
     \begin{align*}
         W(a_1,a_1) + D(1-a_1) &\le w(1,0)\\
         \iff (2+2\s)\sqrt{\frac{a_1}{\pi}} - \frac{(2+\s)(2\sqrt{\s-1}-1)}{\sqrt{2(\s-1)\pi}}\sqrt{a_1} + \frac{2+\s}{\sqrt{\pi}}\sqrt{1-a_1} &\le \frac{2\s + 2}{\sqrt{\pi}}\\
-        \iff \frac{(1+\s)^{3/2}}{\sqrt{\pi}}\sqrt{a_1} + \frac{2+\s}{\sqrt{\pi}}\sqrt{1-a_1} &\le \frac{2\s + 2}{\sqrt{\pi}}
+        \iff \frac{(1+\s)^{\frac{3}{2}}}{\sqrt{\pi}}\sqrt{a_1} + \frac{2+\s}{\sqrt{\pi}}\sqrt{1-a_1} &\le \frac{2\s + 2}{\sqrt{\pi}}
     \end{align*}
 
     Expressions of the form $f\sqrt{x} + g\sqrt{1-x}$ have their only extremum at $x = \frac{f^2}{f^2+g^2}$. This point turns out to be a global maximum for $f,g > 0$. In our case, the maximum is at $\frac{1+2\s}{7} \approx 0.5469$, and we have equality for $a_1 = 2\s-2 \approx 0.8284$. If $a_1$ gets larger than that, the left hand side of the equation will only get smaller, so that the inequality holds. This concludes the proof of \Cref{th:gems-in-gem}.
