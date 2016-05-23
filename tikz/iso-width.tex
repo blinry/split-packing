@@ -15,7 +15,7 @@
         \hatshape{\hata}{0}{90}{\b}
         \pgfmathsetmacro{\r}{sqrt(\x/pi)}
         \coordinate (r) at ($(midcenter)+(-\r,-\r)$);
-        \draw[filled] (midcenter) circle(\r) node {$a/2$};
+        \draw[filled] (midcenter) circle(\r) node {$\frac a 2$};
         \draw[bracket] ([yshift=-2pt]right) -- node[below] {$\sqrt{a/2}p_1$} ([yshift=-2pt]r);
     \end{scope}
 \end{scope}
@@ -30,7 +30,7 @@
             \hatshape{\hata}{0}{\a}{90}
             \pgfmathsetmacro{\r}{sqrt((1-\x)/pi)}
             \coordinate (l) at ($(midcenter)+(\r,-\r)$);
-            \draw[filled] (midcenter) circle(\r) node {$a/2$};
+            \draw[filled] (midcenter) circle(\r) node {$\frac a 2$};
             \draw[bracket] ([yshift=-2pt]l) -- node[below] {$\sqrt{a/2}p_1$} ([yshift=-2pt]left);
         \end{scope}
     \end{scope}

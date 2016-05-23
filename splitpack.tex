@@ -9,7 +9,9 @@
 }
 
 \subject{Master's Thesis}
-\title{Split Packing:\\ A Worst-Case Optimal Circle Packing Algorithm}
+%\title{Split Packing:\\ A Worst-Case Optimal Circle Packing Algorithm}
+\title{Split Packing:\\ An Algorithm for Packing Circles with up to Critical Density}
+
 \author{\sffamily\LARGE Sebastian Morr}
 %\date{\large June 2, 2016}
 \date{\large 2016-06-02}
@@ -189,9 +191,9 @@ Note that we restrict some container types to fulfill certain conditions. For ex
         {Larger than 1.8552}
 
         \entry{2.4}{iso-table}{Circles in a thick isosceles triangle}{\Cref{th:iso}}
-        {$\dfrac{a}{\s} \le b \le a$}%
+        {$\dfrac{c}{\s} \le b \le c$}%
         %{“twincircle” area}
-        {$48.60\% < \dfrac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}} < 53.91\%$}
+        {$48.60\% < \dfrac{(c-2b+\sqrt{4b^2-c^2})^2\pi}{2c\sqrt{4b^2-c^2}} < 53.91\%$}
         {Between 1.8552 and 2.0576}
 
         \entry{2.8}{square-table}{Circles in a square}{\Cref{th:square2}}
@@ -674,7 +676,7 @@ As described, one way to think about conjugatedness is that it gives guarantees 
         \hatsinsquare{0}
     \end{tikzpicture}
 
-    \caption{The two shapes' parameters are $(a,b,F)$-conjugated, which is why they always can be packed. The numbers represent $a_1$ and $a_$, and in this case are the areas of the shapes' incircles.}
+    \caption{The two shapes' parameters are $(a,b,F)$-conjugated, which is why they always can be packed. The numbers represent $a_1$ and $a_2$, and in this case are the areas of the shapes' incircles.}
     \label{fig:conjugated}
 \end{figure}
 
@@ -820,588 +822,582 @@ Split Packing has polynomial runtime:
     Before \textsc{Splitpack} is first invoked, the circle instance has to be sorted descendingly by size, this can be done in $O(n log n)$ time. Each run of the \textsc{Split} subroutine takes linear time in the size of its input. In the worst case, each run splits off only one element, so that ... TODO
 \end{proof}
 
-%\chapter{Packing circles}\label{ch:circles}
-%
-%In the last chapter, we described how Split Packing works in general. In this chapter, we turn to specific types of container shapes: Triangles and Rectangles. For each shape, we will demonstrate two properties: First, we will argue about the \emph{worst-case circle instance} in terms of the density of its optimal packing. This instance constitutes an upper bound to the question “How much area can always be packed?”, because we can show that, given more area, we can find instances which \emph{cannot} be packed.
-%
-%Second, we are going to show how Split Packing can pack all instances of this area into the shape. This is a constructive way to show a lower bound to our problem. Both pieces together give the answer to \Cref{prb:1}: We have found the largest area $a$, so that circles with this combined area can always be packed into the shape, and we have a polynominal-time algorithm that actually realizes the packing.
-%
-%As described in the beginning of the last chapter, Split Packing was originally designed to pack circles, so in this chapter, our objecs will always be circles.
-%
-%%are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with combined area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of combined area $a'$ which \emph{cannot} be packed. Second, that all instances of combined area $a$ can be packed.
-%
-%\section{Hats}
-%
-%We saw in \Cref{ch:split-packing} that when applying \textsc{Split} to a circle instance, we can often make a statement about the minimum circle size of one group.
-%If you think about how a circle of minimum size can be placed in the container, there might be certain points which can never be covered by a circle without overlapping the container's boundary. For example, if the container's boundary contains sharp angles, you can not use all of the area inside of that angle, as the minimum circle might be too large to cover all of its points. As we can not use such points for packing the circle instance, we might as well remove it from the container without changing its packing capabilities.
-%
-%TODO fig
-%
-%Technically, you can calculate the usable area of a container shape by first eroding it by a circle of minimum size, and then dilating the result with the same circle.
-%
-%This observation motivates a family of shapes which resemble triangles whose corners are rounded. We call these shapes \emph{hats}:
-%
-%\begin{definition}
-%    For each $0 \le b \le a$, an \emph{$(a,b)$-hat} is a non-acute triangle with an incircle of area $a$, whose corners are rounded to the radius of a $b$-circle, see \Cref{fig:hat}.
-%    Call the two lower angles of the original triangle \emph{left-angle} and \emph{right-angle}.
-%    If we say \emph{right hat} or \emph{obtuse hat}, the hat is based on a right/obtuse triangle.
-%\end{definition}
-%
-%\newcommand\defaulta{30}
-%\newcommand\defaultb{40}
-%\newcommand\defaultr{0.2}
-%\newcommand\defaultx{0.7}
-%
-%\fig[3]{hat}{An $(a,b)$-hat.}
-%
-%\begin{definition}\label{def:hat-split-key}
-%    To get a hat's \emph{associated split key}, split the underlying triangle orthogonally to its base through its tip, and inscribe two circles in the two sides, see \Cref{fig:hat-f}.
-%\end{definition}
-%
-%\fig{hat-f}{A hat's \emph{associated split key} equals $(f_1, f_2)$}
-%
-%To prepare for the next proof, we establish the following lemma:
-%
-%\begin{lemma}\label{th:overlap}
-%    Place two circles of combined area $a$ in two corners of a triangle, like in \Cref{fig:hats-overlap}. Let $w$ be the length of the connecting side of the triangle. Now, define $p_1$ and $p_2$ to be the “projection factors”, so that, when projecting circle $a_i$ down onto the connecting side, the distance between the triangle's corner and the far point of the projection is $\sqrt{a_i}p_i$. The two projections do not intersect if
-%
-%    $$w \ge \sqrt{a(p_1^2 + p_2^2)}.$$
-%\end{lemma}
-%
-%\begin{proof}
-%    Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do never intersect.
-%\end{proof}
-%
-%\fig{hats-overlap}{text}
-%
-%\begin{lemma}\label{th:hats-in-hat}
-%    Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
-%    For all $(a,0,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
-%    \begin{itemize}
-%        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
-%        \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
-%    \end{itemize}
-%\end{lemma}
-%
-%\begin{proof}
-%    Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles towards the container's matching angles and push them as far to the left/right as possible. \Cref{tab:hats-in-hat} illustrates how these packings looks like for different values of $a_1$ and~$a_2$ and gives some informal reasoning why they can always be packed.
-%
-%    \begin{table}
-%        \caption{Hat-in-hat packings for different values of $a_1$ and $a_2$}
-%        \label{tab:hats-in-hat}
-%
-%        \begin{tabular}{cp{7cm}}
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{1}{0}
-%            \end{tikzpicture}
-%            & When $a_2 = a$, the second hat is simply rounded to a circle of area $a$. By definition, this is the incircle of the container, so it can be packed.\\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0.9}{0}
-%            \end{tikzpicture}
-%            & As $a_2$ gets smaller, the second hat gets less rounded, but still enough so that it can be packed. The other hat is a non-rounded triangle, which fits beside the second one.\\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0.7}{0}
-%            \end{tikzpicture}
-%            & \\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0.6}{0}
-%            \end{tikzpicture}
-%            & \\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0.43}{0}
-%            \end{tikzpicture}
-%            & When $a_1$ and $a_2$ have a ratio as specified by the container's associated split key, the two hats are both not rounded, but they can still be packed.\\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0.3}{0}
-%            \end{tikzpicture}
-%            & When $a_2$ gets smaller than specified by the split key, it is now the first container which is getting more rounded.\\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0.1}{0}
-%            \end{tikzpicture}
-%            & As $a_1$ approaches $a$, it is now the first hat whose shape gets closer to a perfect $a$-circle.\\
-%
-%            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%                \hatsinhat{\defaulta}{\defaultb}{0}{0}
-%            \end{tikzpicture}
-%            & By the same argument as before, this circle can be packed.\\
-%        \end{tabular}
-%    \end{table}
-%
-%    This way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
-%
-%    We first want to show that the hats do not overlap each other. If the hats' projections onto the container's base do not overlap, we found a seperating axis and can be sure that the hats do not overlap, as well. Furthermore, because the hats' incircles touch the rightmost part of the left hat's boundary and the leftmost part of the right hat's boundary, it suffices to show that the projections of the hats' incircles onto the container's base do not overlap.
-%
-%    (TODO: pic)
-%
-%    We want to use \Cref{th:overlap} for this proof, so we need to make a statement about the projection factors $p_1$ and $p_2$ in \Cref{fig:hatlr}: If the top angle is a right angle, we can see that $\sqrt{a}p_1 = x$ and $\sqrt{a}p_2 = y$. So by the Pythagorean theorem, $w^2 = (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$.
-%     If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant in \Cref{fig:hatlr}),
-%    both $\sqrt{a}p_1$ and $\sqrt{a}p_2$ only get smaller, so for each hat, $w^2 \ge (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$, which is equivalent to $w \ge \sqrt{a(p_1^2+p_2^2)}$.
-%    By \Cref{th:overlap} this means that the projections of the circles do not overlap.
-%
-%    \fig{hatlr}{$l^2 + r^2 \le 1$ holds for each non-acute triangle}
-%
-%    The second property we need to show is that the hats fit into the container individually. Unfortunately, this part of the proof is going to be long and technical.
-%
-%    If a hat's incircle is not larger than the incircle of the container hat's side, it will fit into the container without question because it is a subset of that side (like all the non-rounded hats in \Cref{tab:hats-in-hat}).
-%    So let us assume $a_i > f_i$.
-%
-%    In this proof, we use two different length-area ratios, which are illustrated in \Cref{fig:hat-poke-f}. The first one is $d$, which describes the ratio between the length of the triangle's right leg and the area of its right incircle $f_i$. Note that for all triangles \emph{similar} to the right part of the container triangle, this ratio between the length of this edge and the square root of the incircle's area will be constant.
-%    %For hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
-%    %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hat-poke-f}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
-%    The second ratio, $e$, is the ratio between the length of the same right leg and the incircle-area of the whole container triangle. Again, if formulated as a quotient between the length of this edge and the square root of the incircle, it is a constant for triangles similar to the given container triangle. Note that, in preparation for a generalization later in this chapter, we denote the triangle's incircle by $o$.
-%    From \Cref{fig:hat-poke-f} we can also observe that
-%    $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{f_i/o}$.
-%
-%    \fig{hat-poke-f}{The ratios $d$ and $e$ are constant for all similar triangles.}
-%
-%
-%    %$$\frac{x}{d} = \frac{d-d\sqrt{f_i})}{d} = 1 - \sqrt{f_i}$$
-%
-%    Moving forward, in \Cref{fig:hat-poke}, we display the situation when packing a hat into (\wlofg) the right side of the container. $f_i$ is the relevant factor from the split key, $a_i$ is the hat's incircle and $b_i$ represents the hat's rounding.
-%
-%    \fig{hat-poke}{Various measurements when packing a rounded hat.}
-%
-%    The hat is placed in such a way that it will never overlap the bottom or the right side of the containing triangle, so it is sufficient to show that it does not overlap the left side.
-%    We can tell from \Cref{fig:hat-poke} that this does not happen if right leg of the triangle the hat is based on ($d\sqrt{a_i}$), minus the right leg of the $(b_i,0)$-triangle similar to the containers right side ($d\sqrt{b_i}$), plus the right leg of the $(b_i,0)$-triangle similar to the container ($e\sqrt{b_i}$) is at most the length of the container right leg ($d\sqrt{f_i}$):
-%
-%    \begin{equation*}
-%        d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}
-%    \end{equation*}
-%
-%    As observed above, $e = d\sqrt{f_i/o}$:
-%
-%    \begin{equation*}
-%        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/o}\sqrt{b_i} \le d\sqrt{f_i}
-%    \end{equation*}
-%
-%    In our case, $o = a$. But even if $o \ge a$, the inequality is true if
-%
-%    \begin{equation*}
-%        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/a}\sqrt{b_i} \le d\sqrt{f_i}
-%    \end{equation*}
-%
-%    We can also divide by $d$ and factor out $\sqrt{b_i}$ to get:
-%
-%    \begin{equation}\label{eq:tripoke}
-%        \sqrt{a_i} - (1-\sqrt{f_i/a})\sqrt{b_i} \le \sqrt{f_i}
-%    \end{equation}
-%
-%
-%    Let $j$ be the index of the other hat to be packed.
-%    We know (from the conjugatedness) that the sum of both hats' incircles does not exceed the total area $a$: $a_i + a_j \le a$. Also, $f_i + f_j \ge a$, as demonstrated in \Cref{fig:hat-f-sum}: In right triangles, $f_1 + f_2$ is exactly $a$, because as its two halves are \emph{similar} to the large triangle. When making the upper angle more obtuse, but letting $f_1$ and $f_2$ stay the same, the incircle only shrinks.
-%
-%    \fig[3]{hat-f-sum}{In non-acute triangles, $f_1 + f_2 \ge a$.}
-%    %Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group~$i$.
-%    So by \Cref{th:split-properties}, our hat it is rounded by
-%
-%    $$b_i \ge a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{a-a_i}{a-f_i} = \frac{a_i(a-f_i)-f_i(a-a_i)}{a-f_i} = a\frac{a_i-f_i}{a-f_i}$$
-%
-%    Insert that into \Cref{eq:tripoke}:
-%
-%    $$\sqrt{a_i} - (1-\sqrt{f_i/a})\sqrt{a\frac{a_i-f_i}{a-f_i}} \le \sqrt{f_i}$$
-%
-%    Then bring the subtrahend to the right and square both sides (both are positive):
-%
-%    $$a_i \le f_i + 2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a\frac{a_i-f_i}{a-f_i}} + (1-\sqrt{f_i/a})^2a\frac{(a_i-f_i)}{a-f_i}$$
-%
-%    Subtract $f_i$ and divide by $\sqrt{a_i-f_i}$:
-%
-%    $$\sqrt{a_i-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a}}{\sqrt{a-f_i}} + (1-\sqrt{f_i/a})^2a\frac{\sqrt{a_i-f_i}}{a-f_i}$$
-%
-%    Rearrange:
-%
-%    $$\sqrt{a_i-f_i}\frac{(a-f_i)-(1-\sqrt{f_i/a})^2a}{a-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a}}{\sqrt{a-f_i}}$$
-%
-%    Simplify:
-%
-%    $$\sqrt{a_i-f_i}\frac{2\sqrt{f_ia}-2f_i}{a-f_i} \le \frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}}$$
-%
-%    Then multiply with $\sqrt{a-f_i}$:
-%
-%    %$$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{a-f_i}} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{a-f_i}}\sqrt{a-f_i}$$
-%    $$\sqrt{a_i-f_i}\frac{2\sqrt{f_ia}-2f_i)}{\sqrt{a-f_i}} \le \frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}}\sqrt{a-f_i}$$
-%
-%    Finally, divide by the large fraction to get:
-%
-%    \begin{equation*}
-%        \sqrt{a_i-f_i} \le \sqrt{a-f_i} \iff a_i - f_i \le a - f_i \iff a_i \le a
-%    \end{equation*}
-%
-%    As $a_i$ is never larger than $a$, \Cref{eq:tripoke} is true and the hat always fits into the container. This completes the proof of \Cref{th:hats-in-hat}.
-%\end{proof}
-%
-%Until now, the container was always an $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that that the rounding of the container hat is no longer 0, but $b$.
-%
-%\begin{lemma}\label{th:rounded-hats-in-hat}
-%    Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
-%    For all $(a,b,F)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
-%    \begin{itemize}
-%        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
-%        \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
-%    \end{itemize}
-%\end{lemma}
-%
-%\begin{proof}
-%    \Cref{th:hats-in-hat} tells us that this theorem is true for $b = 0$. Now, the container's corners can be rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But all of the two hat's corners are also rounded to (at least) the same radius (see \Cref{th:split-properties}), so they will never overlap the container, see \Cref{fig:hats-rounding}.
-%\end{proof}
-%
-%\fig{hats-rounding}{Rounding all hats' corners by the same radius does not affect the packing.}
-%
-%With these preparations, we can finally apply Split Packing to hats:
-%
-%\begin{theorem}\label{th:hats}
-%    Given an $(a,b)$-hat, all circle instances with a combined area of at most $a$ and a minimum circle size of at least $b$ can be packed into that triangle.
+\chapter{Packing circles}\label{ch:circles}
+
+In the previous chapter, we gave a very general description of how Split Packing works. In this chapter, we will show how to apply the approach to concrete packing problems, namely, packing circles into certain triangles and rectangles. For each shape, we will demonstrate two properties: First, we will argue about the \emph{worst-case circle instance} in terms of the density of its optimal packing. This instance constitutes an upper bound to the question “How much area can always be packed?”, because we can show that, given more area, we can find instances which \emph{cannot} be packed.
+
+But second, we are going to show how Split Packing can be used to pack all instances of this area into the shape. This is a constructive way to show a lower bound to our problem. Both pieces together give the answer to \Cref{prb:1}: We have found the largest area $a$, so that circles with this combined area can always be packed into the shape, and we have a polynominal-time algorithm that actually realizes the packing.
+
+%are going to proof the \emph{worst-case packing density}. In each case, we are going to give a circle instance with combined area $a$ and show two properties: First, that for all $a' > a$, there are circle instances of combined area $a'$ which \emph{cannot} be packed. Second, that all instances of combined area $a$ can be packed.
+
+\section{Hats}
+
+We saw in \Cref{ch:split-packing} that when applying \textsc{Split} to a circle instance, we can make statements about the minimum circle size of the “relatively larger” group.
+If you think about how a circle of minimum size can be placed in a container, there might be certain points which can never be covered by a circle without overlapping the container's boundary. For example, if the container's boundary contains sharp angles, the minimum-size circle might be too large to cover all of the angle's area. As we can not use this for packing the circle instance at all, we might as well cut this area from the container without changing its packing capabilities.
+
+Technically, you can calculate the usable area of a container shape by first eroding it by a circle of minimum size, and then dilating the result with the same circle.
+
+This observation motivates a family of shapes which resemble rounded triangles. We call these shapes \emph{hats}:
+
+\begin{definition}
+    For each $0 \le b \le a$, an \emph{$(a,b)$-hat} is a non-acute triangle with an incircle of area $a$, whose corners are rounded to the radius of a $b$-circle, see \Cref{fig:hat}.
+    Call the two lower angles of the original triangle \emph{left-angle} and \emph{right-angle}.
+    If we say \emph{right hat} or \emph{obtuse hat}, the hat is based on a right/obtuse triangle.
+\end{definition}
+
+\newcommand\defaulta{30}
+\newcommand\defaultb{40}
+\newcommand\defaultr{0.2}
+\newcommand\defaultx{0.7}
+
+\fig[3]{hat}{An $(a,b)$-hat.}
+
+In the rest of this section, we will show that all circle instances with a combined area of up to $a$ with a minimum circle size of $b$ can be packed into an $(a,b)$-hat.
+
+\begin{definition}\label{def:hat-split-key}
+    To get a hat's \emph{associated split key}, split the underlying triangle orthogonally to its base through its tip, and inscribe two circles in the two sides, see \Cref{fig:hat-f}. The areas of these circles are the two components of the hat's split key.
+\end{definition}
+
+\fig{hat-f}{A hat's \emph{associated split key} equals $(f_1, f_2)$}
+
+To prepare for the next proof, we establish the following lemma:
+
+\begin{lemma}\label{th:overlap}
+    Place two circles of combined area $a$ in two corners of a triangle, like in \Cref{fig:hats-overlap}. Let $w$ be the length of the connecting side of the triangle. Now, define $p_1$ and $p_2$ to be the “projection factors”, so that, when projecting circle $a_i$ down onto the connecting side, the distance between the triangle's corner and the far point of the projection is $\sqrt{a_i}p_i$. Note that these factors will be constant for arbitrary circle areas. The two projections do not intersect if
+
+    $$w \ge \sqrt{a(p_1^2 + p_2^2)}.$$
+\end{lemma}
+
+\begin{proof}
+    Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do never intersect.
+\end{proof}
+
+\fig{hats-overlap}{text}
+
+\begin{lemma}\label{th:hats-in-hat}
+    Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
+    For all $(a,0,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
+    \begin{itemize}
+        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles towards the container's matching angles and push them as far to the left/right as possible. \Cref{tab:hats-in-hat} illustrates how these packings looks like for different values of $a_1$ and~$a_2$ and gives some informal reasoning why they can always be packed.
+
+    \begin{table}
+        \caption{Hat-in-hat packings for different values of $a_1$ and $a_2$.}
+        \label{tab:hats-in-hat}
+
+        \begin{tabular}{cp{7cm}}
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{1}{0}
+            \end{tikzpicture}
+            & When $a_2 = a$, the second hat is simply rounded to a circle of area $a$. By definition, this is the incircle of the container, so it can be packed.\\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0.9}{0}
+            \end{tikzpicture}
+            & As $a_2$ gets smaller, the second hat gets less rounded, but still enough so that it can be packed. The other hat is a non-rounded triangle, which fits beside the second one.\\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0.7}{0}
+            \end{tikzpicture}
+            & \\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0.5}{0}
+            \end{tikzpicture}
+            & \\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0.43}{0}
+            \end{tikzpicture}
+            & When $a_1$ and $a_2$ have a ratio as specified by the container's associated split key, the two hats are both non-rounded triangles, but they can still be packed.\\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0.3}{0}
+            \end{tikzpicture}
+            & When $a_2$ gets smaller than specified by the split key, it is now the first container which is getting more rounded.\\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0.1}{0}
+            \end{tikzpicture}
+            & As $a_1$ approaches $a$, it is now the first hat whose shape gets closer to a perfect $a$-circle.\\
+
+            \begin{tikzpicture}[scale=1.8,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
+                \hatsinhat{\defaulta}{\defaultb}{0}{0}
+            \end{tikzpicture}
+            & By the same argument as before, this circle can be packed.\\
+        \end{tabular}
+    \end{table}
+
+    This way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
+
+    We first want to show that the hats do not overlap each other. If the hats' projections onto the container's base do not overlap, we found a seperating axis and can be sure that the hats do not overlap, as well. Furthermore, because the hats' incircles touch the rightmost part of the left hat's boundary and the leftmost part of the right hat's boundary, it suffices to show that the projections of the hats' incircles onto the container's base do not overlap.
+
+    We want to use \Cref{th:overlap} for this proof, so we need to make a statement about the projection factors $p_1$ and $p_2$ in \Cref{fig:hatlr}: If the top angle is a right angle, we can see that $\sqrt{a}p_1 = x$ and $\sqrt{a}p_2 = y$. So by the Pythagorean theorem, $w^2 = (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$.
+     If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant in \Cref{fig:hatlr}),
+    both $\sqrt{a}p_1$ and $\sqrt{a}p_2$ only get smaller, so for each hat, $w^2 \ge (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$, which is equivalent to $w \ge \sqrt{a(p_1^2+p_2^2)}$.
+    By \Cref{th:overlap}, this means that the projections of the circles do not overlap, which in turn means that the two hats do not overlap.
+
+    \fig{hatlr}{$l^2 + r^2 \le 1$ holds for each non-acute triangle}
+
+    The second property we need to show is that the hats fit into the container individually. Unfortunately, this part of the proof is going to be long and technical.
+
+    If a hat's incircle is not larger than the incircle of the container hat's side, it will fit into the container without question because it is a subset of that side (like all the non-rounded hats in \Cref{tab:hats-in-hat}).
+    So let us assume $a_i > f_i$.
+
+    In this proof, we are going to use two different length-area ratios, which are illustrated in \Cref{fig:hat-poke-f}. The first one is $d$, which describes the ratio between the length of the triangle's right leg and the square root of the area of its right incircle $f_i$. Note that for all triangles \emph{similar} to the right part of the container triangle, this ratio between the length of this edge and the square root of the incircle's area will be constant.
+    %For hats similar to the container hat's right side, the ratio between the square root of its incircle's area and the length of its base is constant. We call this constant $d$.
+    %Also, we are interested in the fraction $\frac{x}{d}$ in \Cref{fig:hat-poke-f}, which specifies “which fraction of the longest side of a triangle similar to the container's right side is above a tangent to its incircle parallel to the container triangle's left side”. We can observe that
+    The second ratio, $e$, is the ratio between the length of the same right leg and the square root of the incircle-area of the whole container triangle. Again, it is a constant for triangles similar to the given container triangle. Note that, in preparation for a generalization later in this chapter, we denote the triangle's incircle by $o$.
+    From \Cref{fig:hat-poke-f} we can now observe that
+    $e\sqrt{o} = d\sqrt{f_i}$, which is equivalent to $e = d\sqrt{f_i/o}$.
+
+    \fig{hat-poke-f}{The ratios $d$ and $e$ are constant for all similar triangles.}
+
+
+    %$$\frac{x}{d} = \frac{d-d\sqrt{f_i})}{d} = 1 - \sqrt{f_i}$$
+
+    Moving forward, in \Cref{fig:hat-poke}, we display the situation when packing a hat into (\wlofg) the right leg of the container. $f_i$ is the relevant factor from the split key, $a_i$ is the hat's incircle and $b_i$ represents the hat's rounding.
+
+    \fig{hat-poke}{Various measurements when packing a rounded hat.}
+
+    The hat is placed in such a way that it will never overlap the bottom or the right leg of the containing triangle, so it is sufficient to show that it does not overlap the left leg.
+    We can tell from \Cref{fig:hat-poke} that this does not happen if the length of the right side of the triangle the hat is based on ($d\sqrt{a_i}$), minus the length of the right side of the $(b_i,0)$-triangle similar to the containers right side ($d\sqrt{b_i}$), plus the length of the right side of the $(b_i,0)$-triangle similar to the container ($e\sqrt{b_i}$) is at most the length of the container's right leg ($d\sqrt{f_i}$). So the following condition has to hold:
+
+    \begin{equation*}
+        d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}
+    \end{equation*}
+
+    As observed above, $e = d\sqrt{f_i/o}$:
+
+    \begin{equation*}
+        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/o}\sqrt{b_i} \le d\sqrt{f_i}
+    \end{equation*}
+
+    In our case, the incircle of the triangle has exactly the maximal area which we want to pack, so $o = a$. But even if $o \ge a$, the inequality is true if
+
+    \begin{equation*}
+        d\sqrt{a_i} - d\sqrt{b_i} + d\sqrt{f_i/a}\sqrt{b_i} \le d\sqrt{f_i}
+    \end{equation*}
+
+    We can also divide by $d$ and factor out $\sqrt{b_i}$ to get:
+
+    \begin{equation}\label{eq:tripoke}
+        \sqrt{a_i} - (1-\sqrt{f_i/a})\sqrt{b_i} \le \sqrt{f_i}
+    \end{equation}
+
+
+    Let $j$ be the index of the other hat to be packed.
+    We know (from the conjugatedness) that the sum of both hats' incircles does not exceed the total area $a$, so $a_i + a_j \le a$. Also, $f_i + f_j \ge a$, as demonstrated in \Cref{fig:hat-f-sum}: In right triangles, $f_1 + f_2$ is exactly $a$, because as its two halves are \emph{similar} to the large triangle, the two halves' areas add up to the container triangle's area, and the ratio between the areas of a triangle and its incircle are constant. When making the upper angle more obtuse, but letting $f_1$ and $f_2$ stay the same, the incircle only shrinks (like the dotted variant in \Cref{fig:hat-f-sum}).
+
+    \fig[3]{hat-f-sum}{In non-acute triangles, $f_1 + f_2 \ge a$.}
+    %Since we assumed $a_i > f_i$, the inequalities $a_i - a_if_i > f_i - a_if_i$ and $\frac{a_i}{f_i} > \frac{1-a_i}{1-f_i} \ge \frac{a_j}{f_j}$ are also true, which means that the relative filling level of group $j$ is lower than that of group~$i$.
+    Putting it together, by \Cref{th:split-properties}, our hat it is rounded by
+
+    $$b_i \ge a_i - f_i\frac{a_j}{f_j} \ge a_i - f_i\frac{a-a_i}{a-f_i} = \frac{a_i(a-f_i)-f_i(a-a_i)}{a-f_i} = a\frac{a_i-f_i}{a-f_i}$$
+
+    Insert that into \Cref{eq:tripoke}:
+
+    $$\sqrt{a_i} - (1-\sqrt{f_i/a})\sqrt{a\frac{a_i-f_i}{a-f_i}} \le \sqrt{f_i}$$
+
+    Then bring the subtrahend to the right and square both sides (both are positive):
+
+    $$a_i \le f_i + 2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a\frac{a_i-f_i}{a-f_i}} + (1-\sqrt{f_i/a})^2a\frac{(a_i-f_i)}{a-f_i}$$
+
+    Subtract $f_i$ and divide by $\sqrt{a_i-f_i}$:
+
+    $$\sqrt{a_i-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a}}{\sqrt{a-f_i}} + (1-\sqrt{f_i/a})^2a\frac{\sqrt{a_i-f_i}}{a-f_i}$$
+
+    Rearrange:
+
+    $$\sqrt{a_i-f_i}\frac{(a-f_i)-(1-\sqrt{f_i/a})^2a}{a-f_i} \le \frac{2\sqrt{f_i}(1-\sqrt{f_i/a})\sqrt{a}}{\sqrt{a-f_i}}$$
+
+    Simplify:
+
+    $$\sqrt{a_i-f_i}\frac{2\sqrt{f_ia}-2f_i}{a-f_i} \le \frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}}$$
+
+    Then multiply with $\sqrt{a-f_i}$:
+
+    %$$\sqrt{a_i-f_i}\frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{a-f_i}} \le \frac{(1-f_i)-(1-\sqrt{f_i})^2}{\sqrt{a-f_i}}\sqrt{a-f_i}$$
+    $$\sqrt{a_i-f_i}\frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}} \le \frac{2\sqrt{f_ia}-2f_i}{\sqrt{a-f_i}}\sqrt{a-f_i}$$
+
+    Finally, divide by the fraction to get:
+
+    \begin{equation*}
+        \sqrt{a_i-f_i} \le \sqrt{a-f_i} \iff a_i - f_i \le a - f_i \iff a_i \le a
+    \end{equation*}
+
+    From the conjugatedness we know that $a_i$ is never larger than $a$, so \Cref{eq:tripoke} is true and the hat always fits into the container. This completes the proof of \Cref{th:hats-in-hat}.
+\end{proof}
+
+Until now, the container was always an $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that that the rounding of the container hat is no longer 0, but $b$.
+
+\begin{lemma}\label{th:rounded-hats-in-hat}
+    Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
+    For all $(a,b,F)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    \begin{itemize}
+        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    \Cref{th:hats-in-hat} tells us that this theorem is true for $b = 0$. Now, the container's corners can be rounded to the radius of a $b$-circle, and we need to show that the two hats from the previous construction still fit inside. But all of the two hat's corners are also rounded to (at least) the same radius (see \Cref{th:split-properties}), so they will never overlap the container, see \Cref{fig:hats-rounding}.
+\end{proof}
+
+\fig{hats-rounding}{Rounding all hats' corners by the same radius does not affect the packing.}
+
+With these preparations, we can finally apply Split Packing to hats:
+
+\begin{theorem}\label{th:hats}
+    Given an $(a,b)$-hat, all circle instances with a combined area of at most $a$ and a minimum circle size of at least $b$ can be packed into that triangle.
+\end{theorem}
+
+\begin{proof}
+    We proof by induction that we can pack each $C \in \C(a,b)$ into the hat:
+
+    If $C$ only consists of a single circle, it can be packed into the hat, as it is at most as big as the hat's incircle.
+
+    Now assume that for any $0 \le b \le a$, any $(a,b)$-hat could pack all circle instances in $\C(a,b)$ with at most $n$ circles. Consider a circle instance $C \in \C(a,b)$ containing $n+1$ circles.
+    \Cref{def:hat-split-key} tells us how to compute the split key $F$.
+    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats in the container, we have connstructed a packing of $C$ into the container hat.
+
+    By induction, we can pack each $C \in \C(a,b)$ into the $(a,b)$-hat.
+\end{proof}
+
+\section{Non-acute triangles}
+
+As a non-acute triangles is only a special case of a hat, this section is will be pleasantly short.
+
+\begin{theorem}\label{th:tri}
+    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this bound is tight.
+    See \Cref{fig:example-circles-in-right} for some example packings.
+    Expressed algebraically, for a triangle with side lengths $a$, $b$, and $c$, the density bound is
+
+    $$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%.$$
+\end{theorem}
+
+\begin{proof}
+    The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
+
+    On the other hand, a single circle of area $a + \varepsilon$ can not be packed, as the the incircle is by definition the largest circle which fits into the triangle.
+
+    As for the algebraic formulation of the density bound, the area of the triangle can be calculated using Heron's formula:
+
+    $$\Delta(a,b,c) := \sqrt{s(s-a)(s-b)(s-c)} \text{ with } s = \frac{a+b+c}{2}$$
+
+    It is also known that the radius of the incircle of this triangle is
+
+    $$R(a,b,c) := \frac{\Delta(a,b,c)}{s} \text{ with } s = \frac{a+b+c}{2},$$
+
+    so the incircle has an area of
+
+    $$I(a,b,c) = \pi R(a,b,c)^2 = \frac{(a+b-c)(c+a-b)(b+c-a)}{4(a+b+c)}.$$
+
+    Finally, the ratio between the areas of the circle and the triangle can be calculated to be
+
+    $$\frac{I(a,b,c)}{\Delta(a,b,c)} = \sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi.$$
+\end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.013]{example-circles-in-right-1} &
+        \subfig[0.013]{example-circles-in-right-2} \\
+        \subfig[0.013]{example-circles-in-right-3} &
+        \subfig[0.013]{example-circles-in-right-4} \\
+        \subfig[0.013]{example-circles-in-right-5} &
+        \subfig[0.013]{example-circles-in-right-6} \\
+    \end{tabular}
+    \caption{Example packings of various circle instances in a right triangle produced by Split Packing.}
+    \label{fig:example-circles-in-right}
+\end{figure}
+
+%\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
+
+\section{Isosceles triangles}
+
+Split Packing gives worst-case optimal results not only for non-acute triangles, but also for isosceles triangles, as long as its two symmetric sides are not longer than the base. In this sense, it works for all triangles inbetween a right isosceles triangle and an equilateral triangle.
+
+\begin{definition}
+    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base, but whose top angle is at least $\frac{\pi}{4}$. Examples are shown in \Cref{fig:iso-range}.
+\end{definition}
+
+\fig[1]{iso-range}{Range of considered isosceles triangles.}
+
+To prove the worst case for these triangles, we first make a statement about a triangle's \emph{twincircles}:
+
+\begin{lemma}\label{th:iso-worst}
+    Two touching equal circles, placed in the corners connected by a triangle's longest side, are the triangle's twincircles, meaning there are no two larger equal circles which can be packed.
+\end{lemma}
+
+\begin{proof}
+    Call the circles' radius $r$.
+    When eroding the triangle by $r$, the remaining area is a triangle similar the the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when eroding the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
+    But to pack two circles with radius $r+\varepsilon$, their centers need to be placed at least $r+\varepsilon$ away from the triangle's boundary and at least $2r+2\varepsilon$ away from each other. The construction shows that this is not possible.
+\end{proof}
+
+\fig{twincircles-construction}{Two circles larger than these can not be packed.}
+
+In the previous section, the target area $a$ which we wanted to pack always was the area of the triangles incircle. For thick isosceles triangles, the twincircle area, is \emph{smaller} than the incircle area, which means it will not always be possible to pack the area of the incircle.
+
+In this section, we will argue that we can always pack the twincircle area into thick isosceles triangles.
+
+\begin{definition}
+    The split key of a thick isosceles triangle is $(1,1)$.
+\end{definition}
+
+\begin{lemma}\label{th:hats-in-iso}
+    Consider a thick isosceles triangle with a twincircle area of $a$ and call its symmetric angles $\alpha$.
+    For all $(a,0,(1,1))$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
+    \begin{itemize}
+        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_2,b_2)$-hat with a left-angle of $\alpha$.
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    See \Cref{fig:hats-in-iso} for example packings for different $a_1$ and $a_2$.
+
+    First, we show that the hats do not intersect each other: In any isosceles triangle, the projection factors for both sides, $p_1$ and $p_2$ are equal. So in \Cref{fig:iso-width}, we construct the width of the triangle's base to be $2\sqrt{\frac{a}{2}}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
+
+    \fig{iso-width}{The width of an isosceles triangle is $\sqrt{2ap_1^2}$.}
+
+    Second, we show that the hats do not intersect the container. We are going to re-use the proof from \Cref{th:hats-in-hat} here. On \cpageref{eq:tripoke}, we showed that the hats do not overlap the container if certain conditions are met. These conditions are also true here:
+
+    \begin{itemize}
+        \item $a_1 + a_2 \le a$, the hat's incircles add up to at most $a$ because of the conjugatedness of the tuples.
+        \item $f_i + f_j \ge a$, in this case, the incircle-areas of the triangles sides are equal to $a$ by assumption.
+        \item $o \ge a$, meaning that the triangles incircle is at least as large as the area of the twincircles. This can be demonstrated like in \Cref{fig:hat-f-sum} on \cpageref{fig:hat-f-sum}, but in the reverse direction: For a right isosceles triangle, the twincircle area $a$ is exactly equal to the triangle's incircle. If leaving the twincircles in place, but increasing the top angle, the incircle only gets larger.
+    \end{itemize}
+
+    So also in this case, the hats do not overlap the container. This concludes the proof.
+\end{proof}
+
+\begin{figure}
+    \begin{tikzpicture}[scale=2]
+        \hatsinhat[1.244]{60}{60}{0.5}{0}
+    \end{tikzpicture}
+    ~
+    \begin{tikzpicture}[scale=2]
+        \hatsinhat[1.244]{60}{60}{0.45}{0}
+    \end{tikzpicture}
+    ~
+    \begin{tikzpicture}[scale=2]
+        \hatsinhat[1.244]{60}{60}{0.4}{0}
+    \end{tikzpicture}
+
+    \vspace{10pt}
+
+    \begin{tikzpicture}[scale=2pt]
+        \hatsinhat[1.244]{60}{60}{0.3}{0}
+    \end{tikzpicture}
+    ~
+    \begin{tikzpicture}[scale=2pt]
+        \hatsinhat[1.244]{60}{60}{0.2}{0}
+    \end{tikzpicture}
+    ~
+    \begin{tikzpicture}[scale=2]
+        \hatsinhat[1.244]{60}{60}{0}{0}
+    \end{tikzpicture}
+
+    \caption{Packing two hats into an equilateral triangle.}
+    \label{fig:hats-in-iso}
+\end{figure}
+
+\begin{theorem}\label{th:iso}
+    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
+    See \Cref{fig:example-circles-in-equilateral} for some example packings.
+    Expressed algebraically, for a triangle with legs of length $b$ and a base of length $c$, the density bound is
+
+    $$\frac{(c-2b+\sqrt{4b^2-c^2})^2\pi}{2c\sqrt{4b^2-c^2}}.$$
+\end{theorem}
+
+\begin{proof}
+    By \Cref{th:hats-in-iso} and the Split Packing Theorem, the triangle is a $\C(a)$-shape.
+
+    In \Cref{th:iso-worst}, we argued that any two equal circles larger than the twincircles can not be packed.
+
+    We use Heron's formula again to calculate a density bound of
+
+    $$\frac{2I(\frac{c}{2}, b, h)}{\frac{c}{2}h} = \frac{(c-2b+\sqrt{4b^2-c^2})^2\pi}{2c\sqrt{4b^2-c^2}}.$$
+\end{proof}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.015]{example-circles-in-equilateral-1} &
+        \subfig[0.015]{example-circles-in-equilateral-2} \\
+        \subfig[0.015]{example-circles-in-equilateral-3} &
+        \subfig[0.015]{example-circles-in-equilateral-4} \\
+        \subfig[0.015]{example-circles-in-equilateral-5} &
+        \subfig[0.015]{example-circles-in-equilateral-6} \\
+    \end{tabular}
+    \caption{Example packings of various circle instances in an equilateral triangle produced by Split Packing.}
+    \label{fig:example-circles-in-equilateral}
+\end{figure}
+
+%\begin{theorem}
+%    Each $A \in \C(a)$ can be packed into an isosceles triangle with a largest angle $\gamma$ between $\frac{\pi}{2}$ and $\frac{\pi}{3}$ and an area of $a\frac{1+\frac{1}{\sin(\gamma)}}{\pi}$.
 %\end{theorem}
 %
-%\begin{proof}
-%    We proof by induction that we can pack each $C \in \C(a,b)$ into the hat:
-%
-%    If $C$ only consists of a single circle, it can be packed into the hat, as it is as most as big as the hat's incircle.
-%
-%    Now assume that for any $0 \le b \le a$, any $(a,b)$-hat could pack all circle instances in $\C(a,b)$ with at most $n$ circles. Consider a circle instance $C \in \C(a,b)$ containing $n+1$ circles.
-%    \Cref{def:hat-split-key} tells us how to compute the split key $F$.
-%    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats in the container, we have connstructed a packing of $C$ into the container hat.
-%
-%    By induction, we can pack each $C \in \C(a,b)$ into the $(a,b)$-hat.
-%\end{proof}
-%
-%\section{Non-acute triangles}
-%
-%This section is going to be short, as non-acute triangles are only a special case of a hat.
-%
-%\begin{theorem}\label{th:tri}
-%    Given a non-acute triangle with an incircle of area $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this bound is tight.
-%    See \Cref{fig:example-circles-in-right} for some example packings.
-%    Expressed algebraically, for a triangle with side lengths $a$, $b$, and $c$, the density bound is
-%
-%    $$\sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi < 53.91\%.$$
+%\begin{theorem}
+%    For any $0 < x$ and $0 < y$, there are always 
+%    a $(x+z)$-hat and a
+%    Each $A \in \C(a)$ can be packed into an obtuse triangle with an incircle of area $a$.
 %\end{theorem}
 %
-%\begin{proof}
-%    The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
-%
-%    On the other hand, a single circle of area $a + \varepsilon$ can not be packed, as the the incircle is by definition the largest circle which fits into the triangle.
-%
-%    As for the algebraic formulation of the density bound, the area of the triangle can be calculated using Heron's formula:
-%
-%    $$\Delta(a,b,c) := \sqrt{s(s-a)(s-b)(s-c)} \text{ with } s = \frac{a+b+c}{2}$$
-%
-%    It is also known that the radius of the incircle of this triangle is
-%
-%    $$R(a,b,c) := \frac{\Delta(a,b,c)}{s} \text{ with } s = \frac{a+b+c}{2},$$
-%
-%    so the incircle has an area of
-%
-%    $$I(a,b,c) = \pi R(a,b,c)^2 = \frac{(a+b-c)(c+a-b)(b+c-a)}{4(a+b+c)}.$$
-%
-%    Finally, the ratio between the circle's and the triangle's area can be calculated to be
-%
-%    $$\frac{\pi R(a,b,c)^2}{\Delta(a,b,c)} = \sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi.$$
-%\end{proof}
+%\section{Squares}
 %
 %\begin{figure}
-%    \begin{tabular}{cc}
-%        \subfig[0.013]{example-circles-in-right-1} &
-%        \subfig[0.013]{example-circles-in-right-2} \\
-%        \subfig[0.013]{example-circles-in-right-3} &
-%        \subfig[0.013]{example-circles-in-right-4} \\
-%        \subfig[0.013]{example-circles-in-right-5} &
-%        \subfig[0.013]{example-circles-in-right-6} \\
-%    \end{tabular}
-%    \caption{Example packings of various circle instances in a right triangle produced by Split Packing.}
-%    \label{fig:example-circles-in-right}
+%    \begin{tikzpicture}[scale=2]
+%        \hatsinsquare{0.5}
+%    \end{tikzpicture}
+%    \begin{tikzpicture}[scale=2]
+%        \hatsinsquare{0.49}
+%    \end{tikzpicture}
+%    \begin{tikzpicture}[scale=2]
+%        \hatsinsquare{0.4}
+%    \end{tikzpicture}
+%    \begin{tikzpicture}[scale=2]
+%        \hatsinsquare{0.2}
+%    \end{tikzpicture}
+%    \begin{tikzpicture}[scale=2]
+%        \hatsinsquare{0}
+%    \end{tikzpicture}
+%
+%    \caption{Hat-in-square packings for different values of $\frac{x}{x+y}$}
+%    \label{fig:hatsinsquare}
 %\end{figure}
 %
-%%\fig{triangle-worst}{Worst-case circle instance for a triangle in terms of packing density.}
 %
-%\section{Isosceles triangles}
 %
-%Split Packing gives worst-case optimal results not only for non-acute triangles, but also for isosceles triangles, as long as its two symmetric sides are not longer than the base. In this sense, it works for all triangles inbetween a right isosceles triangle and an equilateral triangle.
-%
-%\begin{definition}
-%    A \emph{thick isosceles triangle} is an isosceles triangle whose legs are at most as long as its base, but whose top angle is at least $\frac{\pi}{4}$. Examples are shown in \Cref{fig:iso-range}.
-%\end{definition}
-%
-%\fig[1]{iso-range}{Range of considered isosceles triangles.}
-%
-%To prove the worst case for these triangles, we first make a statement about a triangle's \emph{twin circles}:
-%
-%\begin{lemma}\label{th:iso-worst}
-%    Two touching equal circles, placed in the corners connected by a triangle's longest side, are the triangle's twincircles, meaning there are no two larger equal circles which can be packed.
-%\end{lemma}
-%
+%Finally, we can bring the \textsc{Split} algorithm and the properties of the hat shapes together and give constructive proofs for the existence of circle packings:
+
 %\begin{proof}
-%    Call the circle's radius $r$.
-%    When eroding the triangle by $r$, the remaining area is a triangle similar the the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when eroding the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
-%    But to pack two circles with radius $r+\varepsilon$, their centers need to be placed at least $r+\varepsilon$ away from the triangle's boundary and at least $2r+2\varepsilon$ away from each other. The construction shows that this is not possible.
+%Call the hat's smaller angles $\alpha$ and $\beta$. Set $f = $
 %\end{proof}
 %
-%\fig{twincircles-construction}{Two circles larger than these can not be packed.}
+%We are now ready to prove our main theorem:
 %
-%In the previous section, the target area $a$ which we wanted to pack always was the area of the triangles incircle. For thick isosceles triangles, the twincircle area, constituting an upper bound for the always-packable area, is \emph{smaller} than the incircle, which means it will not always be possible to pack the area of the incircle.
-%
-%In this section, we will argue that we can always pack the twincircle area into thick isosceles triangles.
-%
-%\begin{definition}
-%    The split key of an isosceles triangle is $(1,1)$.
-%\end{definition}
-%
-%\begin{lemma}\label{th:hats-in-iso}
-%    Consider a thick isosceles triangle with a twincircle area of $a$ and call its symmetric angles $\alpha$.
-%    For all $(a,0,(1,1))$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
-%    \begin{itemize}
-%        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
-%        \item a right $(a_2,b_2)$-hat with a left-angle of $\alpha$.
-%    \end{itemize}
-%\end{lemma}
-%
-%\begin{proof}
-%    Firstly, we show that the hats do not intersect each other: In any isosceles triangle, the projection factors for both sides are equal. So in \Cref{fig:iso-width}, we construct the width of the triangle's base to be $2\sqrt{\frac{a}{2}}p_1 = \sqrt{2ap_1^2} = \sqrt{a(p_1^2+p_2^2)}$. By \Cref{th:overlap}, this means that the hats do not overlap.
-%
-%    \fig{iso-width}{The width of an isosceles triangle is $\sqrt{2ap_1^2}$.}
-%
-%    Secondly, we show that the hats do not intersect the container. We are going to re-use the proof from \Cref{th:hats-in-hat} here. On \cpageref{eq:tripoke}, we showed that the hats do not overlap the container if certain conditions are met. These conditions are also true here:
-%
-%    \begin{itemize}
-%        \item $a_1 + a_2 \le a$, the hat's incircles add up to at most $a$ because of the conjugatedness of the tuples.
-%        \item $f_i + f_j \ge a$, in this case, the incircles of the triangles sides are equal to $a$ by assumption.
-%        \item $o \ge a$, meaning that the triangles incircle is at least as large as the area of the twincircles. This can be demonstrated like in \Cref{fig:hat-f-sum} on \cpageref{fig:hat-f-sum}, but in the reverse direction: For a right isosceles triangle, the twincircle area $a$ is exactly equal to the triangle's incircle. If leaving the twincircles in place, but increasing the top angle, the incircle only gets larger.
-%    \end{itemize}
-%
-%    So also in this case, the hats do not overlap the container. This concludes the proof.
-%\end{proof}
-%
-%\begin{table}
-%    \caption{Packing two hats into an isosceles triangle.}
-%    \label{tab:hats-in-hat}
-%
-%    \begin{tabular}{cp{10cm}}
-%        \vspace{10pt}
-%
-%        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%            \hatsinhat[1.244]{60}{60}{0.5}{0}
-%        \end{tikzpicture}
-%        & Blaha \\
-%
-%        \vspace{10pt}
-%
-%        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%            \hatsinhat[1.244]{60}{60}{0.45}{0}
-%        \end{tikzpicture}
-%        & \\
-%
-%        \vspace{10pt}
-%
-%        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%            \hatsinhat[1.244]{60}{60}{0.4}{0}
-%        \end{tikzpicture}
-%        & \\
-%
-%        \vspace{10pt}
-%
-%        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%            \hatsinhat[1.244]{60}{60}{0.2}{0}
-%        \end{tikzpicture}
-%        & \\
-%
-%        \vspace{10pt}
-%
-%        \begin{tikzpicture}[scale=2,baseline={([yshift={-\ht\strutbox}]current bounding box.north)},outer sep=0pt,inner sep=0pt]
-%            \hatsinhat[1.244]{60}{60}{0}{0}
-%        \end{tikzpicture}
-%        & \\
-%
-%        \vspace{10pt}
-%    \end{tabular}
-%\end{table}
-%
-%\begin{theorem}\label{th:iso}
-%    Given a thick isosceles triangle with a twincircle area of $a$, all circle instances with a combined area of up to $a$ can be packed into the triangle, and this area bound is tight.
-%    See \Cref{fig:example-circles-in-equilateral} for some example packings.
-%    Expressed algebraically, the density bound is
-%
-%    $$\frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
-%\end{theorem}
-%
-%\begin{proof}
-%    By \Cref{th:hats-in-iso} and the Split Packing Theorem, the triangle is a $\C(a)$-shape.
-%
-%    In \Cref{th:iso-worst}, we argued that any two equal circles larger than the twincircles can not be packed.
-%
-%    We use Heron's formula again to calculate a density bound of
-%
-%    $$\frac{2I(\frac{a}{2}, b, h)}{\frac{a}{2}h} = \frac{(a-2b+\sqrt{4b^2-a^2})^2\pi}{2a\sqrt{4b^2-a^2}}.$$
-%\end{proof}
-%
-%\begin{figure}
-%    \begin{tabular}{cc}
-%        \subfig[0.015]{example-circles-in-equilateral-1} &
-%        \subfig[0.015]{example-circles-in-equilateral-2} \\
-%        \subfig[0.015]{example-circles-in-equilateral-3} &
-%        \subfig[0.015]{example-circles-in-equilateral-4} \\
-%        \subfig[0.015]{example-circles-in-equilateral-5} &
-%        \subfig[0.015]{example-circles-in-equilateral-6} \\
-%    \end{tabular}
-%    \caption{Example packings of various circle instances in an equilateral triangle produced by Split Packing.}
-%    \label{fig:example-circles-in-equilateral}
-%\end{figure}
-%
-%%\begin{theorem}
-%%    Each $A \in \C(a)$ can be packed into an isosceles triangle with a largest angle $\gamma$ between $\frac{\pi}{2}$ and $\frac{\pi}{3}$ and an area of $a\frac{1+\frac{1}{\sin(\gamma)}}{\pi}$.
-%%\end{theorem}
-%%
-%%\begin{theorem}
-%%    For any $0 < x$ and $0 < y$, there are always 
-%%    a $(x+z)$-hat and a
-%%    Each $A \in \C(a)$ can be packed into an obtuse triangle with an incircle of area $a$.
-%%\end{theorem}
-%%
-%%\section{Squares}
-%%
-%%\begin{figure}
-%%    \begin{tikzpicture}[scale=2]
-%%        \hatsinsquare{0.5}
-%%    \end{tikzpicture}
-%%    \begin{tikzpicture}[scale=2]
-%%        \hatsinsquare{0.49}
-%%    \end{tikzpicture}
-%%    \begin{tikzpicture}[scale=2]
-%%        \hatsinsquare{0.4}
-%%    \end{tikzpicture}
-%%    \begin{tikzpicture}[scale=2]
-%%        \hatsinsquare{0.2}
-%%    \end{tikzpicture}
-%%    \begin{tikzpicture}[scale=2]
-%%        \hatsinsquare{0}
-%%    \end{tikzpicture}
-%%
-%%    \caption{Hat-in-square packings for different values of $\frac{x}{x+y}$}
-%%    \label{fig:hatsinsquare}
-%%\end{figure}
-%%
-%%
-%%
-%%Finally, we can bring the \textsc{Split} algorithm and the properties of the hat shapes together and give constructive proofs for the existence of circle packings:
-%
-%%\begin{proof}
-%%Call the hat's smaller angles $\alpha$ and $\beta$. Set $f = $
-%%\end{proof}
-%%
-%%We are now ready to prove our main theorem:
-%%
-%
-%\section{The problem with acute triangles}\label{sec:acute-triangles}
-%
-%A class of triangles for which we could not show worst-case optimality are general acute triangles. The problem is that the condition for \Cref{th:overlap} is not met, which means that the two hats can overlap:
-%
-%\fig{overlap}{For general acute triangles, the two hats might overlap.}
-%
-%We worked on the following assumption:
-%
-%\begin{conjecture}
-%    A circle instance can be packed in a triangle if the circles' combined area does not exceed the triangles incircle or twincircle, whichever is smaller.
-%\end{conjecture}
-%
-%If this conjecture is true, surely there are strategies which can pack into acute triangles worst-case optimally. For example, we attempted to split the circle instance into four subinstances using a slightly modified \textsc{Split} algorithm, and then to pack four hats into the container, like in \Cref{fig:four}. Again, this is motivated by the observation that, when splitting each circle top-down into four equal circles, this strategy always works because the triangle is recursively divided into four similar triangles.
-%
-%\fig{four}{Packing four hats into an acute triangle.}
-%
-%Unfortunately, this strategy fails for some instances, like depicted in \Cref{fig:four-fail}. For this instance, the largest group, consisting of a single circle, cannot be packed if \emph{any} of the smaller groups is packed in the top or the left corner, because the remaining free space is not wide enough for the circle.
-%
-%\fig{four-fail}{This strategy does not work for a container with a right-angle of $\frac{\pi}{10}$, incircle $1$ and the circle instance $\{0.55,0.15,0.15,0.15\}$.}
-%
-%\section{Rectangles}\label{sec:rectangles}
-%
-%Split Packing can also be used to pack circles worst-case optimally into rectangles. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it sill works. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it sill works.
-%
-%\begin{figure}
-%    \begin{tikzpicture}[scale=2.5]
-%        \hatsinrect{0.5}
-%    \end{tikzpicture}
-%    \begin{tikzpicture}[scale=2.5]
-%        \hatsinrect{0.4}
-%    \end{tikzpicture}
-%    \begin{tikzpicture}[scale=2.5]
-%        \hatsinrect{0.3}
-%    \end{tikzpicture}
-%
-%    \vspace{5mm}
-%
-%    \begin{tikzpicture}[scale=2.5]
-%        \hatsinrect{0.2}
-%    \end{tikzpicture}
-%    \begin{tikzpicture}[scale=2.5]
-%        \hatsinrect{0.1}
-%    \end{tikzpicture}
-%    \begin{tikzpicture}[scale=2.5]
-%        \hatsinrect{0}
-%    \end{tikzpicture}
-%
-%    \caption{Hat-in-rectangle packings for different values of $a_1$ and $a_2$.}
-%    \label{fig:hats-in-rect}
-%\end{figure}
-%
-%At this point, we do not know how to handle \emph{all} rectangles, and this has to do with the different classes of worst-cases which appear when packing circles into rectangles of different ratios. \Cref{fig:long-rects} shows several examples. At the top, we show the conjectured worst-case instance. For squares, we already discussed the worst case---it consists of the square's twincircles, the two largest circles which can be packed into the square.
-%
-%For rectangles with a slightly larger aspect ratio (like 1:1.3), we conjecture that the worst-case instance still consists of the rectangle's twincircles, but we do not know how to pack this area using Split Packing, because when cutting the rectangle along the circles' tangent, the resulting pieces are not triangular. At this point, we do not know how to deal with these kind of quadrilaterals recursively.
-%
-%As the aspect ratio gets even larger, at some point the twincircle area gets larger than the incircle of the rectangle, whose diameter is as long as the rectangle's smaller side. It is obvious that any circle larger than this incircle can not be packed, so from this point forward, the worst-case instance of these “long” rectangles will be their incircles.
-%
-%\fig[2.4]{long-rects}{Rectangles of different aspect ratios. Top: Their worst-case instances. Bottom: The incircles of their halves.}
-%
-%At the bottom of \Cref{fig:long-rects}, we divided all rectangles along their diagonal, and inscribed circles into the resulting halves. We will show that we can pack circles worst-case optimally into a rectangle if the area of those two circles is at least as large as the worst-case area:
-%We know from the previous sections that we can pack right hats with incircle density. It is left to show that, if one of the two hats should get larger than the other one, they both can still be packed.
-%
-%What is the aspect ratio of the rectangle's sides where the combined area of the two circles incribed in the halves is exactly equal to the incircle area? In \Cref{fig:rect-construction}, we see that the area of the incircle is $A = \pi(\frac{h}{2})^2$.
-%
-%\fig[4]{rect-construction}{Constructing the case where $A = 2B$.}
-%
-%The proof of \Cref{th:tri} on \cpageref{th:tri} discusses how to use Heron's formula to algebraically find the area of a triangle, given it's side lenghts.
-%In our case, $A = 2B$ is equivalent to
-%
-%$$\frac{\pi}{4}h^2 = 2I(h,w,\sqrt{h^2+w^2}) = \frac{\pi aw(h+w-\sqrt{h^2+w^2}}{h+w+\sqrt{h^2+w^2}}$$
-%
-%and this equation this is true for $w = \frac{2+3\s}{4}h \approx 1.5607h$.
-%This means that all rectangles whose side ratio is at least this large can be packed wost-case optimally, simply by using the split key $F = (1,1)$ and by placing two right hats in the rectangle.
-%
-%\begin{theorem}\label{th:rect}
-%    Given a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$, let $a$ be the area of its incircle.
-%    All circle instances with a combined area of up to $a$ can be packed into the rectangle, and this area bound is tight.
-%    See \label{fig:example-circles-in-rect} for some example packings.
-%    Expressed algebraically, the density bound is
-%
-%    $$\frac{\pi h}{4w}.$$
-%\end{theorem}
-%
-%\begin{figure}
-%    \begin{tabular}{cc}
-%        \subfig[0.015]{example-circles-in-rect-1} &
-%        \subfig[0.015]{example-circles-in-rect-2} \\
-%        \subfig[0.015]{example-circles-in-rect-3} &
-%        \subfig[0.015]{example-circles-in-rect-4} \\
-%        \subfig[0.015]{example-circles-in-rect-5} &
-%        \subfig[0.015]{example-circles-in-rect-6} \\
-%    \end{tabular}
-%    \caption{Example packings of various circle instances in a rectangle with aspect ratio 1:1.57 produced by Split Packing.}
-%    \label{fig:example-circles-in-rect}
-%\end{figure}
-%
-%\begin{proof}
-%    By \Cref{th:hats-in-rect} and the Split Packing Theorem, the rectangle is a $\C(a)$-shape.
-%
-%    The $a$-circle's diameter is equal to the rectangle's smaller side, so it is obvious that any larger circles can not be packed.
-%
-%    The density bound is the ratio of the circle's and the rectangle's area, which can be calculated to be $\frac{\pi (\frac{h}{2})^2}{wh} = \frac{\pi h}{4w}$.
-%\end{proof}
-%
-%%also works for rectangles whose twincircle area does not exceed their incircle area.
-%
+
+\section{The problem with acute triangles}\label{sec:acute-triangles}
+
+A class of triangles for which we could not prove the critical density are general acute triangles. The problem is that the condition for \Cref{th:overlap} is not met, which means that the two hats might overlap:
+
+\fig{overlap}{For general acute triangles, the two hats might overlap.}
+
+We worked on the following assumption:
+
+\begin{conjecture}
+    A circle instance can be packed in a triangle if the circles' combined area does not exceed the triangles incircle or twincircle, whichever is smaller.
+\end{conjecture}
+
+If this conjecture is true, surely there are strategies which can pack into acute triangles with critical density. For example, we attempted to split the circle instance into four subinstances using a slightly modified \textsc{Split} algorithm, and then to pack four hats into the container, like in \Cref{fig:four}. Again, this is motivated by the observation that, when splitting each circle top-down into four equal circles, this strategy always works because the triangle is recursively divided into four similar triangles.
+
+\fig{four}{Packing four hats into an acute triangle.}
+
+Unfortunately, this strategy fails for some instances, like depicted in \Cref{fig:four-fail}. For this instance, the largest group, consisting of a single circle, cannot be packed if \emph{any} of the smaller groups is packed in the top or the left corner, because the remaining free space is not wide enough for the circle. Other strategies or a case distincion would need to be considered.
+
+\fig{four-fail}{This strategy does not work for a container with a right-angle of $\frac{\pi}{10}$, incircle $1$ and the circle instance $\{0.55,0.15,0.15,0.15\}$.}
+
+\section{Rectangles}\label{sec:rectangles}
+
+Some of our main results concern the packing of circles into a square. We will cover that packing problem in the next chapter, along with some generalizations on the objects which are to be packed, which is why we do not repeat it here. Instead, we first turn towards rectangles.
+
+Split Packing can be used to pack circles worst-case optimally into rectangles. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it sill works. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it sill works.
+
+\begin{figure}
+    \begin{tikzpicture}[scale=2.5]
+        \hatsinrect{0.5}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2.5]
+        \hatsinrect{0.4}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2.5]
+        \hatsinrect{0.3}
+    \end{tikzpicture}
+
+    \vspace{5mm}
+
+    \begin{tikzpicture}[scale=2.5]
+        \hatsinrect{0.2}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2.5]
+        \hatsinrect{0.1}
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=2.5]
+        \hatsinrect{0}
+    \end{tikzpicture}
+
+    \caption{Hat-in-rectangle packings for different values of $a_1$ and $a_2$.}
+    \label{fig:hats-in-rect}
+\end{figure}
+
+At this point, we do not know how to handle \emph{all} rectangles, and this has to do with the different classes of worst-cases which appear when packing circles into rectangles of different ratios. \Cref{fig:long-rects} shows several examples. At the top, we show the conjectured worst-case instance. For squares, we already discussed the worst case---it consists of the square's twincircles, the two largest circles which can be packed into the square.
+
+\fig[2.4]{long-rects}{Rectangles of different aspect ratios. Top: Their conjectured worst-case instances. Bottom: The incircles of their halves. Aspect ratios between 1 and $\approx 1.5607$ are the only ones where the area of the worst-case instance is larger than the area of the two circles inscribed in the halves.}
+
+For rectangles with a slightly larger aspect ratio (like 1:1.3), we conjecture that the worst-case instance still consists of the rectangle's twincircles, but we do not know how to pack this area using Split Packing, because when cutting the rectangle along the circles' tangent, the resulting pieces are not triangular. At this point, we do not know how to deal with these kind of quadrilaterals recursively.
+
+As the aspect ratio gets even larger, at some point the twincircle area gets larger than the incircle of the rectangle, whose diameter is as long as the rectangle's smaller side. It is obvious that any circle larger than this incircle can not be packed, so from this point forward, the worst-case instance of these “long” rectangles will be their incircles.
+
+At the bottom of \Cref{fig:long-rects}, we divided all rectangles along their diagonal, and inscribed circles into the resulting halves. We will show that we can pack circles worst-case optimally into a rectangle if the area of those two circles is at least as large as the worst-case area:
+We know from the previous sections that we can pack right hats with incircle density. It is left to show that, if one of the two hats should get larger than the other one, they both can still be packed.
+
+What is the aspect ratio of the rectangle where the combined area of the two circles incribed in the halves is exactly equal to the incircle area? In \Cref{fig:rect-construction}, we see that the area of the incircle is $A = \pi(\frac{h}{2})^2$.
+
+\fig[4]{rect-construction}{Constructing the case where $A = 2B$.}
+
+The proof of \Cref{th:tri} on \cpageref{th:tri} discusses how to use Heron's formula to algebraically find the area of a triangle, given it's side lenghts.
+In our case, $A = 2B$ is equivalent to
+
+$$\frac{\pi}{4}h^2 = 2I(h,w,\sqrt{h^2+w^2}) = \frac{\pi aw(h+w-\sqrt{h^2+w^2}}{h+w+\sqrt{h^2+w^2}}$$
+
+and this equation this is true for $w = \frac{2+3\s}{4}h \approx 1.5607h$.
+This means that all rectangles whose side ratio is at least this large can be packed wost-case optimally, simply by using the split key $F = (1,1)$ and by placing two right hats in the rectangle.
+
+\begin{lemma}\label{th:hats-in-rect}
+    Consider a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$ and let $a$ be the area of its incircle.
+    Any two $(a,0,(1,1))$-conjugated right hats similar to the two halves of the rectangle when cutting diagonally from corner to corner can be packed into the rectangle.
+\end{lemma}
+
+\begin{proof}
+    See \Cref{fig:hats-in-rect} for some example packings. The proof works analogously to the proof of \Cref{th:hats-in-hat}.
+\end{proof}
+
+\begin{theorem}\label{th:rect}
+    Given a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$, let $a$ be the area of its incircle.
+    All circle instances with a combined area of up to $a$ can be packed into the rectangle, and this area bound is tight.
+    See \Cref{fig:example-circles-in-rect} for some example packings.
+    Expressed algebraically, the density bound is $\frac{\pi h}{4w}$.
+\end{theorem}
+
+\begin{figure}
+    \begin{tabular}{cc}
+        \subfig[0.015]{example-circles-in-rect-1} &
+        \subfig[0.015]{example-circles-in-rect-2} \\
+        \subfig[0.015]{example-circles-in-rect-3} &
+        \subfig[0.015]{example-circles-in-rect-4} \\
+        \subfig[0.015]{example-circles-in-rect-5} &
+        \subfig[0.015]{example-circles-in-rect-6} \\
+    \end{tabular}
+    \caption{Example packings of various circle instances in a rectangle with aspect ratio 1:1.57 produced by Split Packing.}
+    \label{fig:example-circles-in-rect}
+\end{figure}
+
+\begin{proof}
+    By \Cref{th:hats-in-rect} and the Split Packing Theorem, the rectangle is a $\C(a)$-shape.
+
+    The $a$-circle's diameter is equal to the rectangle's smaller side, so it is clear that any larger circles can not be packed.
+
+    The density bound is the ratio of the circle's and the rectangle's area, which can be calculated to be $$\frac{\pi (\frac{h}{2})^2}{wh} = \frac{\pi h}{4w}.$$
+\end{proof}
+
+%also works for rectangles whose twincircle area does not exceed their incircle area.
+
 %\chapter{Packing rubies}\label{ch:rubies}
 %
 %In the last chapter, we showed how Split Packing can be used to pack circular objects into triangles.
