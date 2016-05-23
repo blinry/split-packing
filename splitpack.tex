@@ -49,7 +49,7 @@ published or written by another person except where due reference is made in the
 In the classic \emph{circle packing problem}, one asks whether a given set of circles can be packed into the unit square. This problem is known to be $\mathsf{NP}$-hard, so it is unlikely that there is a fast algorithm which can always make that decision.
 In this thesis, we present a new sufficient condition using only the circles' combined area: It is possible to pack any circle instance with a combined area of up to $\approx \! 53.90\%$ of the square's area. This area condition is tight, in the sense that for any larger percentage, there are instances which can not be packed. We call the ratio between the largest area that can always be packed and the area of the container the \emph{critical density}. Similar results have long been known for squares, but to our knowledge, we are the first to answer this type of question for circular objects.
 
-Our proof is constructive: We describe a versatile, divide and conquer-based algorithm for packing circles and other objects into various container shapes with tight density guarantees. It uses an elegant subdivision scheme which recursively splits the circles into two groups and then packs these into subcontainers, which is why we call the algorithm \emph{Split Packing}.
+Our proof is constructive: We describe a versatile, divide and conquer-based algorithm for packing circles and other objects into various container shapes with tight density guarantees. It uses an elegant subdivision scheme which recursively splits the circles into two groups and then packs these into sub-containers, which is why we call the algorithm \emph{Split Packing}.
 Besides realizing all packings below the critical density bound, there is also a second perspective on the Split Packing algorithm: When looking for the smallest container in which a given set of circles can be packed, it can be used as a constant-factor approximation algorithm, as it runs in polynomial time.
 
 In this thesis, we demonstrate that the Split Packing approach is generalizable to a large number of different packing problems.
@@ -60,7 +60,7 @@ isosceles triangles whose longest side is their base,
 and rectangles with an aspect ratio of more than $\approx \! 1.57:1$.
 Additionally, we show that the same algorithm can also be used to pack objects other than circles: It can pack octagons into squares and isosceles right triangles with critical density, and if allowed to rotate the objects, it can also be used to pack squares into these containers with critical density.
 
-Aside from the obtained results, we believe that the ideas behind Split Packing are interesting and elegant on their own. We see many opportunites to apply these techniques in the context of other packing and covering problems.
+Aside from the obtained results, we believe that the ideas behind Split Packing are interesting and elegant on their own. We see many opportunities to apply these techniques in the context of other packing and covering problems.
 
 \cleardoublepage
 
@@ -77,7 +77,7 @@ I would like to thank the following people for their support in the creation of 
     \item Jan-Marc, for all your encouragement. You were the first one to whom I showed the Split Packing algorithm.
     \item Marco, for spending late hours with me pondering over covering problems.
     \item The Pinky Crew: Jakob, Leslie, Marc, Moritz, and Torsten, for sharing breakfast, time, and friendship.
-    \item Sándor, for sharing your know-how all along, and for suggesting the aweseome topic to me.
+    \item Sándor, for sharing your know-how all along, and for suggesting the awesome topic to me.
     \item Wolfgang, for your love and your unconditional support in more ways than I can count.
     \item The proof-readers, that is, YOU, PROOF-READING THIS RIGHT NOW, thx! <3
     \item All participants of the 31\textsuperscript{th} Bellairs Winter Workshop on Computational Geometry. I drew much inspiration from every one of you!
@@ -126,7 +126,7 @@ We will also generalize this packing approach into two directions: It can be use
 
 \section{Results}
 
-In \Cref{tab:results,tab:results2} we summarize our results. Each table entry represents a different packing problem, namely a specific combination of an object shape (like circles or squares), and a container shape (like a triangle or a recangle).
+In \Cref{tab:results,tab:results2} we summarize our results. Each table entry represents a different packing problem, namely a specific combination of an object shape (like circles or squares), and a container shape (like a triangle or a rectangle).
 
 For all packing problems listed, we will give a constructive proof that any object instance can be packed if the objects' combined area does not exceed the critical density, and if one is allowed to rotate and reflect objects. Each table entry also contains a graphical representation of the worst-case instance which defines this critical density.
 
@@ -209,13 +209,13 @@ One might want to run a number of optical fibers through a tube, or place multip
 
 \paragraph{Cutting industry}
 
-Circle packing is applicable in the cutting indsutry, where one might want to cut circular pieces from a material, minimizing waste \cite{SMCSCG2007new}.
+Circle packing is applicable in the cutting industry, where one might want to cut circular pieces from a material, minimizing waste \cite{SMCSCG2007new}.
 A related problem is the layout of control panels containing circular controls (like in airplane cockpits, for example), which should be placed space-efficiently \parencite{CKP2008solving}.
 
 \paragraph{Communication}
 
 In the context of digital modulation schemes, \emph{quadrature amplitude modulation} is using circle packings to divide the two-dimensional phase-amplitude space into regions, which encode different binary patterns. Larger circles lead to increased noise tolerances \parencite{PWMD1992packing}.
-Network planners might want to place radio towers in a geographical region, mimimizing interference, but maximizing coverage \parencite{SMCSCG2007new}.
+Network planners might want to place radio towers in a geographical region, minimizing interference, but maximizing coverage \parencite{SMCSCG2007new}.
 
 \paragraph{Chemistry}
 
@@ -247,7 +247,7 @@ Finally, some authors develop \textbf{approximation algorithms}, which do make p
 
 A packing problem consists of three components: The first component is the type of objects that are to be packed. For example, these can be square or circular objects, and they can be allowed to have different sizes or be restricted to be of equal size. The second component is the type of the container, for example, a square, a triangle, or a general polygon. Thirdly, one can define restrictions on the movement of the objects: The objects could be allowed to rotate, or be restricted to translations only. Throughout this thesis, we allow the objects to be translated, rotated and reflected unless mentioned otherwise. There are also online variants of packing problems, where the object instance is not known beforehand, but for the purpose of this thesis, we restrict ourselves to offline approaches.
 
-In general, packing arbitraryly-shaped objects into arbitrary containers can immediately shown to be $\mathsf{NP}$-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $2n$. The decision problem whether it is possible to pack these objects into the container is a reduction from \textsc{Partition}.
+In general, packing arbitrarily-shaped objects into arbitrary containers can immediately shown to be $\mathsf{NP}$-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $2n$. The decision problem whether it is possible to pack these objects into the container is a reduction from \textsc{Partition}.
 
 \section{Packing squares}\label{sec:related-squares}
 
@@ -323,7 +323,7 @@ For instances which contain too many circles to determine optimal packings, one 
 Many authors employ heuristics to produce good solutions for circle packing problems.
 A considerable amount of work has been put into finding new records, mostly for equal circles. The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on Specht's website \url{http://packomania.com} \cite{specht2015packomania}.
 
-The works related to this idea are too numerous to be covered here in their entierty, but we will present some of the more important attempts. As described, these approaches do not give performance guarantees, but give lower bounds on the optimal packing of single instances. Most of the works mentioned here have lead to improvements of the best known packings in the literature at the time they were published.
+The works related to this idea are too numerous to be covered here in their entirety, but we will present some of the more important attempts. As described, these approaches do not give performance guarantees, but give lower bounds on the optimal packing of single instances. Most of the works mentioned here have lead to improvements of the best known packings in the literature at the time they were published.
 
 \paragraph{Quasi-human and quasi-physical}
 
@@ -331,21 +331,21 @@ The works related to this idea are too numerous to be covered here in their enti
 
 \textcite{GLNO1998dense} propose a \emph{billiard simulation} approach, in which the circles are physically simulated as hard disks, and then apply some additional steps to tighten the found packings.
 
-\textcite{BDGL2000improving} model the disks as moving particles with repelling forces, and simulate them using a stragety resembling simmulated annealing.
+\textcite{BDGL2000improving} model the disks as moving particles with repelling forces, and simulate them using a strategy resembling simulated annealing.
 
-\textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity, then finds circles which are "most squeezed", and re-inserts them randomly.
+\textcite{WHZX2002improved} describe a “quasi-physical, quasi-human” approach, which first simulates the circles according to gravity, then finds circles which are “most squeezed”, and re-inserts them randomly.
 
-\textcite{HLLX2006new} apply a quasi-human heuristic, which places new circles in gaps of approximately the same size as the circle, and combine it with a self-look-ahead strategy which evalutates how beneficial the coice of a certain placement for each circle is.
+\textcite{HLLX2006new} apply a quasi-human heuristic, which places new circles in gaps of approximately the same size as the circle, and combine it with a self-look-ahead strategy which evaluates how beneficial the choice of a certain placement for each circle is.
 
-\textcite{LB2013packing} apply a metaheuristic called \emph{formulation space search}, which alternates between two different heuristics, to avoid getting stuck in local minima. After that, they finish off with an improvement phase, which swaps circles if this improves the solution.
+\textcite{LB2013packing} apply a meta-heuristic called \emph{formulation space search}, which alternates between two different heuristics, to avoid getting stuck in local minima. After that, they finish off with an improvement phase, which swaps circles if this improves the solution.
 
-\textcite{HHY2015action} start with a random configuration of unequal circles in a square, simulate them using a quasi-Newton method to reach a minimum energy state, and then perform swapping steps, to get out of locally optimal solutions, followed by a postprocessing step to increase the result's precision.
+\textcite{HHY2015action} start with a random configuration of unequal circles in a square, simulate them using a quasi-Newton method to reach a minimum energy state, and then perform swapping steps, to get out of locally optimal solutions, followed by a post-processing step to increase the result's precision.
 
 \paragraph{Pattern-based}
 
-\textcite{GL1996repeated} indentify various regular patterns for packing equal circles into a square, which produce close-to-optimal results for instances where the number of circles equals certain forms like $k^2$, $k^2-1$, or $k(k+1)$.
+\textcite{GL1996repeated} identify various regular patterns for packing equal circles into a square, which produce close-to-optimal results for instances where the number of circles equals certain forms like $k^2$, $k^2-1$, or $k(k+1)$.
 
-The same authors \cite{lubachevsky1997curved} studied \emph{curved hexagonal packings} of equal circles into a circle, a pattern derived from known best packings of circles in hexagons. For large $n$, a curved hexagonal packing was found to be suboptimal. Instead, good packings found by the authors seem to have a curved hexagonally-packed area in the center and an irregular pattern along the periphery.
+The same authors \cite{lubachevsky1997curved} studied \emph{curved hexagonal packings} of equal circles into a circle, a pattern derived from known best packings of circles in hexagons. For large $n$, a curved hexagonal packing was found to be sub-optimal. Instead, good packings found by the authors seem to have a curved hexagonally-packed area in the center and an irregular pattern along the periphery.
 
 \subsection{Optimization methods}
 
@@ -355,7 +355,7 @@ Another much-explored idea is to model the packing problem as a set of (mostly n
 
 \textcite{ZD2005effective} combine simulated annealing and tabu search to pack unequal circles into a circle.
 
-\textcite{FMC2015evolutionary} solve the problem of packing unequal circles into a circle using genetic algorithms and other evolutionary approaches. As the evolved solutions are not always valid, they evalutate different repair strategies, like repulsion-based or Delauny-based methods.
+\textcite{FMC2015evolutionary} solve the problem of packing unequal circles into a circle using genetic algorithms and other evolutionary approaches. As the evolved solutions are not always valid, they evaluate different repair strategies, like repulsion-based or Delauny-based methods.
 
 \textcite{ALS2008disk} model the problem of packing circles into a square as a global nonlinear optimization problem and apply a stochastic search method similar to Multistart, which they refer to as \emph{Monotonic Basin Hopping}, and which is inspired by molecular conformation problems. They also adapted this algorithm to pack circles into circular containers \cite{GJLS2009solving}.
 
@@ -380,7 +380,7 @@ At one point, we tried restricting the input instance with the hope that this wo
 
 Imagine starting with the total area $a$ combined into one large circle. It's easy to check that this circle can be packed, simply by placing it in the middle of the square, see the top left of \Cref{fig:easy}. Now, you are allowed to “split” the circle into two half-circles, resulting in the worst-case instance discussed in the introduction. If we also cut the square into halves along the circles' tangent, both circles now are incircles of isosceles right triangles.
 If you now split any circle in half again, you can also divide its surrounding triangle into two smaller ones with half the area, and again the resulting circles are the triangles' incircles.
-This allows you to recurse, and to repeat the splitting as often as neccessary, until you arrive at the desired circle instance. This divide-and-conquer approach to recursively split the set of input circles into subsets is the first key idea of the Split Packing algorithm.
+This allows you to recurse, and to repeat the splitting as often as necessary, until you arrive at the desired circle instance. This divide-and-conquer approach to recursively split the set of input circles into subsets is the first key idea of the Split Packing algorithm.
 
 \fig[3]{easy}{Splitting circles in half is easy.}
 
@@ -425,7 +425,7 @@ We continue with some definitions which make it easier to talk about classes of 
 For example, for the circle instance $C = \{1,1,2,3\}$, $\mysum(C) = 7$ and $\min(C) = 1$.
 
 \begin{definition}
-    $\C$ is the set of all circle instances. $\C(a)$ consist of exactly those circle instances $C$ with $\mysum(C) \le a$. Finally, $\C(a,b)$ consists of exactly those circle instances $C \in \C(a)$ with $\min(C) \ge b$.
+    $\C$ is the set of all circle instances. $\C(a)$ consists of exactly those circle instances $C$ with $\mysum(C) \le a$. Finally, $\C(a,b)$ consists of exactly those circle instances $C \in \C(a)$ with $\min(C) \ge b$.
 \end{definition}
 
 Let us give another example for the last definition, as it is crucial for the rest of this thesis: For any circle instance $C$ contained in $\C(1,\frac{1}{8})$, the combined area of $C$'s circles is at most~1, and at the same time, each of $C$'s circles is at least an eigth-circle.
@@ -442,7 +442,7 @@ Finally, we introduce two definitions which come in handy when discussing worst-
 
 \section{Greedy splitting}
 
-The method which we use to split the circle instances in half, \textsc{Split} (\Cref{alg:split}), resembles a greedy scheduling algorithm, which is why we call the process \emph{greedy splitting}. The algorithm takes two inputs: The first is an arbitrary circle instance $C$, which is to be split into two groups. The circles are assumbed to be sorted descendingly by size.
+The method which we use to split the circle instances in half, \textsc{Split} (\Cref{alg:split}), resembles a greedy scheduling algorithm, which is why we call the process \emph{greedy splitting}. The algorithm takes two inputs: The first is an arbitrary circle instance $C$, which is to be split into two groups. The circles are assumed to be sorted descendingly by size.
 
 The second is a tuple of two positive factors, which determines the targeted ratio of the resulting groups' combined areas. For example, if we wanted to split $C$ into equally sized halves, we could choose the tuple $(1,1)$. The tuple $(\frac 1 2,\frac 1 2)$ would give the same result.
 For asymmetric containers, we might want to target a different ratio. For example, if we wanted to make one group three times as large as the other, we could use the tuple $(1,3)$. We call these tuples \emph{split keys}:
@@ -483,7 +483,7 @@ On the other hand, if the resulting groups' area ratio does deviate from the spl
     If $\frac{\mysum(C_i)}{f_i} < \frac{\mysum(C_j)}{f_j}$, then the lemma says that $\min(C_i)$ is smaller than 0, which is certainly true.
 
     Otherwise, Set $r := \frac{\mysum(C_j)}{f_j}$. This value describes the smaller “relative filling level” by the time the algorithm ends.
-    Now assume for contradicion $C_i$ contained an element smaller than $\mysum(C_i) - f_i r$. As the elements were inserted by descending size, all elements which were put into $C_i$ after that element would have to be at least as small. So the last element put into $C_i$ (let us call it~$c$) would be smaller than $\mysum(C_i) - f_i r$, as well.
+    Now assume for contradiction $C_i$ contained an element smaller than $\mysum(C_i) - f_i r$. As the elements were inserted by descending size, all elements which were put into $C_i$ after that element would have to be at least as small. So the last element put into $C_i$ (let us call it~$c$) would be smaller than $\mysum(C_i) - f_i r$, as well.
 
     But this means that $$\frac{\mysum(C_i) - c}{f_i} > \frac{\mysum(C_i) - (\mysum(C_i) - f_i r)}{f_i} = r,$$ meaning that at the moment before $c$ was inserted, the relative filling level of $C_i$ would already have been larger than~$r$.
     Recall that $r$ is the smallest filling level of any group by the time the algorithm ends, meaning that at the time when $c$ is inserted, $C_i$'s filling level is already larger than the filling level of the other group.
@@ -616,7 +616,7 @@ Note that the Split Packing algorithm can easily be extended to allow splitting 
 
 \section{Analysis}
 
-There are two perspectives on the implications of the Split Packing theorem. Suppose that we have all three elements mentioned above in place so that we can use Split Packing to pack each circle instance into $\C(a)$ into a given shape.
+There are two perspectives on the implications of the Split Packing theorem. Suppose that we have all three elements mentioned above in place so that we can use Split Packing to pack each circle instance in $\C(a)$ into a given shape.
 First, we now have a sufficient condition for the decision problem if a given circle instance can be packed into a given container: If the circles have a combined area of at most $a$, then the instance can be packed.
 
 But second, it can also be used as an approximation algorithm. Say you are given a circle instance of combined area $a$, but now we want to find the smallest container of a certain shape (for example, triangular or square) in which the instance can be packed. We can then use Split Packing as an approximation algorithm: Select a $\C(a)$-shape of the family whose guaranteed packing density $d$ is as high as possible. We can then be sure that this container has at most $\frac{1}{d}$ times the area of the optimal container.
@@ -756,7 +756,7 @@ To prepare for the next proof, we establish the following lemma:
 
     This way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
 
-    We first want to show that the hats do not overlap each other. If the hats' projections onto the container's base do not overlap, we found a seperating axis and can be sure that the hats do not overlap, as well. Furthermore, because the hats' incircles touch the rightmost part of the left hat's boundary and the leftmost part of the right hat's boundary, it suffices to show that the projections of the hats' incircles onto the container's base do not overlap.
+    We first want to show that the hats do not overlap each other. If the hats' projections onto the container's base do not overlap, we found a separating axis and can be sure that the hats do not overlap, as well. Furthermore, because the hats' incircles touch the rightmost part of the left hat's boundary and the leftmost part of the right hat's boundary, it suffices to show that the projections of the hats' incircles onto the container's base do not overlap.
 
     We want to use \Cref{th:overlap} for this proof, so we need to make a statement about the projection factors $p_1$ and $p_2$ in \Cref{fig:hatlr}: If the top angle is a right angle, we can see that $\sqrt{a}p_1 = x$ and $\sqrt{a}p_2 = y$. So by the Pythagorean theorem, $w^2 = (\sqrt{a}p_1)^2 + (\sqrt{a}p_2)^2$.
      If the top angle is more obtuse, but the incircle's center stays at the same $x$-coordinate (like the dotted variant in \Cref{fig:hatlr}),
@@ -850,7 +850,7 @@ To prepare for the next proof, we establish the following lemma:
     From the conjugatedness we know that $a_i$ is never larger than $a$, so \Cref{eq:tripoke} is true and the hat always fits into the container. This completes the proof of \Cref{th:hats-in-hat}.
 \end{proof}
 
-Until now, the container was always an $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that that the rounding of the container hat is no longer 0, but $b$.
+Until now, the container was always an $(a,0)$-hat, which is essentially a non-rounded triangle with an incircle of $a$. The next lemma extends this idea to hats which are actually rounded. It is identical to \Cref{th:hats-in-hat}, except that the rounding of the container hat is no longer 0, but $b$.
 
 \begin{lemma}\label{th:rounded-hats-in-hat}
     Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
@@ -880,7 +880,7 @@ With these preparations, we can finally apply Split Packing to hats:
 
     Now assume that for any $0 \le b \le a$, any $(a,b)$-hat could pack all circle instances into $\C(a,b)$ with at most $n$ circles. Consider a circle instance $C \in \C(a,b)$ containing $n+1$ circles.
     \Cref{def:hat-split-key} tells us how to compute the split key $F$.
-    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats into the container, we have connstructed a packing of $C$ into the container hat.
+    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats into the container, we have constructed a packing of $C$ into the container hat.
 
     By induction, we can pack each $C \in \C(a,b)$ into the $(a,b)$-hat.
 \end{proof}
@@ -900,7 +900,7 @@ As a non-acute triangles is only a special case of a hat, this section is will b
 \begin{proof}
     The triangle is an $(a,0)$-hat, which by \Cref{th:hats} is a $\C(a)$-shape.
 
-    On the other hand, a single circle of area $a + \varepsilon$ can not be packed, as the the incircle is by definition the largest circle which fits into the triangle.
+    On the other hand, a single circle of area $a + \varepsilon$ can not be packed, as the incircle is by definition the largest circle which fits into the triangle.
 
     As for the algebraic formulation of the critical density, the area of the triangle can be calculated using Heron's formula:
 
@@ -950,7 +950,7 @@ To prove the worst case for these triangles, we first make a statement about a t
 
 \begin{proof}
     Call the circles' radius $r$.
-    When eroding the triangle by $r$, the remaining area is a triangle similar the the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when eroding the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
+    When eroding the triangle by $r$, the remaining area is a triangle similar to the original one, whose longest side has a length of $2r$, see \Cref{fig:twincircles-construction}. This means that when eroding the triangle by $r+\varepsilon$, the longest side of the remaining area must be shorter than $2r$.
     But to pack two circles with radius $r+\varepsilon$, their centers need to be placed at least $r+\varepsilon$ away from the triangle's boundary and at least $2r+2\varepsilon$ away from each other. The construction shows that this is not possible.
 \end{proof}
 
@@ -1068,7 +1068,7 @@ If this conjecture is true, surely there are strategies which can pack into acut
 
 \fig{four}{Packing four hats into an acute triangle.}
 
-Unfortunately, this strategy fails for some instances, like depicted in \Cref{fig:four-fail}. For this instance, the largest group, consisting of a single circle, cannot be packed if \emph{any} of the smaller groups is packed into the top or the left corner, because the remaining free space is not wide enough for the circle. Other strategies or a case distincion would need to be considered.
+Unfortunately, this strategy fails for some instances, like depicted in \Cref{fig:four-fail}. For this instance, the largest group, consisting of a single circle, cannot be packed if \emph{any} of the smaller groups is packed into the top or the left corner, because the remaining free space is not wide enough for the circle. Other strategies or a case distinction would need to be considered.
 
 \fig{four-fail}{This strategy does not work for a container with a right-angle of $\frac{\pi}{10}$, incircle $1$ and the circle instance $\{0.55,0.15,0.15,0.15\}$.}
 
@@ -1109,7 +1109,7 @@ At this point, we do not know how to handle \emph{all} rectangles, and this has 
 
 \fig[2.4]{long-rects}{Rectangles of different aspect ratios. Top: Their conjectured worst-case instances. Bottom: The incircles of their halves. Aspect ratios between 1 and $\approx 1.5607$ are the only ones where the area of the worst-case instance is larger than the area of the two circles inscribed in the halves.}
 
-For rectangles with a slightly larger aspect ratio (like 1:1.3), we conjecture that the worst-case instance still consists of the rectangle's twincircles, but we do not know how to pack this area using Split Packing, because when cutting the rectangle along the circles' tangent, the resulting pieces are not triangular. At this point, we do not know how to deal with these kind of quadrilaterals recursively.
+For rectangles with a slightly larger aspect ratio (like 1:1.3), we conjecture that the worst-case instance still consists of the rectangle's twincircles, but we do not know how to pack this area using Split Packing, because when cutting the rectangle along the circles' tangent, the resulting pieces are not triangular. At this point, we do not know how to deal with these kinds of quadrilaterals recursively.
 
 As the aspect ratio gets even larger, at some point the twincircle area gets larger than the incircle of the rectangle, whose diameter is as long as the rectangle's smaller side. It is obvious that any circle larger than this incircle can not be packed, so from this point forward, the worst-case instance of these “long” rectangles will be their incircles.
 
@@ -1120,13 +1120,13 @@ What is the aspect ratio of the rectangle where the combined area of the two cir
 
 \fig[4]{rect-construction}{Constructing the case where $A = 2B$.}
 
-The proof of \Cref{th:tri} on \cpageref{th:tri} discusses how to use Heron's formula to algebraically find the area of a triangle, given it's side lenghts.
+The proof of \Cref{th:tri} on \cpageref{th:tri} discusses how to use Heron's formula to algebraically find the area of a triangle, given it's side lengths.
 In our case, $A = 2B$ is equivalent to
 
 $$\frac{\pi}{4}h^2 = 2I(h,w,\sqrt{h^2+w^2}) = \frac{\pi aw(h+w-\sqrt{h^2+w^2}}{h+w+\sqrt{h^2+w^2}}$$
 
 and this equation this is true for $w = \frac{2+3\s}{4}h \approx 1.5607h$.
-This means that all rectangles whose side ratio is at least this large can be packed wost-case optimally, simply by using the split key $F = (1,1)$ and by placing two right hats in the rectangle.
+This means that all rectangles whose side ratio is at least this large can be packed worst-case optimally, simply by using the split key $F = (1,1)$ and by placing two right hats in the rectangle.
 
 \begin{lemma}\label{th:hats-in-rect}
     Consider a rectangle whose longer side $w$ is at least $\frac{2+3\s}{4} \approx 1.5607$ times as long as its shorter side $h$ and let $a$ be the area of its incircle.
@@ -1182,7 +1182,7 @@ In fact it turns out that, if you are given a set of objects, no matter what the
 
 \section{Gems and rubies}
 
-For this generalization, we need another new shape, which has a similar function as previous chapter's \emph{hats}. Our ruby shape has a very distinct way its corners are cut off. We generalize this cutoff to get to a family of shapes which call we \emph{gems}\footnote{A ruby is a special gem, get it?}:
+For this generalization, we need another new shape, which has a similar function as previous chapter's \emph{hats}. Our ruby shape has a very distinct way its corners are cut off. We generalize this cutoff to get to a family of shapes which we call \emph{gems}\footnote{A ruby is a special gem, get it?}:
 
 \begin{definition}
     For each $0 \le b \le a$, an \emph{$(a,b)$-gem} is an isosceles right triangle with an incircle of area $a$, whose acute corners are cut off like shown in \Cref{fig:gem}: Each cut forms an angle of $\frac3 4\pi$ with the triangle's boundary, and the distance of each cut to the triangle's original corner is
@@ -1413,7 +1413,7 @@ As isosceles right triangles are simply non-rounded sharp gems, this is again go
     \label{fig:example-sharp-rubies-in-iso}
 \end{figure}
 
-We can make the following observation here: Given an isosceles right triangle with a incircle area of $a$, and some arbitrary objects, if one can enclose each object in a sharp ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the triangle. This is a very general result which can be used to directly solve some other interesting packing problems:
+We can make the following observation here: Given an isosceles right triangle with an incircle area of $a$, and some arbitrary objects, if one can enclose each object in a sharp ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the triangle. This is a very general result which can be used to directly solve some other interesting packing problems:
 
 \begin{corollary}\label{th:iso-right2}
     Given a right isosceles triangle with an incircle area of $a$, the following object instances can be packed into the square.
@@ -1517,7 +1517,7 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
 
 \begin{proof}
     Place the tips of the gems in two opposing corners of the square, like in \Cref{fig:gems-in-square}.
-    This placement constitues a valid packing because (1) the gems fit into the square individually and (2) the gems never overlap. This can be proven algebraically in exactly the same fashion as in \Cref{th:gems-in-gem}, where we proved a similar statement about packing into gems.
+    This placement constitutes a valid packing because (1) the gems fit into the square individually and (2) the gems never overlap. This can be proven algebraically in exactly the same fashion as in \Cref{th:gems-in-gem}, where we proved a similar statement about packing into gems.
 \end{proof}
 
 \begin{theorem}\label{th:square}
@@ -1592,11 +1592,11 @@ Also, the problem of finding the critical density for packing into \textbf{acute
 
 Instead of packing circular, square, and octagonal objects, \textbf{more object types} could be considered, like ovals, rectangles, or even more general convex objects. For these modified problems, again, it seems non-obvious what the worst-case packings would look like.
 
-For long rectangles (and long containers in general), in \Cref{sec:rectangles} we discussed that the maximally packable area is limited by the relatively small height, making the problem rather trivial. It would be a more interesting problem to require a \textbf{maximum object size}: What is the larest $a$ so that all circle instances with a combined area of at most $a$, each of which have a diameter \emph{not larger than a rectangle's smaller side}, can be packed into that rectangle?
+For long rectangles (and long containers in general), in \Cref{sec:rectangles} we discussed that the maximally packable area is limited by the relatively small height, making the problem rather trivial. It would be a more interesting problem to require a \textbf{maximum object size}: What is the largest $a$ so that all circle instances with a combined area of at most $a$, each of which have a diameter \emph{not larger than a rectangle's smaller side}, can be packed into that rectangle?
 
 The Split Packing method as described in this thesis is a strictly offline approach, as the greedy splitting requires sorting the complete input instance, and then proceeds in a top-down fashion. It would be interesting to study to which extent the obtained results could be replicated in an \textbf{online situation}. The best algorithm that packs squares into a square in an online fashion is currently by \textcite{brubach2014improved} and gives a density guarantee of $\frac{2}{5}$. As mentioned in \Cref{sec:related-squares}, we can directly use this algorithm to pack circles into a square in an online situation with a density of $\frac{\pi}{10} \approx 0.3142$. It would be particularly interesting to see whether some form of online Split Packing would give better results.
 
-Our original motivation stemmed from origami design. When only packing circles, the resulting origami structures resemble arbitrary stars. When one wants to design general tree-shaped structures, it is neccessary to introduce seperating pathways between the circles, a technique called \textbf{circle/river packing}, pioneered by \textcite{lang1996computational}.
+Our original motivation stemmed from origami design. When only packing circles, the resulting origami structures resemble arbitrary stars. When one wants to design general tree-shaped structures, it is necessary to introduce separating pathways between the circles, a technique called \textbf{circle/river packing}, pioneered by \textcite{lang1996computational}.
 A packing scheme like Split Packing seems promising because it often introduces gaps inbetween two subgroups anyway. At this point, we can establish a constant-factor approximation for perfectly symmetric binary trees (see \Cref{fig:origami}), but do not know how to approximate the paper size needed for crease patterns of general trees.
 
 \fig[8]{origami}{A folding of the tree on the left can be realized by a crease pattern based on the circle/river packing on the right.}
@@ -1609,9 +1609,9 @@ It seems like a natural extension to apply Split Packing to \textbf{three-dimens
     \caption{Left: Assumed worst case for packing spheres into a cube. Right: Two quarter-spheres do not fit in a half.}\label{fig:cube-half}
 \end{figure}
 
-Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that combined area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypothenuse is sufficient, see \Cref{fig:cover}. It would now be neccessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and it does not seem trivial to find an argument fot that.
+Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that combined area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypotenuse is sufficient, see \Cref{fig:cover}. It would now be necessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and it does not seem trivial to find an argument fot that.
 
-\fig[2.5]{cover}{A isoscles right triangle can always be covered by two circles with a combined area of its excircle.}
+\fig[2.5]{cover}{A isosceles right triangle can always be covered by two circles with a combined area of its excircle.}
 
 \printbibliography
 
