@@ -166,7 +166,7 @@ We will also generalize this packing approach into two directions: It can be use
 
 %In this thesis, we ask the same question for packing circles into various containers.
 
-%Our original motivation comes from an unexpected direction: Origami design.
+%Our original motivation comes from an unexpected direction: origami design.
 
 %Consider the circle packing shown in \Cref{fig:worst-case}. It is easy to argue that these two circles cannot be packed into any smaller square. Call their combined area $a$. We considered the following problem: Can all circle instances with a combined area of $a$ (like the one in \Cref{fig:big-question}) be packed into this specific square?
 %If so, the packing density in \Cref{fig:worst-case} would be the \emph{critical density} for packing circles in a square: All circle instances with a lower packing density could be packed in the square, and for all higher densities one could find circle instances which could not be packed. In other words, the two above circles would represent a worst-case instance in terms of packing density. In this thesis, we give a constructive proof that this is indeed the case.
@@ -290,7 +290,7 @@ In foresting, one might want to plant trees so that the grown forest will be as 
 
 \paragraph{Design}
 
-A surprising application of circle packing involves the design of crease patterns for Origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of Origami structures which resemble trees involves a packing problem called circle/river-packing. See \Cref{fig:origami} on \cpageref{fig:origami} for an example. This kind of Origami design was pioneered by Robert J. Lang \cite{lang1996computational}. Using circle packings (without “rivers”), one can design crease patterns for folding arbitrary stars.
+A surprising application of circle packing involves the design of crease patterns for origami. In this problem, one wants to determine a sequence of folds of a square piece of paper, so that the result resembles a specific shape. The design of origami structures which resemble trees involves a packing problem called circle/river-packing. See \Cref{fig:origami} on \cpageref{fig:origami} for an example. This kind of origami design was pioneered by Robert J. Lang \cite{lang1996computational}. Using circle packings (without “rivers”), one can design crease patterns for folding arbitrary stars.
 
 \section{Organization}
 
@@ -872,7 +872,7 @@ To prepare for the next proof, we establish the following lemma:
     Let $w'(a_1) = \sqrt{a_1}p_1 + \sqrt{a-a_1}p_2$ be the combined width of both projections. This function has its global maximum at $a_1 = \frac{p_1^2}{p_1+p_2}a$, and the maximum value is $\sqrt{a(p_1^2+p_2^2)}$. If $w$ is at least as large as this value, the two projections do never intersect.
 \end{proof}
 
-\fig{hats-overlap}{text}
+\fig{hats-overlap}{The circles' projections do not overlap if $w \ge \sqrt{a(p_1^2 + p_2^2)}$.}
 
 \begin{lemma}\label{th:hats-in-hat}
     Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
@@ -1911,20 +1911,20 @@ Note that the result that you can pack all sets of squares with a density of up 
 %
 %Potential applications
 
-In this thesis, we mainly considered triangular and square containers. It would be interesting to see whether the Split Packing technique could be adapted to even \textbf{more container types}, like circles, ovals, regular polygons, or generalized quadrilaterals. For some of these container types, even the worst-case instance does not seem obvious. For circular and “almost square” rectangular containers, we assume the worst cases would again be their twincircles, see \Cref{fig:circle-rect-worst}, but it is unclear how to deal with the resulting shapes when cutting along the circles' tangent: Compared to triangular and square containers, these shapes cannot be split into self-similar pieces. It is also possible that the depicted instances are not the actual worst cases.
+In this thesis, we mainly considered triangular and square containers. It would be interesting to see whether the Split Packing approach could be adapted to even \textbf{more container types}, like circles, ovals, regular polygons, or generalized quadrilaterals. For some of these container types, even the worst-case instance does not seem obvious. For circular and “almost square” rectangular containers, we assume the worst cases would again be their twincircles, see \Cref{fig:circle-rect-worst}, but it is unclear how to deal with the resulting shapes when cutting along the circles' tangent: Compared to triangular and square containers, these shapes cannot be split into self-similar pieces. It is also possible that the depicted instances are not the actual worst cases.
 
 \fig[1.5]{circle-rect-worst}{Assumed worst-case instances for a circle and a near-square rectangle.}
 
-Also, the problem of packing worst-case optimally into \textbf{acute triangles} is still open. See \Cref{sec:acute-triangles} for a discussion on why the Split Packing approach which we used for non-acute triangles does not directly work for acute ones. If one could find a strategy for packing worst-case optimally into acute triangles, then, combined with the results of this thesis, we would have an elegant, general result for all triangles.
+Also, the problem of finding the critical density for packing into \textbf{acute triangles} is still open. See \Cref{sec:acute-triangles} for a discussion on why the Split Packing approach does not directly work for acute ones. If one could find a strategy for packing worst-case optimally into acute triangles, then, combined with the results of this thesis, we would have an elegant, general result for all triangles.
 
 Instead of packing circular, square, and octagonal objects, \textbf{more object types} could be considered, like ovals, rectangles, or even more general convex objects. For these modified problems, again, it seems non-obvious what the worst-case packings would look like.
 
-For long rectangles (and long containers in general), in \Cref{sec:rectangles} we discussed that the maximally packable area is limited by the relatively small height, making the problem rather trivial. It would be a more interesting problem if we require a \textbf{maximum object size}: What is the larest $a$ so that all circle instances with a combined area of at most $a$, each of which have a diameter \emph{not larger than a rectangle's smaller side}, can be packed into that rectangle?
+For long rectangles (and long containers in general), in \Cref{sec:rectangles} we discussed that the maximally packable area is limited by the relatively small height, making the problem rather trivial. It would be a more interesting problem to require a \textbf{maximum object size}: What is the larest $a$ so that all circle instances with a combined area of at most $a$, each of which have a diameter \emph{not larger than a rectangle's smaller side}, can be packed into that rectangle?
 
 The Split Packing method as described in this thesis is a strictly offline approach, as the greedy splitting requires sorting the complete input instance, and then proceeds in a top-down fashion. It would be interesting to study to which extent the obtained results could be replicated in an \textbf{online situation}. The best algorithm that packs squares into a square in an online fashion is currently by \textcite{brubach2014improved} and gives a density guarantee of $\frac{2}{5}$. As mentioned in \Cref{sec:related-squares}, we can directly use this algorithm to pack circles into a square in an online situation with a density of $\frac{\pi}{10} \approx 0.3142$. It would be particularly interesting to see whether some form of online Split Packing would give better results.
 
 Our original motivation stemmed from origami design. When only packing circles, the resulting origami structures resemble arbitrary stars. When one wants to design general tree-shaped structures, it is neccessary to introduce seperating pathways between the circles, a technique called \textbf{circle/river packing}, pioneered by \textcite{lang1996computational}.
-A packing scheme like Split Packing seems promising because it often introduces gaps inbetween two subgroups anyway. At this point, we can establish constant-factor approximations for perfectly symmetric binary trees (see \Cref{fig:origami}), but do not know how to approximate the paper size needed for crease patterns of general trees.
+A packing scheme like Split Packing seems promising because it often introduces gaps inbetween two subgroups anyway. At this point, we can establish a constant-factor approximation for perfectly symmetric binary trees (see \Cref{fig:origami}), but do not know how to approximate the paper size needed for crease patterns of general trees.
 
 \fig[8]{origami}{A folding of the tree on the left can be realized by a crease pattern based on the circle/river packing on the right.}
 
@@ -1936,9 +1936,9 @@ It seems like a natural extension to apply Split Packing to \textbf{three-dimens
     \caption{Left: Assumed worst case for packing spheres into a cube. Right: Two quarter-spheres do not fit in a half.}\label{fig:cube-half}
 \end{figure}
 
-Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that combined area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypothenuse is sufficient, see \Cref{fig:cover}. It would now be neccessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and we did not find an argument fot that, yet.
+Instead of packing circles into containers, one could ask a question which is in some sense the opposite problem: What is the smallest area so that we can always \textbf{cover the container} with circles of that combined area? For example, if we want to cover a isosceles right triangle, and restrict ourselves to at most two circles in our input instance, the area of a circle whose diameter equals the triangle's hypothenuse is sufficient, see \Cref{fig:cover}. It would now be neccessary to show that the area of the left circle is always enough to cover the quadrilateral on the left, and it does not seem trivial to find an argument fot that.
 
-\fig[1.5]{cover}{A isoscles right triangle can always be covered by two circles with a combined area of its excircle.}
+\fig[2.5]{cover}{A isoscles right triangle can always be covered by two circles with a combined area of its excircle.}
 
 \printbibliography
 
