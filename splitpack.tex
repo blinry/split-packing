@@ -624,28 +624,35 @@ First, we now have a sufficient condition for the decision problem if a given ci
 
 But second, it can also be used as an approximation algorithm. Say you are given a circle instance of combined area $a$, but now we want to find the smallest container of a certain shape (for example, triangular or square) in which the instance can be packed. We can then use Split Packing as an approximation algorithm: Select a $\C(a)$-shape of the family whose guaranteed packing density $d$ is as high as possible. We can then be sure that this container has at most $\frac{1}{d}$ times the area of the optimal container.
 
+We will first show that Split Packing has polynomial runtime, as required for an approximation algorithm, and then argue about the approximation factor.
+
+\begin{theorem}
+    Split Packing requires $O(n)$ basic geometric constructions and $O(n^2)$ numerical operations.
+\end{theorem}
+
+\begin{proof}
+    To argue why we only need a linear number of geometric constructions, we can count the nodes of the recursion tree: Each subcontainer either has two children (if more than one circle needs to be packed inside), or one (in this case, the child is a circle and the recursion ends). Without the circles, the recursion tree is a full binary tree with $n$ leaf nodes, meaning that it has exactly $n-1$ interior nodes. The root node is the container of the packing problem, which does not need to be packed. In total, we need to pack $2n-2$ subcontainers, in addition to the $n$ circles of the input instance, leading to $O(n)$ geometric constructions.
+
+    In addition, to build the recursion tree, we need at most a quadratic number of numeric operations:
+    Before \textsc{Splitpack} is first invoked, the circle instance has to be sorted descendingly by size, this can be done in $O(n \log n)$ time. Additionally, each run of the \textsc{Split} subroutine then takes linear time in the size of its input. If \textsc{Split} would partition its input into two subinstances with a similar number of elements in each case, this would also lead to a runtime of $O(n \log n)$, but in the worst case, each run only splits off one element, so that the total time needed for all \textsc{Split} operations is
+
+    $$n + (n-1) + (n-2) + \dots + 1 \in O(n^2).$$
+\end{proof}
+
 \begin{theorem}
     Split Packing, when used to pack circles into a $\C(a,b)$-shape of area $A$, is an approximation algorithm with an approximation factor of $\frac{A}{a}$, compared to the container of minimum area.
 \end{theorem}
 
 \begin{proof}
-    We can be sure that the area of the optimal container $OPT$ needs to be as least $a$, as we need to be able to fit the circles inside without overlap:
+    We know from the previous theorem that Split Packing has polynomial runtime.
+
+    As for the approximation factor, we can be sure that the area of the optimal container $OPT$ needs to be as least $a$, as we need to be able to fit the circles inside without overlap:
 
     $$OPT \ge a$$
 
     At the same time, the area of the approximated container $ALG$ is exactly $A$, which means that
 
     $$\frac{\text{ALG}}{\text{OPT}} \le \frac{A}{a}.$$
-\end{proof}
-
-Split Packing has polynomial runtime:
-
-\begin{theorem}
-    Assuming that geometric constructions take constant time, Split Packing has a runtime of $O(n^2)$.
-\end{theorem}
-
-\begin{proof}
-    Before \textsc{Splitpack} is first invoked, the circle instance has to be sorted descendingly by size, this can be done in $O(n log n)$ time. Each run of the \textsc{Split} subroutine takes linear time in the size of its input. In the worst case, each run splits off only one element, so that ... TODO
 \end{proof}
 
 \chapter{Packing circles}\label{ch:circles}
