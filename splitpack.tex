@@ -81,7 +81,7 @@ I would like to thank the following people for their support in the creation of 
     \item Sándor, for sharing your know-how all along, and for suggesting the awesome topic to me.
     \item Wolfgang, for your love and your unconditional support in more ways than I can count.
     \item The proof-readers; that is, YOU, PROOF-READING THIS RIGHT NOW, thx! <3
-    \item All participants of the 31\textsuperscript{th} Bellairs Winter Workshop on Computational Geometry. I drew much inspiration from every one of you!
+    \item All participants of the 31\textsuperscript{th} Bellairs Winter Workshop on Computational Geometry. I~drew much inspiration from every one of you!
 \end{itemize}
 
 \section*{Colophon}
@@ -135,7 +135,7 @@ Split Packing can also be used as an approximation algorithm of the smallest-are
 
 Note that we restrict some container types to fulfill certain conditions. For example, our results for packing circles into triangles only hold if the triangle is right or obtuse.
 
-\begin{table}
+\begin{table}[p]
     \caption{Overview of results for packing circles.}\label{tab:results}
     \begin{longtable}{cp{10cm}}
         \entry{1.9}{tri-table}{Circles in a right/obtuse triangle}{\Cref{th:tri}}
@@ -160,7 +160,7 @@ Note that we restrict some container types to fulfill certain conditions. For ex
     \end{longtable}
 \end{table}
 
-\begin{table}
+\begin{table}[p]
     \caption{Overview of results for packing other object types.}\label{tab:results2}
     \begin{longtable}{cp{10cm}}
         \entry{1.8}{rubies-in-tri-table}{“Sharp rubies” in an isosceles right triangle}{\Cref{th:iso-right}}
@@ -708,7 +708,7 @@ To prepare for the next proof, we establish the following lemma:
 \begin{proof}
     Place the hats' tips at the bottom of the container hat, rotate their $\alpha$- and $\beta$-angles toward the container's matching angles and push them as far to the left/right as possible. \Cref{tab:hats-in-hat} illustrates how these packings looks like for different values of $a_1$ and~$a_2$ and gives some informal reasoning why they can always be packed.
 
-    \begin{table}
+    \begin{table}[p]
         \caption{Hat-in-hat packings for different values of $a_1$ and $a_2$.}
         \label{tab:hats-in-hat}
 
@@ -920,7 +920,7 @@ As a non-acute triangles is only a special case of a hat, this section is will b
     $$\frac{I(a,b,c)}{\Delta(a,b,c)} = \sqrt{\dfrac{-(a-b-c)(a+b-c)(a-b+c)}{(a+b+c)^3}}\pi.$$
 \end{proof}
 
-\begin{figure}
+\begin{figure}[p]
     \begin{tabular}{cc}
         \subfig[0.013]{example-circles-in-right-1} &
         \subfig[0.013]{example-circles-in-right-2} \\
@@ -1040,7 +1040,7 @@ In this section, we will argue that we can always pack the twincircle area into 
     $$\frac{2I(\frac{c}{2}, b, h)}{\frac{c}{2}h} = \frac{(c-2b+\sqrt{4b^2-c^2})^2\pi}{2c\sqrt{4b^2-c^2}}.$$
 \end{proof}
 
-\begin{figure}
+\begin{figure}[p]
     \begin{tabular}{cc}
         \subfig[0.015]{example-circles-in-equilateral-1} &
         \subfig[0.015]{example-circles-in-equilateral-2} \\
@@ -1259,7 +1259,7 @@ One way to think about ruby instances is that they consist of the rubies “buil
 
     Again, we will show that we can always place the gems so that (1) they do not overlap each other and (2) they do not overlap the container. See \Cref{tab:gems-in-gem} for an overview of the different cases, along with some more informal reasoning.
 
-    \begin{table}
+    \begin{table}[p]
         \caption{Gem-in-gem packings for different values of $a_1$ and $a_2$.}
         \label{tab:gems-in-gem}
 
