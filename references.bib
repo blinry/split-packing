@@ -1,12 +1,12 @@
-@article{MM1967some,
-    title = {Some packing and covering theorems},
-    author = {Moon, John W. and Moser, Leo},
-    booktitle = {Colloquium Mathematicae},
-    volume = {17},
-    number = {1},
-    pages = {103–110},
-    year = {1967},
-    organization = {Institute of Mathematics Polish Academy of Sciences},
+@inproceedings{MM1967some,
+    title={Some packing and covering theorems},
+    author={Moon, John W. and Moser, Leo},
+    booktitle={Colloquium Mathematicae},
+    volume={17},
+    number={1},
+    pages={103--110},
+    year={1967},
+    organization={Institute of Mathematics Polish Academy of Sciences},
     comment = {The critical density when packing squares into a rectangle is 1/2.},
     file = {1967-Some_packing_and_covering_theorems.pdf}
 }
@@ -113,7 +113,7 @@
   pages={786--802},
   year={2008},
   publisher={Elsevier},
-  comment = {OR paper. Good mathematical modelling of packing problems. Many applications. TODO: more references.},
+  comment = {OR paper. Good mathematical modelling of packing problems. Many applications.},
   file = {indus.pdf}
 }
 @article{fraser1994integrated,
@@ -143,12 +143,20 @@
 @article{KK1975optimal,
     title = {An optimal bound for two dimensional bin packing},
     author = {Kleitman, Daniel J. and Krieger, Michael M.},
-    booktitle = {Foundations of Computer Science, 1975., 16th Annual Symposium on},
+    journal = {Foundations of Computer Science, 1975., 16th Annual Symposium on},
     pages = {163–168},
     year = {1975},
     organization = {IEEE},
-    comment = {Any unit family of squares can be packed into a 2/sqrt(3) x sqrt(2)-rectangle, and this is the smallest-area rectangle with that property.},
-    file = {KK1975optimal.pdf}
+}
+@inproceedings{KK1975optimal,
+  title={An optimal bound for two dimensional bin packing},
+  author={Kleitman, Daniel J. and Krieger, Michael M.},
+  booktitle={Proceedings of the 16th Annual Symposium on Foundations of Computer Science},
+  pages={163--168},
+  year={1975},
+  organization={IEEE Computer Society},
+  comment = {Any unit family of squares can be packed into a 2/sqrt(3) x sqrt(2)-rectangle, and this is the smallest-area rectangle with that property.},
+  file = {KK1975optimal.pdf}
 }
 @article{alt2016computational,
   author    = {Helmut Alt},
@@ -160,7 +168,7 @@
   timestamp = {Thu, 25 Feb 2016 16:22:17 +0100},
   biburl    = {http://dblp.uni-trier.de/rec/bib/journals/eatcs/Alt16},
   bibsource = {dblp computer science bibliography, http://dblp.org},
-  comment = {Overview of NP-hardness/-completeness, approximation algorithms of several packing problems. Questions: Why is packing into convex containers NP-complete? Is packing circles into circles NP-hard? -> Yes, creating a pocket is easy. Is packing rects with rotation, packing convex polygons, ... in NP? TODO: references?},
+  comment = {Overview of NP-hardness/-completeness, approximation algorithms of several packing problems. Questions: Why is packing into convex containers NP-complete? Is packing circles into circles NP-hard? -> Yes, creating a pocket is easy. Is packing rects with rotation, packing convex polygons, ... in NP?},
   file = {helmut.pdf}
 }
 @article{hochbaum1985approximation,
@@ -259,8 +267,13 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     id = {10.1007/s10898-009-9458-3},
     title = {Solving the problem of packing equal and unequal circles in a circular container},
     author = {Grosso, A. and Jamali, A. R. M. J. U. and Locatelli, M. and Schoen, F.},
-    year = {2009},
-    comment = {Equal and unequal circles into circle via Monotonic Basin Hopping. TODO: Read if dealing with circles.},
+    journal={Journal of Global Optimization},
+    volume={47},
+    number={1},
+    pages={63--81},
+    year={2010},
+    publisher={Springer},
+    comment = {Equal and unequal circles into circle via Monotonic Basin Hopping.},
     file = {2009-Solving_the_problem_of_packing_equal_and_unequal_circles_in_a_circular_container.pdf}
 }
 @article{ABK2015approximating,
@@ -268,7 +281,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     title = {Approximating Minimum-Area Rectangular and Convex Containers for Packing Convex Polygons},
     author = {Alt, Helmut and De Berg, Mark and Knauer, Christian},
     year = {2015},
-    comment = {17.45-approximation for packing convex polygons without rotation into minimum-area rectangle. Via strips. Not really relevant here. TODO: Mention?},
+    comment = {17.45-approximation for packing convex polygons without rotation into minimum-area rectangle. Via strips. Not really relevant here.},
     file = {2015-Approximating_minimum-area_rectangular_and_convex_containers_for_packing_convex_polygons.pdf}
 }
 @article{koebe1936kontaktprobleme,
@@ -324,7 +337,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     year = {1995},
     month = {aug},
     pages = {693–712},
-    comment = {Stable solution: On the ground or two touching points. Defines position numbers, possible placements for the next circle. Many strategies: Spin-out, shake-down, wallpack. TODO: applications? Early work about packing unequal circles in rectangles. TODO: (few) references},
+    comment = {Stable solution: On the ground or two touching points. Defines position numbers, possible placements for the next circle. Many strategies: Spin-out, shake-down, wallpack. Early work about packing unequal circles in rectangles.},
     month_numeric = {8},
     file = {1995-Packing_different-sized_circles_into_a_rectangular_container.pdf}
 }
@@ -341,7 +354,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     year = {2006},
     month = {aug},
     pages = {2125–2142},
-    comment = {Human maximal hole degree rule Self look-ahead. TODO: some references for circles},
+    comment = {Human maximal hole degree rule Self look-ahead.},
     month_numeric = {8},
     file = {2006-New_heuristics_for_packing_unequal_circles_into_a_circular_container.pdf}
 }
@@ -505,7 +518,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     author = {Miyazawa, Flávio K. and Pedrosa, Lehilton L. C. and Schouery, Rafael C. S. and Sviridenko, Maxim and Wakabayashi, Yoshiko},
     year = {2014},
     pages = {713–724},
-    comment = {First APTAS for bin packing and strip packing of circles. They argue, when all circles have a minimum radius, the number of circles is constant and the problem can be solved in constant time oO. Then: Solve bin packing for all "large" circles. Pack the small ones in the gaps. TODO: literature for rects.} ,
+    comment = {First APTAS for bin packing and strip packing of circles. They argue, when all circles have a minimum radius, the number of circles is constant and the problem can be solved in constant time oO. Then: Solve bin packing for all "large" circles. Pack the small ones in the gaps.} ,
     file = {2014-Polynomial-time_approximation_schemes_for_circle_packing_problems.pdf}
 }
 @article{ALS2008disk,
@@ -571,7 +584,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     month = {may},
     pages = {1276–1288},
     month_numeric = {5},
-    comment = {Unequal circles into different containers. Metaheuristic phase which swaps between two different problem formulations (formulation space search, not getting stuck in a local minimum when the other formulation doesn't) and improvement phase, which swaps circles. TODO Many more references.},
+    comment = {Unequal circles into different containers. Metaheuristic phase which swaps between two different problem formulations (formulation space search, not getting stuck in a local minimum when the other formulation doesn't) and improvement phase, which swaps circles.},
     file = {2013-Packing_unequal_circles_using_formulation_space_search.pdf}
 }
 @article{SMC2005global,
@@ -640,7 +653,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     title = {Packing Cylinders into Cylindrical Containers},
     volume = {40},
     year = {1967},
-    comment = {Earliest circle-in-circle packing? TODO mention when packing into circles}
+    comment = {Earliest circle-in-circle packing?}
 }
 @article{hart2008circle,
     title={Circle Packing and its Applications},
@@ -692,7 +705,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
 @article{GL1996repeated,
   title={Repeated patterns of dense packings of equal disks in a square},
   author={Graham, Ronald L. and Lubachevsky, Boris D.},
-  journal={the electronic journal of combinatorics},
+  journal={The Electronic Journal of Combinatorics},
   volume={3},
   number={1},
   pages={R16},
@@ -773,7 +786,6 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     author={Peikert, Ronald and W{\"u}rtz, Diethelm and Monagan, Michael and de Groot, Claas},
     year={1992},
     publisher={Springer},
-    comment = {TODO?},
     file={peikert.pdf}
 }
 
@@ -798,7 +810,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
 @article{BDGL2000improving,
     title={Improving dense packings of equal disks in a square},
     author={Boll, David W. and Donovan, Jerry and Graham, Ronald L. and Lubachevsky, Boris D.},
-    journal={the electronic journal of combinatorics},
+    journal={The Electronic Journal of Combinatorics},
     volume={7},
     number={1},
     pages={R46},
@@ -815,7 +827,7 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     title = {New Approaches to Circle Packing in a Square},
     author = {Szabó, Péter Gábor and Markót, Mihaly Csaba and Csendes, Tibor and Specht, Eckard and Casado, Leocadio G. and García, Inmaculada},
     tags = {application},
-    comment = {Survey. Optimization overview. Radio tower covering. TODO: many in shapes 1.2.6 Continue with chapter 4.},
+    comment = {Survey. Optimization overview. Radio tower covering.},
     file = {2007-New_approaches_to_circle_packing_in_a_square.pdf}
 }
 
@@ -902,13 +914,14 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
     comment={Predecessor of HLLX2006new, skip},
     file={greedy.pdf}
 }
-
 @article{HM2009literature,
     id = {10.1155/2009/150624},
-    title = {A Literature Review on Circle and Sphere Packing Problems: Models and Methodologies},
-    author = {Hifi, Mhand and M’Hallah, Rym},
-    year = {2009},
-    comment = {Survey paper. Wow, *cutting* is a useful search term! TODO: Many applications and MANY approaches!},
+    title={A literature review on circle and sphere packing problems: models and methodologies},
+    author={Hifi, Mhand and M'hallah, Rym},
+    journal={Advances in Operations Research},
+    year={2009},
+    publisher={Hindawi Publishing Corporation},
+    comment = {Survey paper. Wow, cutting is a useful search term!},
     file = {2009-A_literature_review_on_circle_and_sphere_packing_problems_models_and_methodologies.pdf}
 }
 
@@ -964,3 +977,4 @@ rithms with polynomial complexity" -> geht das wirklich für unequal circles? Wi
   pages={179--199},
   year={1979}
 }
+
