@@ -64,7 +64,7 @@ Additionally, we show that the same algorithm can be used to pack objects other 
 
 Aside from the obtained results, we believe that the ideas behind Split Packing are interesting and elegant on their own. We see many opportunities to apply these techniques in the context of other packing and covering problems.
 
-A browser-based, interactive visualization of the Split Packing approach can be found at \url{https://morr.cc/split-packing/}.
+A browser-based, interactive visualization of the Split Packing approach and other related material can be found at \url{https://morr.cc/split-packing/}.
 
 \cleardoublepage
 
@@ -84,7 +84,7 @@ I would like to thank the following people for their support in the creation of 
     \item Sándor, for sharing your know-how all along, and for suggesting this awesome topic to me.
     \item Wolfgang, for your love and your unconditional support in more ways than I can count.
     \item The proof-readers; that is, YOU, PROOF-READING THIS RIGHT NOW, thx! <3
-    \item All participants of the 31\textsuperscript{th} Bellairs Winter Workshop on Computational Geometry. I~drew much inspiration from every one of you.
+    \item All participants of the 31\textsuperscript{rd} Bellairs Winter Workshop on Computational Geometry. I~drew much inspiration from every one of you.
 \end{itemize}
 
 \section*{Colophon}
@@ -258,7 +258,7 @@ Finally, some authors develop \textbf{approximation algorithms}, which do make p
 
 A packing problem consists of three parts: The first part is the type of objects that are to be packed. For example, these can be square or circular objects, and they can be allowed to have different sizes or be restricted to be of equal size. The second part is the type of the container, for example, a square, a triangle, or a general polygon. Thirdly, one can define restrictions on the movement of the objects: The objects could be allowed to rotate, or be restricted to translations only. Throughout this thesis, we allow the objects to be translated, rotated and reflected unless mentioned otherwise. There are also online variants of packing problems, where the object instance is not known beforehand, but for the purpose of this thesis, we restrict ourselves to offline approaches.
 
-In general, packing arbitrarily-shaped objects into arbitrary containers can immediately shown to be $\mathsf{NP}$-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $2n$. The decision problem whether it is possible to pack these objects into the container is a reduction from \textsc{Partition}.
+In general, packing arbitrarily-shaped objects into arbitrary containers can immediately shown to be $\mathsf{NP}$-hard: Consider a rectangular container of dimensions $2 \times n$ and rectangular objects of height $1$, whose widths add up to $2n$. The decision problem whether it is possible to pack these objects into the container yields a reduction from \textsc{Partition}.
 
 \section{Packing squares}\label{sec:related-squares}
 
@@ -399,7 +399,7 @@ If we now want to drop the restrictions on the circles, and allow arbitrary inst
 
 This is where the second key idea of the Split Packing algorithm comes into play:
 When performing the top-level split, we could already decide which circles of the input instance should go on which side of the cut-line. With the power-of-two instances, it did not matter at all \emph{how} we split the circle set in half, as we could always split it into equally-sized halves.
-But for general circle instances, we need to proceed more carefully. We are going perform the splitting using an algorithm which resembles greedy scheduling. This will make sure our resulting subgroups are \emph{close} to equal in terms of their combined area. But if the groups' areas deviate from the targeted 1:1 ratio, we can make additional statements about the minimum circle size in the larger group, leading to a rounded subcontainer which will make the “cut-off corners” irrelevant.
+But for general circle instances, we need to proceed more carefully. We are going to perform the splitting using an algorithm which resembles greedy scheduling. This will make sure our resulting subgroups are \emph{close} to equal in terms of their combined area. But if the groups' areas deviate from the targeted 1:1 ratio, we can make additional statements about the minimum circle size in the larger group, leading to a rounded subcontainer which will make the “cut-off corners” irrelevant.
 
 In the rest of this chapter, we will detail this process. As we will see, the algorithm also generalizes to other container types and object shapes.
 
@@ -439,7 +439,7 @@ For example, for the circle instance $C = \{1,1,2,3\}$, $\mysum(C) = 7$ and $\mi
     $\C$ is the set of all circle instances. $\C(a)$ consists of exactly those circle instances $C$ with $\mysum(C) \le a$. Finally, $\C(a,b)$ consists of exactly those circle instances $C \in \C(a)$ with $\min(C) \ge b$.
 \end{definition}
 
-Let us give another example for the previous definition, as it is crucial for the rest of this thesis: For any circle instance $C$ contained in $\C(1,\frac{1}{8})$, the combined area of $C$'s circles is at most~1, and at the same time, each of $C$'s circles is at least an eigth-circle.
+Let us give another example for the previous definition, as it is crucial for the rest of this thesis: For any circle instance $C$ contained in $\C(1,\frac{1}{8})$, the combined area of $C$'s circles is at most~1, and at the same time, each of $C$'s circles is at least an eight-circle.
 
 Finally, we introduce two definitions which come in handy when discussing worst-case instances:
 
@@ -471,7 +471,7 @@ In the simplest case, the split key will actually describe the desired areas of 
     \caption{\textsc{Split}$(C,F)$}
     \label{alg:split}
     \begin{algorithmic}
-        \Require A circle instance $C$, sorted decendingly by size, and a split key $F = (f_1, f_2)$
+        \Require A circle instance $C$, sorted by size in descending order, and a split key $F = (f_1, f_2)$
         \Ensure Circle instances $C_1, C_2$
         \State $C_1 \gets \emptyset$
         \State $C_2 \gets \emptyset$
@@ -602,7 +602,7 @@ Written as an algorithm, Split Packing looks like this:
 \begin{algorithm}
     \caption{\textsc{Splitpack}$(s,C)$}
     \begin{algorithmic}
-        \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$, sorted decendingly by size
+        \Require A $\C(a,b)$-shape $s$ and a circle instance $C \in \C(a,b)$, sorted by size in descending order
         \Ensure A packing of $C$ into $s$
         \State Determine split key $F$ for shape $s$
         \State $(C_1, C_2) \gets \textsc{Split}(C,F)$ \Comment{See \Cref{alg:split}.}
@@ -773,7 +773,7 @@ To prepare for the next proof, we establish the following lemma:
         \end{tabular}
     \end{table}
 
-    This way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proof these two properties separately.
+    This way of placing the two hats results in a valid packing if (1) the hats do not overlap each other and (2) the hats fit into the hat individually. We are going to proove these two properties separately.
 
     We first want to show that the hats do not overlap each other. If the hats' projections onto the container's base do not overlap, we found a separating axis and can be sure that the hats do not overlap, as well. Furthermore, because the hats' incircles touch the rightmost part of the left hat's boundary and the leftmost part of the right hat's boundary, it suffices to show that the projections of the hats' incircles onto the container's base do not overlap.
 
@@ -873,7 +873,7 @@ Until now, the container was always an $(a,0)$-hat, which is essentially a non-r
 
 \begin{lemma}\label{th:rounded-hats-in-hat}
     Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
-    For all $(a,b,F)$-rounded tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
+    For all $(a,b,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
     \begin{itemize}
         \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
         \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
@@ -889,7 +889,7 @@ Until now, the container was always an $(a,0)$-hat, which is essentially a non-r
 With these preparations, we can finally apply Split Packing to hats:
 
 \begin{theorem}\label{th:hats}
-    Given an $(a,b)$-hat, all circle instances with a combined area of at most $a$ and a minimum circle size of at least $b$ can be packed into that triangle.
+    Given an $(a,b)$-hat, all circle instances with a combined area of at most $a$ and a minimum circle size of at least $b$ can be packed into that hat.
 \end{theorem}
 
 \begin{proof}
@@ -899,7 +899,7 @@ With these preparations, we can finally apply Split Packing to hats:
 
     Now assume that for any $0 \le b \le a$, any $(a,b)$-hat could pack all circle instances into $\C(a,b)$ with at most $n$ circles. Consider a circle instance $C \in \C(a,b)$ containing $n+1$ circles.
     \Cref{def:hat-split-key} tells us how to compute the split key $F$.
-    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-rounded. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-rounded tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats into the container, we have constructed a packing of $C$ into the container hat.
+    Then we know from \Cref{th:split-properties} that \textsc{Split} will partition $C$ into two subinstances $C_1 \in \C(a_1, b_1)$ and $C_2 \in \C(a_2, b_2)$, whose parameters are $(a,b,F)$-conjugated. As \textsc{Split} can never return an empty instance (except for $|C| = 1$, a case which we handled above), each subinstance will contain at most $n$ circles. We know from \Cref{th:rounded-hats-in-hat} that, for all pairs of $(a,b,F)$-conjugated tuples, we can find two hats with matching parameters which fit into the container hat. By assumption, these hats can now pack all instances from $\C(a_1, b_1)$ and $\C(a_2, b_2)$, respectively, which means that they can especially also pack $C_1$ and $C_2$. If we then pack the two hats into the container, we have constructed a packing of $C$ into the container hat.
 
     By induction, we can pack each $C \in \C(a,b)$ into the $(a,b)$-hat.
 \end{proof}
@@ -977,7 +977,7 @@ To prove the worst case for these triangles, we first make a statement about a t
 
 \fig{twincircles-construction}{Two circles larger than these cannot be packed.}
 
-In the previous section, the target area $a$ which we wanted to pack always was the area of the triangles incircle. For thick isosceles triangles, the twincircle area, is \emph{smaller} than the incircle area, which means it will not always be possible to pack the area of the incircle.
+In the previous section, the target area $a$ which we wanted to pack always was the area of the triangles incircle. For thick isosceles triangles, the twincircle area is \emph{smaller} than the incircle area, which means it will not always be possible to pack the area of the incircle.
 In this section, we will argue that we can always pack the twincircle area into thick isosceles triangles.
 
 \begin{definition}
@@ -986,7 +986,7 @@ In this section, we will argue that we can always pack the twincircle area into 
 
 \begin{lemma}\label{th:hats-in-iso}
     Consider a thick isosceles triangle with a twincircle area of $a$ and call its symmetric angles $\alpha$.
-    For all $(a,0,(1,1))$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
+    For all $(a,0,(1,1))$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the triangle:
     \begin{itemize}
         \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
         \item a right $(a_2,b_2)$-hat with a left-angle of $\alpha$.
@@ -1097,7 +1097,7 @@ Unfortunately, this strategy fails for some instances, as depicted in \Cref{fig:
 
 Some of our main results concern the packing of circles into a square. We will cover that packing problem in the next chapter, along with some generalizations on the objects which are to be packed, which is why we do not repeat it here. Instead, we first turn toward rectangles.
 
-Split Packing can be used to pack circles with critical density into rectangles. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it sill works. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it sill works.
+Split Packing can be used to pack circles with critical density into rectangles. The basic idea is to divide the rectangle along a diagonal, and pack the subinstances produced by \textsc{Split} into these two halves. If one group gets larger than half, it gets rounded enough so that it still works.
 
 %TODO fix
 \begin{figure}
@@ -1197,7 +1197,7 @@ We were surprised to find out that, when we allowed to rotate objects, we could 
 
 As we know now, the reason why we can pack circles, squares, as well as octagons, is that all these shapes are subsets of the very special shape shown in \Cref{fig:ruby-intro}. We call this shape \emph{ruby}, because it looks like a cut gemstone from the side:
 
-\fig{ruby-intro}{The “ruby” shape and its contained circle, square and hexagon.}
+\fig{ruby-intro}{The “ruby” shape and its contained circle, square and octagon.}
 
 In this chapter, we will show how to pack rubies into squares and isosceles right triangles with up to critical density. As corollaries, we get critical-density packing algorithms for circles, squares, and octagons for these containers for free!
 In fact it turns out that, if you are given a set of objects, no matter what their shape is, if you can enclose them in rubies so that the combined area of the rubies does not exceed the critical density, then you can pack the shapes into these containers.
@@ -1246,7 +1246,7 @@ An $a$-ruby contains the following shapes, see \Cref{fig:gem}:
 
 This is because if the circle's radius is $r = \sqrt{\frac{a}{\pi}}$, then the square has an edge length of $(1+\frac{1}{\s})r$, so its area is $(1+\s+\frac{1}{2})r^2$. Regular $n$-gons with an apothem\footnote{The apothem is the distance of the polygon's center to its sides.} of $r$ have an area of $nr^2\tan(\frac{\pi}{n})$, which, for $n=8$, amounts to $8r^2(\s-1)$.
 
-\fig{ruby}{An $a$-ruby and its contained circle, square and hexagon.}
+\fig{ruby}{An $a$-ruby and its contained circle, square and octagon.}
 
 A ruby itself can be calculated to have an area of $\frac{8\sqrt{2(7+5\s)}-3(7+4\s)}{\pi}a \approx 1.4225a$.
 
@@ -1438,12 +1438,12 @@ As isosceles right triangles are simply non-rounded sharp gems, this is again go
 We can make the following observation here: Given an isosceles right triangle with an incircle area of $a$, and some arbitrary objects, if one can enclose each object in a sharp ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the triangle. This is a very general result which can be used to directly solve some other interesting packing problems:
 
 \begin{corollary}\label{th:iso-right2}
-    Given a right isosceles triangle with an incircle area of $a$, the following object instances can be packed into the square.
+    Given a right isosceles triangle with an incircle area of $a$, the following object instances can be packed into the triangle.
 
     \begin{itemize}
         \item All circle instances with a combined area of up to $a$,
         \item all octagon instances with a combined area of up to $\frac{8\s-8}{\pi}a \approx 1.0548a$, and
-        \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the square's area.
+        \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the triangle's area.
     \end{itemize}
 
     All of these area bounds are tight. See \Cref{fig:example-stuff-in-iso} for some example packings.
@@ -1452,7 +1452,7 @@ We can make the following observation here: Given an isosceles right triangle wi
 \begin{proof}
     As demonstrated above, the three shapes are subsets of rubies in these specific area ratios. To pack them, enclose all of them in the smallest possible sharp ruby. The combined incircle area of these rubies will now be at most $a$. We then know from \Cref{th:iso} that we can always pack these rubies.
 
-    The tightness of these bounds is obvious for circles and hexagons. For squares, the tightness follows from the result by \textcite{gobel1979geometrical} that the largest two squares that can be packed (with rotation) into a square are quarter-squares. This implies that, when cutting the square along its diagonal, there is no larger square that can be packed into an isosceles right triangle than one with half the triangle's area.
+    The tightness of these bounds is obvious for circles and octagon. For squares, the tightness follows from the result by \textcite{gobel1979geometrical} that the largest two squares that can be packed (with rotation) into a square are quarter-squares. This implies that, when cutting the square along its diagonal, there is no larger square that can be packed into an isosceles right triangle than one with half the triangle's area.
 \end{proof}
 
 \begin{figure}
@@ -1533,7 +1533,7 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
         \gemsinsquare{0}
     \end{tikzpicture}
 
-    \caption{Hat-in-square packings for different values of $a_1$ and $a_2$}
+    \caption{Gem-in-square packings for different values of $a_1$ and $a_2$}
     \label{fig:gems-in-square}
 \end{figure}
 
@@ -1545,7 +1545,7 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
 \begin{theorem}\label{th:square}
     Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight.
     See \Cref{fig:example-rubies-in-square} for some example packings.
-    Expressed algebraically, the critical density for the rubies' ares is
+    Expressed algebraically, the critical density for the rubies' areas is
 
     $$8\sqrt{2(\s-1)}+6\s-15 \approx 76.67\%.$$
 \end{theorem}
