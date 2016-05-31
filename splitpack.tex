@@ -33,7 +33,7 @@ Dr.\,Christian\,Scheffer}
 \vspace*{1em}
 \noindent
 This thesis has been performed independently with the support of my supervisors.
-To the best of my knowledge, this thesis contains no material previously
+It~contains no material previously
 published or written by another person except where due reference is made in the text.
 
 \par
@@ -73,17 +73,17 @@ A browser-based, interactive visualization of the Split Packing approach and oth
 I would like to thank the following people for their support in the creation of this thesis:
 
 \begin{itemize}
-    \item Christian, for always taking time for me, for many fruitful discussions and for sharing my enthusiasm.
-    \item Christiane, your lecture on Computational Geometry in 2014 started it all.
-    \item Dominik, for sharing an office, ideas, and Mate.
-    \item Enrico, for creating the beautiful \LaTeX\ template.
-    \item Heike, for being my best friend, and for softening my life.
-    \item Jan-Marc, for all your encouragement. You were the first one to whom I showed the Split Packing algorithm.
-    \item Marco, for spending late hours with me pondering over covering problems.
+    \item Christian Scheffer, for always taking time for me, for many fruitful discussions and for sharing my enthusiasm.
+    \item Christiane Schmidt, your lecture on Computational Geometry in 2014 started it all.
+    \item Dominik Krupke, for sharing an office, ideas, and Mate.
+    \item Enrico Jörns, for creating the beautiful \LaTeX\ template.
+    \item Heike Laschin, for being my best friend, and for softening my life.
+    \item Jan-Marc Reinhardt, for all your encouragement. You were the first one to whom I showed the Split Packing algorithm.
+    \item Marco Nikander, for spending late hours with me pondering over covering problems.
     \item The Pinky Crew: Jakob, Leslie, Marc, Moritz, and Torsten, for sharing breakfast, time, and friendship.
-    \item Sándor, for sharing your know-how all along, and for suggesting this awesome topic to me.
-    \item Wolfgang, for your love and your unconditional support in more ways than I can count.
-    \item The proof-readers; that is, YOU, PROOF-READING THIS RIGHT NOW, thx! <3
+    \item Sándor Fekete, for sharing your know-how all along, and for suggesting this awesome topic to me.
+    \item Wolfgang Morr, for your love and your unconditional support in more ways than I can count.
+    \item The proof-readers: Christian Neukirchen, Dominik Krupke, Jakob Garbe, Jan-Marc Reinhardt, Jan Steiner, Marc Kastner, and Roland Hieber, for fixing all my embarrassing mistakes.
     \item All participants of the 31\textsuperscript{rd} Bellairs Winter Workshop on Computational Geometry. I~drew much inspiration from every one of you.
 \end{itemize}
 
@@ -486,6 +486,8 @@ Although the greedy splitting aims to produce subinstances with area ratios clos
 
 On the other hand, if the resulting groups' area ratio does deviate from the split key, we gain additional information about the “relatively larger” group: The more this group exceeds its targeted area, the larger the minimum size of its elements.
 
+\pagebreak
+
 \begin{lemma}\label{th:min1}
     For any $C_1$ and $C_2$ produced by \textsc{Split}$(C,(f_1,f_2))$:
 
@@ -807,6 +809,8 @@ To prepare for the next proof, we establish the following lemma:
     \begin{equation*}
         d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}
     \end{equation*}
+
+    \pagebreak
 
     As previously observed, $e = d\sqrt{f_i/o}$:
 
@@ -1381,8 +1385,6 @@ Like with hats, “rounding” the container gem to a sharp gem with larger cut-
     For $b > 0$, we flip the containers cut-off corner to the right, and also flip the smaller gem's cut-off corner so that it points to the right. Because the cut-off has the same shape, the inner gems will not overlap the container.
 \end{proof}
 
-\fig{gems-rounding}{Cutting one corner of each gem by the same value does not affect the packing.}
-
 \begin{theorem}\label{th:sharp-gem}
     Any sharp ruby instance $S \in \myS(a,b)$ can be packed into a sharp $(a,b)$-gem.
 \end{theorem}
@@ -1400,6 +1402,8 @@ As a minor corollary, since rubies are subsets of sharp rubies of the same incir
 \begin{proof}
     This follows analogously to the reasoning with sharp gems. In this case, when cutting off the corners of the container gem, all corners of the contained gems are cut off by the same value, so they still fit inside.
 \end{proof}
+
+\fig{gems-rounding}{Cutting one corner of each gem by the same value does not affect the packing.}
 
 \section{Isosceles right triangles}
 

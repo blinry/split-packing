@@ -1,6 +1,6 @@
 default:
 	latexmk splitpack
-	#sudo beep
+	sudo beep
 view:
 	evince splitpack.pdf &> /dev/null &
 clean:
