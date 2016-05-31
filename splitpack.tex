@@ -330,7 +330,7 @@ Their algorithm also differentiates between large and small circles: They pack l
 
 \subsection{Heuristics}
 
-For instances which contain too many circles to determine optimal packings, one can ask for lower bounds on the density of optimal packings; that is, the smallest \emph{known} containers into which the circles can be packed.
+For instances that contain too many circles to determine optimal packings, one can ask for lower bounds on the density of optimal packings; that is, the smallest \emph{known} containers into which the circles can be packed.
 Many authors employ heuristics to produce good solutions for circle packing problems.
 A considerable amount of work has been put into finding new records, mostly for equal circles. The best known solutions for packing equal circles into squares, circles, rectangles, and other containers are continuously published on Specht's website \url{http://packomania.com} \cite{specht2015packomania}.
 
@@ -619,9 +619,9 @@ Written as an algorithm, Split Packing looks like this:
 To summarize, to apply \textsc{Splitpack} to a shape, we need the following elements:
 
 \begin{enumerate}
-    \item A strategy to determine the shape-specific split key $F$.
-    \item A strategy to determine a $\C(a_1, b_1)$-shape and a $\C(a_2, b_2)$ for all $(a,b,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$.
-    \item A strategy to pack these two shapes into $s$, and a proof why this always works.
+    \item a strategy to determine the shape-specific split key $F$,
+    \item a strategy to determine a $\C(a_1, b_1)$-shape and a $\C(a_2, b_2)$ for all $(a,b,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, and
+    \item a strategy to pack these two shapes into $s$, and a proof why this always works.
 \end{enumerate}
 
 Note that the Split Packing algorithm can easily be extended to allow splitting into more than two subgroups. For simplicity, we only describe the case of two subgroups here, as this suffices for the shapes we discuss in this thesis.
@@ -718,7 +718,7 @@ To prepare for the next proof, we establish the following lemma:
     Consider an $(a,0)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
     For all $(a,0,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the hat:
     \begin{itemize}
-        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
         \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
     \end{itemize}
 \end{lemma}
@@ -875,7 +875,7 @@ Until now, the container was always an $(a,0)$-hat, which is essentially a non-r
     Consider an $(a,b)$-hat with the associated split key $F = (f_1, f_2)$, and call its left- and right-angles $\alpha$ and $\beta$.
     For all $(a,b,F)$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$ with $a_1 + a_2 \le a$, the following two shapes can be packed into the hat:
     \begin{itemize}
-        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
         \item a right $(a_2,b_2)$-hat with a left-angle of $\beta$.
     \end{itemize}
 \end{lemma}
@@ -988,7 +988,7 @@ In this section, we will argue that we can always pack the twincircle area into 
     Consider a thick isosceles triangle with a twincircle area of $a$ and call its symmetric angles $\alpha$.
     For all $(a,0,(1,1))$-conjugated tuples $(a_1, b_1)$ and $(a_2, b_2)$, the following two shapes can be packed into the triangle:
     \begin{itemize}
-        \item A right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
+        \item a right $(a_1,b_1)$-hat with a right-angle of $\alpha$ and
         \item a right $(a_2,b_2)$-hat with a left-angle of $\alpha$.
     \end{itemize}
 \end{lemma}
@@ -1239,7 +1239,7 @@ The definition of a gem is designed so that we get our ruby shape exactly for $a
 An $a$-ruby contains the following shapes, see \Cref{fig:gem}:
 
 \begin{itemize}
-    \item A circle of area $a$,
+    \item a circle of area $a$,
     \item a square of area $\frac{3+2\s}{2\pi}a \approx 0.9276a$, and
     \item a regular octagon of area $\frac{8\s-8}{\pi}a \approx 1.0548a$.
 \end{itemize}
@@ -1438,10 +1438,10 @@ As isosceles right triangles are simply non-rounded sharp gems, this is again go
 We can make the following observation here: Given an isosceles right triangle with an incircle area of $a$, and some arbitrary objects, if one can enclose each object in a sharp ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the triangle. This is a very general result which can be used to directly solve some other interesting packing problems:
 
 \begin{corollary}\label{th:iso-right2}
-    Given a right isosceles triangle with an incircle area of $a$, the following object instances can be packed into the triangle.
+    Given a right isosceles triangle with an incircle area of $a$, the following object instances can be packed into the triangle:
 
     \begin{itemize}
-        \item All circle instances with a combined area of up to $a$,
+        \item all circle instances with a combined area of up to $a$,
         \item all octagon instances with a combined area of up to $\frac{8\s-8}{\pi}a \approx 1.0548a$, and
         \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the triangle's area.
     \end{itemize}
@@ -1574,10 +1574,10 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
 At this point, we can make a similar observation like for isosceles right triangles: Given a square with a twincircle area of $a$, and some arbitrary objects, if one can enclose each object in a ruby, and the combined incircle area of these rubies is not larger than $a$, then the objects can be packed into the square. This is a very general result which can be used to directly solve some other interesting packing problems:
 
 \begin{corollary}\label{th:square2}
-    Given a square with a twincircle area of $a$, the following object instances can be packed into the square.
+    Given a square with a twincircle area of $a$, the following object instances can be packed into the square:
 
     \begin{itemize}
-        \item All circle instances with a combined area of up to $a$,
+        \item all circle instances with a combined area of up to $a$,
         \item all octagon instances with a combined area of up to $\frac{8\s-8}{\pi}a \approx 1.0548a$, and
         \item all square instances with a combined area of up to $\frac{3+2\s}{2\pi}a \approx 0.9276a$, which is also exactly half of the square's area.
     \end{itemize}
