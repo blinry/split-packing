@@ -387,11 +387,11 @@ When we attempted to find a strategy which could pack this area, many strategies
 
 \fig[6]{shelf-fail}{Shelf-packing does not work for five equal circles. The upper right circle slightly overlaps the middle circle.}
 
-At one point, we tried restricting the input instance with the hope that this would make the problem easier. We decided to only allow circles which would have areas equal to a negative power of two of the total available area. This would only allow \mbox{half-,} \mbox{quarter-,} \mbox{eight-,} sixteenth-circles, and so on, in terms of the combined circle area $a$. We were surprised to find that these instances were easy to pack!
+At one point, we tried restricting the input instance with the hope that this would make the problem easier. We decided to only allow circles which have areas equal to a negative power of two of the total available area. This would only allow \mbox{half-,} \mbox{quarter-,} \mbox{eight-,} sixteenth-circles, and so on, in terms of the combined circle area $a$. We were surprised to find that these instances were easy to pack!
 
-Imagine starting with the total area $a$ combined into one large circle. It is easy to check that this circle can be packed, by placing it in the middle of the square, see the upper left of \Cref{fig:easy}. Now, you are allowed to “split” the circle into two half-circles, resulting in the worst-case instance discussed in the introduction. If we also cut the square into halves along the circles' tangent, both circles now are incircles of isosceles right triangles.
-If you now split any circle in half again, you can also divide its surrounding triangle into two smaller ones with half the area, and again the resulting circles are the triangles' incircles.
-This allows you to recurse, and to repeat the splitting as often as necessary, until you arrive at the desired circle instance. This divide-and-conquer approach to recursively split the set of input circles into subsets is the first key idea of the Split Packing algorithm.
+Imagine starting with the total area $a$ combined into one large circle. It is easy to check that this circle can be packed, by placing it in the middle of the square, see the upper left of \Cref{fig:easy}. Now, we are allowed to “split” the circle into two half-circles, resulting in the worst-case instance discussed in the introduction. If we also cut the square into halves along the circles' tangent, both circles now are incircles of isosceles right triangles.
+If we now split any circle in half again, we can also divide its surrounding triangle into two smaller ones with half the area, and again the resulting circles are the triangles' incircles.
+This allows us to recurse, and to repeat the splitting as often as necessary, until we arrive at the desired circle instance. This divide-and-conquer approach to recursively split the set of input circles into subsets is the first key idea of the Split Packing algorithm.
 
 \fig[3]{easy}{Splitting circles in half is easy.}
 
