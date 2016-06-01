@@ -1,4 +1,4 @@
-\documentclass[a4paper,style=print,bibliography=totoc,nexus,lnum,extramargin]{tubsbook}
+\documentclass[a4paper,style=screen,bibliography=totoc,nexus,lnum,extramargin]{tubsbook}
 
 \input{header.tex}
 \usepackage[english]{babel}
@@ -26,20 +26,6 @@ Dr.\,Christian\,Scheffer}
 \maketitle
 
 \thispagestyle{plain}
-\cleardoublepage
-
-\vspace*{7cm}
-\centerline{\bfseries Statement of Originality}
-\vspace*{1em}
-\noindent
-This thesis has been performed independently with the support of my supervisors.
-It~contains no material previously
-published or written by another person except where due reference is made in the text.
-
-\par
-  \bigskip\noindent Braunschweig, 2016-06-02 \par
-  \vspace*{10mm}
-  \hfill\hrulefill
 \cleardoublepage
 
 \thispagestyle{plain}
@@ -451,8 +437,6 @@ Finally, we introduce two definitions which come in handy when discussing worst-
     A shape's \emph{twincircles} are the largest two equal circles that can be packed into the shape.
 \end{definition}
 
-\pagebreak
-
 \section{Greedy splitting}
 
 The method which we use to split the circle instances in half, \textsc{Split} (\Cref{alg:split}), resembles a greedy scheduling algorithm, which is why we call the process \emph{greedy splitting}. The algorithm takes two inputs: The first is an arbitrary circle instance $C$, which is to be split into two groups. The circles are assumed to be sorted by size in descending order.
@@ -485,8 +469,6 @@ In the simplest case, the split key will actually describe the desired areas of 
 Although the greedy splitting aims to produce subinstances with area ratios close to the specification of the split key, of course it will not always be possible to achieve these ratios exactly. For example, if the input instance consists of few very large circles, it may even be impossible to distribute them in the specified ratios.
 
 On the other hand, if the resulting groups' area ratio does deviate from the split key, we gain additional information about the “relatively larger” group: The more this group exceeds its targeted area, the larger the minimum size of its elements.
-
-\pagebreak
 
 \begin{lemma}\label{th:min1}
     For any $C_1$ and $C_2$ produced by \textsc{Split}$(C,(f_1,f_2))$:
@@ -810,8 +792,6 @@ To prepare for the next proof, we establish the following lemma:
         d\sqrt{a_i} - d\sqrt{b_i} + e\sqrt{b_i} \le d\sqrt{f_i}
     \end{equation*}
 
-    \pagebreak
-
     As previously observed, $e = d\sqrt{f_i/o}$:
 
     \begin{equation*}
@@ -1076,6 +1056,8 @@ In this section, we will argue that we can always pack the twincircle area into 
     \caption{Example packings of various circle instances into an equilateral triangle produced by Split Packing.}
     \label{fig:example-circles-in-equilateral}
 \end{figure}
+
+\pagebreak
 
 \section{The problem with acute triangles}\label{sec:acute-triangles}
 
@@ -1508,6 +1490,11 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
     Any two $(a,0,(1,1))$-conjugated gems can be packed into a square with twincircle area $a$.
 \end{lemma}
 
+\begin{proof}
+    Place the tips of the gems in two opposing corners of the square, like in \Cref{fig:gems-in-square}.
+    This placement constitutes a valid packing because (1) the gems fit into the square individually and (2) the gems never overlap. This can be proven algebraically in exactly the same fashion as in \Cref{th:gems-in-gem}, where we proved a similar statement about packing into gems.
+\end{proof}
+
 \begin{figure}
     \begin{tikzpicture}[scale=2.5]
         \gemsinsquare{0.5}
@@ -1541,11 +1528,6 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
     \label{fig:gems-in-square}
 \end{figure}
 
-\begin{proof}
-    Place the tips of the gems in two opposing corners of the square, like in \Cref{fig:gems-in-square}.
-    This placement constitutes a valid packing because (1) the gems fit into the square individually and (2) the gems never overlap. This can be proven algebraically in exactly the same fashion as in \Cref{th:gems-in-gem}, where we proved a similar statement about packing into gems.
-\end{proof}
-
 \begin{theorem}\label{th:square}
     Given a square with a twincircle area of $a$, all ruby instances with a combined incircle area of up to $a$ can be packed into the square, and this area bound is tight.
     See \Cref{fig:example-rubies-in-square} for some example packings.
@@ -1562,7 +1544,7 @@ Note that in the next lemma, we no longer pack \emph{sharp} gems, but regular ge
     The critical density can be calculated using the area of the rubies' incircles (see \Cref{th:square-twincircle-area}).
 \end{proof}
 
-\begin{figure}
+\begin{figure}[p]
     \begin{tabular}{cc}
         \subfig[0.017]{example-rubies-in-square-1} &
         \subfig[0.017]{example-rubies-in-square-2} \\
@@ -1595,7 +1577,7 @@ At this point, we can make a similar observation like for isosceles right triang
     The tightness of these bounds for circles was shown in \Cref{th:square-twincircle-area}. For the same reason, two octagons with larger incircles cannot be packed: Their incircles would overlap, which means that the octagons themselves would overlap. For squares, the fact that the largest two squares that can be packed into a square (with rotation) are two quarter-squares was shown by \textcite{gobel1979geometrical}.
 \end{proof}
 
-\begin{figure}
+\begin{figure}[p]
     \begin{tabular}{cc}
         \subfig[0.017]{example-stuff-in-square-1} &
         \subfig[0.017]{example-stuff-in-square-2} \\
